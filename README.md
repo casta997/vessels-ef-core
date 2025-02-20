@@ -6,11 +6,19 @@ The Vessel Management Console App is a .NET 8 console application designed to ma
 ## Features
 - **Database Initialization**: At startup, the application initializes the database with tables for vessels and owners.
 - **CRUD Operations**: The application supports the following operations:
-  - **Create (C)**: Add a new vessel or owner to the database.
-  - **Read (R)**: Display the list of vessels or owners.
-  - **Update (U)**: Update the details of an existing vessel or owner.
-  - **Delete (D)**: Remove a vessel or owner from the database.
-  - **Assign Ownership**: Assign a vessel to an owner.
+  - **Create (CV|CO)**: Add a new vessel or owner to the database.
+    - **CV**: Create a new vessel.
+    - **CO**: Create a new owner.
+  - **Read (RV|RO)**: Display the list of vessels or owners.
+    - **RV**: Read and display the list of vessels.
+    - **RO**: Read and display the list of owners.
+  - **Update (UV|UO)**: Update the details of an existing vessel or owner.
+    - **UV**: Update the details of an existing vessel.
+    - **UO**: Update the details of an existing owner.
+  - **Delete (DV|DO)**: Remove a vessel or owner from the database.
+    - **DV**: Delete a vessel.
+    - **DO**: Delete an owner.
+  - **Assign Ownership (A)**: Assign a vessel to an owner.
 - **Display Ownership**: When displaying a vessel, the owner information is also shown.
 
 ## Data Models
@@ -34,10 +42,14 @@ The application uses Entity Framework Core with the code-first approach to defin
 After performing any operation, the current state of the database is displayed.
 
 ### Commands
-- **C**: Create a new vessel or owner.
-- **R**: Read and display the list of vessels or owners.
-- **U**: Update the details of an existing vessel or owner.
-- **D**: Delete a vessel or owner from the database.
+- **CV**: Create a new vessel.
+- **CO**: Create a new owner.
+- **RV**: Read and display the list of vessels.
+- **RO**: Read and display the list of owners.
+- **UV**: Update the details of an existing vessel.
+- **UO**: Update the details of an existing owner.
+- **DV**: Delete a vessel.
+- **DO**: Delete an owner.
 - **A**: Assign a vessel to an owner.
 
 ## Branching
