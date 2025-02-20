@@ -1,2 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, William Pampa!");
+﻿//using var db = new ManageVesselContext();
+//db.Database.MigrateAsync().Wait();
+
+using Application.ManageProgram;
+
+var manageProgram = new OperationsCentralBase();
+
+manageProgram.AddVessel();
