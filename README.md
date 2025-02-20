@@ -4,7 +4,7 @@
 The Vessel Management Console App is a .NET 8 console application designed to manage vessels and their owners using a database. The application follows object-oriented principles and utilizes Entity Framework Core with the code-first approach to handle data persistence.
 
 ## Features
-- **Database Initialization**: At startup, the application initializes the database with tables for vessels and owners.
+- **Database Initialization**:  At startup, the application initializes the database with tables for vessels and owners. If the database already exists, it does not perform any initialization to avoid data loss.
 - **CRUD Operations**: The application supports the following operations:
   - **Create (CV|CO)**: Add a new vessel or owner to the database.
     - **CV**: Create a new vessel.
