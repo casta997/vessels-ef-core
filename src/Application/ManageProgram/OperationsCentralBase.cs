@@ -62,6 +62,35 @@ namespace Application.ManageProgram
             return vessels;
         }
 
+        private void changeValuesForVessel()
+        {
+            ShowVessels();
+            Console.WriteLine("\nInsert id of vessel to update:");
+            string inputIdVessel = Console.ReadLine();
+            int idVessel;
+
+            bool success = int.TryParse(inputIdVessel, out idVessel);
+
+            if (success) 
+            {
+                var vessel = db.Vessels
+                .Find(idVessel);
+
+                Console.Clear();
+                Console.WriteLine("Insert imo number to change:");
+                var imoNumber = Console.ReadLine();
+                vessel.ImoNumber = imoNumber;
+
+                Console.Clear();
+                Console.WriteLine("check database for vessel!");
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Id have to be a number of type int!");
+            }
+        }
+
         /**
          * private methods for owner
          */
@@ -155,7 +184,7 @@ namespace Application.ManageProgram
             var msgUpdVessel = "Vessel updated correctly";
             try
             {
-                //changeValuesForVessel();
+                changeValuesForVessel();
                 db.SaveChanges();
             }
             catch
