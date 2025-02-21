@@ -16,12 +16,18 @@ namespace Application.ManageProgram
             db = new ManageVesselContext();
         }
 
+        /**
+         * private methods for vessel
+         */
+
         private Vessel createVessel() 
         {
             var imoNumber = insertImoNumber();
-            Vessel createdVessel = new Vessel();
-            createdVessel.ImoNumber = imoNumber;
-            return createdVessel; 
+
+            return new Vessel()
+            {
+                ImoNumber = imoNumber
+            }; 
         }
 
         private string insertImoNumber()
@@ -56,6 +62,67 @@ namespace Application.ManageProgram
             return vessels;
         }
 
+        /**
+         * private methods for owner
+         */
+        private Owner createOwner()
+        {
+            var firstName = insertFirstName();
+            var lastName = insertLastName();
+            
+            return new Owner()
+            {
+                FirstName = firstName,
+                LastName = lastName
+            };
+        }
+
+        private string insertFirstName()
+        {
+            Console.WriteLine("Insert first name:");
+            var firstName = Console.ReadLine();
+
+            return firstName;
+        }
+
+        private string insertLastName()
+        {
+            var lastName = "";
+            var existLastName = false;
+            while (!existLastName)
+            {
+                Console.Clear();
+                Console.WriteLine("Insert last name of the owner:");
+                var msgConsole = Console.ReadLine();
+
+                if (msgConsole.Trim().Length != 0)
+                {
+                    lastName = msgConsole;
+                    existLastName = true;
+                }
+                else
+                {
+                    Console.WriteLine("Last name is a required field!");
+                    Console.Write("Press any key to continue... ");
+                    Console.ReadKey();
+                }
+            }
+
+            return lastName;
+        }
+
+        private List<Owner> getOwners()
+        {
+            return db.Owners.ToList();
+        }
+
+        /*
+         * Functions of the program 
+         */
+
+        /*
+         * Vessel
+         */
         internal string AddVessel()
         {
             var msgAddVessel = "Vessel added correctly!";
@@ -65,7 +132,8 @@ namespace Application.ManageProgram
             {
                 db.Vessels.Add(vessel);
                 db.SaveChanges();
-            } catch 
+            }
+            catch
             {
                 msgAddVessel = "Error with adding of the vessel";
             }
@@ -79,6 +147,51 @@ namespace Application.ManageProgram
 
             vessels.ForEach(ve => {
                 Console.WriteLine(ve);
+            });
+        }
+
+        internal string UpdateVessel()
+        {
+            var msgUpdVessel = "Vessel updated correctly";
+            try
+            {
+                //changeValuesForVessel();
+                db.SaveChanges();
+            }
+            catch
+            {
+                msgUpdVessel = "Update fail...";
+            }
+            return msgUpdVessel;
+        }
+
+        /**
+         * Owner
+         */
+        internal string AddOwner()
+        {
+            var msgAddOwner = "Owner added correctly!";
+            var owner = createOwner();
+
+            try
+            {
+                db.Owners.Add(owner);
+                db.SaveChanges();
+            }
+            catch
+            {
+                msgAddOwner = "Error with adding of the owner";
+            }
+
+            return msgAddOwner;
+        }
+
+        internal void ShowOwners()
+        {
+            var owners = getOwners();
+
+            owners.ForEach(ow => {
+                Console.WriteLine(ow);
             });
         }
     }

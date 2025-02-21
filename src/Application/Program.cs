@@ -6,4 +6,6 @@ using Application.ManageProgram;
 var manageProgram = new OperationsCentralBase();
 
 //manageProgram.AddVessel();
-manageProgram.ShowVessels();
+//manageProgram.ShowVessels();
+//manageProgram.AddOwner();
+manageProgram.ShowOwners();

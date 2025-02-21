@@ -8,7 +8,7 @@ namespace Model
 
         public string FirstName { get; set; }
 
-        public int LastName { get; set; }
+        public string LastName { get; set; }
 
         public List<Vessel> Vessels { get; } = new List<Vessel>();
     }
