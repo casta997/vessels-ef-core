@@ -113,7 +113,7 @@ namespace Application.ManageProgram
 
                         if (answerDeleteVessel.KeyChar == 'Y')
                         {
-                            idVesselFound = 1;
+                            idVesselFound = idVessel;
                         }
                     }
                 }
@@ -257,6 +257,51 @@ namespace Application.ManageProgram
             }
         }
 
+        private int checkIfOwnerCanBeDeleted()
+        {
+            var idOwnerFound = -1;
+            ShowOwners();
+            Console.WriteLine("\nInsert id of owner to delete:");
+            string inputIdOwner = Console.ReadLine();
+
+            bool success = int.TryParse(inputIdOwner, out int idOwner);
+
+            if (success)
+            {
+                var owner = db.Owners
+                .Find(idOwner);
+
+                try
+                {
+                    if (!owner.Equals(null))
+                    {
+                        Console.WriteLine("Are you sure to delete this owner? Y / N");
+                        var answerDeleteOwner = Console.ReadKey();
+
+                        if (answerDeleteOwner.KeyChar == 'Y')
+                        {
+                            idOwnerFound = idOwner;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Owner not found!");
+                    throw;
+                }
+
+                Console.Clear();
+                Console.WriteLine("check database if owner is deleted!");
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Id has to be a number of type int!");
+            }
+
+            return idOwnerFound;
+        }
+
         /*
          * Functions of the program 
          */
@@ -377,6 +422,27 @@ namespace Application.ManageProgram
                 msgUpdOwner = "Update fail...";
             }
             return msgUpdOwner;
+        }
+
+        internal string DeleteOwner()
+        {
+            var msgDelOwner = "Owner deleted correctly";
+            try
+            {
+                var idOwnerToDelete = checkIfOwnerCanBeDeleted();
+
+                if (idOwnerToDelete != -1)
+                {
+                    var owner = db.Owners.Find(idOwnerToDelete);
+                    db.Owners.Remove(owner);
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+                msgDelOwner = "Delete fail...";
+            }
+            return msgDelOwner;
         }
     }
 }
