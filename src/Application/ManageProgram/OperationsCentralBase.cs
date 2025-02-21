@@ -135,6 +135,36 @@ namespace Application.ManageProgram
             return idVesselFound;
         }
 
+        private int checkVesselById()
+        {
+            var inputIdVessel = Console.ReadLine();
+
+            if (int.TryParse(inputIdVessel, out int idVessel))
+            {
+                var vessel = db.Vessels
+                    .Find(idVessel);
+
+                if (vessel.Equals(null))
+                    idVessel = -1;
+            }
+            return idVessel;
+        }
+
+        private int checkOwnerById() 
+        {
+            var inputIdOwner = Console.ReadLine();
+
+            if(int.TryParse(inputIdOwner, out int idOwner))
+            {
+                var owner = db.Owners
+                    .Find(idOwner);
+
+                if (owner.Equals(null))
+                    idOwner = -1;
+            }
+            return idOwner; 
+        }
+
         /**
          * private methods for owner
          */
@@ -142,12 +172,19 @@ namespace Application.ManageProgram
         {
             var firstName = insertFirstName();
             var lastName = insertLastName();
-            
-            return new Owner()
+            var vessels = insertVessels();
+
+            var owner = new Owner()
             {
                 FirstName = firstName,
                 LastName = lastName
             };
+
+            foreach (var item in vessels)
+            {
+                owner.Vessels.Add(item);
+            }
+            return owner;
         }
 
         private string insertFirstName()
@@ -182,6 +219,30 @@ namespace Application.ManageProgram
             }
 
             return lastName;
+        }
+
+        private List<Vessel> insertVessels() 
+        {
+            var newInsert = true;
+            var list = new List<Vessel>();
+
+            while (newInsert) 
+            {
+                Console.Clear();
+                Console.WriteLine("Do you want insert a vessel? Y / N");
+                var inputInsertVessel = Console.ReadKey();
+
+                if (inputInsertVessel.KeyChar == 'Y')
+                {
+                    var vessel = createVessel();
+                    list.Add(vessel);
+                } else 
+                {
+                    newInsert = false;
+                }
+            }
+            
+            return list;
         }
 
         private List<Owner> getOwners()
@@ -332,7 +393,7 @@ namespace Application.ManageProgram
             var vessels = getVessels();
 
             vessels.ForEach(ve => {
-                Console.WriteLine(ve);
+                Console.WriteLine(ve); 
             });
         }
 
@@ -443,6 +504,43 @@ namespace Application.ManageProgram
                 msgDelOwner = "Delete fail...";
             }
             return msgDelOwner;
+        }
+
+        internal string AssignVesselToOwner()
+        {
+            var msgSuccessAssign = "Vessel assigned correctly!";
+
+            try
+            {
+                ShowVessels();
+                Console.WriteLine("Insert id of the Vessel to assign:");
+                var idVessel = checkVesselById();
+                if (idVessel != -1)
+                {
+                    ShowOwners();
+                    Console.WriteLine("Insert id of the owner:");
+                    var idOwner = checkOwnerById();
+                    if (idOwner != 1)
+                    {
+                        var vessel = db.Vessels.Find(idVessel);
+                        var owner = db.Owners.Find(idOwner);
+                        owner.Vessels.Add(vessel);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Owner not found!");
+                    }
+                } else
+                {
+                    Console.WriteLine("Vessel not found!");
+                }
+            }
+            catch
+            {
+                msgSuccessAssign = "Assign fail...";
+            }
+            return msgSuccessAssign;
         }
     }
 }

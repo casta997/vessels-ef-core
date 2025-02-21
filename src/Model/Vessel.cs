@@ -13,6 +13,8 @@ namespace Model
 
         public int? OwnerId { get; set; }
 
+        public Owner Owner { get; set; }
+
         public override string ToString()
         {
             //var typeValueOwner = OwnerId.GetType().ToString();

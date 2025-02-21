@@ -11,7 +11,9 @@ var manageProgram = new OperationsCentralBase();
 //manageProgram.DeleteVessel();
 
 
-//manageProgram.AddOwner();
+manageProgram.AddOwner();
 //manageProgram.ShowOwners();
 //manageProgram.UpdateOwner();
-manageProgram.DeleteOwner();
+//manageProgram.DeleteOwner();
+
+//manageProgram.AssignVesselToOwner();
