@@ -86,8 +86,53 @@ namespace Application.ManageProgram
             else
             {
                 Console.Clear();
-                Console.WriteLine("Id have to be a number of type int!");
+                Console.WriteLine("Id has to be a number of type int!");
             }
+        }
+
+        private int checkIfVesselCanBeDeleted()
+        {
+            var idVesselFound = -1;
+            ShowVessels();
+            Console.WriteLine("\nInsert id of vessel to delete:");
+            string inputIdVessel = Console.ReadLine();
+
+            bool success = int.TryParse(inputIdVessel, out int idVessel);
+
+            if (success)
+            {
+                var vessel = db.Vessels
+                .Find(idVessel);
+
+                try
+                {
+                    if (!vessel.Equals(null))
+                    {
+                        Console.WriteLine("Are you sure to delete this vessel? Y / N");
+                        var answerDeleteVessel = Console.ReadKey();
+
+                        if (answerDeleteVessel.KeyChar == 'Y')
+                        {
+                            idVesselFound = 1;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Vessel not found!");
+                    throw;
+                }
+
+                Console.Clear();
+                Console.WriteLine("check database if vessel is deleted!");
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Id has to be a number of type int!");
+            }
+
+            return idVesselFound;
         }
 
         /**
@@ -208,7 +253,7 @@ namespace Application.ManageProgram
             else
             {
                 Console.Clear();
-                Console.WriteLine("Id have to be a number of type int!");
+                Console.WriteLine("Id has to be a number of type int!");
             }
         }
 
@@ -259,6 +304,27 @@ namespace Application.ManageProgram
                 msgUpdVessel = "Update fail...";
             }
             return msgUpdVessel;
+        }
+
+        internal string DeleteVessel()
+        {
+            var msgDelVessel = "Vessel deleted correctly";
+            try
+            {
+                var idVesselToDelete = checkIfVesselCanBeDeleted();
+
+                if (idVesselToDelete != -1)
+                {
+                    var vessel = db.Vessels.Find(idVesselToDelete);
+                    db.Vessels.Remove(vessel);
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+                msgDelVessel = "Delete fail...";
+            }
+            return msgDelVessel;
         }
 
         /**

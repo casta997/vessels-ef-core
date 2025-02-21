@@ -8,8 +8,9 @@ var manageProgram = new OperationsCentralBase();
 //manageProgram.AddVessel();
 //manageProgram.ShowVessels();
 //manageProgram.UpdateVessel();
+manageProgram.DeleteVessel();
 
 
 //manageProgram.AddOwner();
 //manageProgram.ShowOwners();
-manageProgram.UpdateOwner();
+//manageProgram.UpdateOwner();
