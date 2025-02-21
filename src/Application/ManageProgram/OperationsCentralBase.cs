@@ -67,9 +67,8 @@ namespace Application.ManageProgram
             ShowVessels();
             Console.WriteLine("\nInsert id of vessel to update:");
             string inputIdVessel = Console.ReadLine();
-            int idVessel;
 
-            bool success = int.TryParse(inputIdVessel, out idVessel);
+            bool success = int.TryParse(inputIdVessel, out int idVessel);
 
             if (success) 
             {
@@ -143,6 +142,74 @@ namespace Application.ManageProgram
         private List<Owner> getOwners()
         {
             return db.Owners.ToList();
+        }
+
+        private void changeFirstNameOwner(Owner owner)
+        {
+            Console.Clear();
+            Console.WriteLine("Insert new first name:");
+            var firstName = Console.ReadLine();
+            owner.FirstName = firstName;
+        }
+
+        private void changeLastNameOwner(Owner owner) 
+        {
+            Console.Clear();
+            Console.WriteLine("Insert new last name:");
+            var lastName = Console.ReadLine();
+            owner.LastName = lastName;
+        }
+
+        private void changeValuesForOwner()
+        {
+            ShowOwners();
+            Console.WriteLine("\nInsert id of owner to update:");
+            string inputIdOwner = Console.ReadLine();
+
+            bool success = int.TryParse(inputIdOwner, out int idOwner);
+
+            if (success)
+            {
+                var owner = db.Owners
+                .Find(idOwner);
+
+                try
+                {
+                    if (!owner.Equals(null))
+                    {
+                        Console.WriteLine("Do you want to modify first name? Y / N");
+                        var answerFirstName = Console.ReadKey();
+
+                        if (answerFirstName.KeyChar == 'Y')
+                        {
+                            changeFirstNameOwner(owner);
+                        }
+
+                        Console.WriteLine("Do you want to modify last name? Y / N");
+                        var answerLastName = Console.ReadKey();
+
+                        if (answerLastName.KeyChar == 'Y')
+                        {
+                            changeLastNameOwner(owner);
+                        }
+
+                        // add Vessel
+                        // delete Vessel
+                    }
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Owner not found!");
+                    throw;
+                }
+                Console.Clear();
+                Console.WriteLine("check database for vessel!");
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Id have to be a number of type int!");
+            }
         }
 
         /*
@@ -219,9 +286,31 @@ namespace Application.ManageProgram
         {
             var owners = getOwners();
 
-            owners.ForEach(ow => {
-                Console.WriteLine(ow);
-            });
+            if (owners.Count != 0)
+            {
+                owners.ForEach(ow =>
+                {
+                    Console.WriteLine(ow);
+                });
+            }
+            else
+                Console.WriteLine("There are not Owners!");
+            
+        }
+
+        internal string UpdateOwner()
+        {
+            var msgUpdOwner = "Owner updated correctly!";
+            try
+            {
+                changeValuesForOwner();
+                db.SaveChanges();
+            }
+            catch
+            {
+                msgUpdOwner = "Update fail...";
+            }
+            return msgUpdOwner;
         }
     }
 }

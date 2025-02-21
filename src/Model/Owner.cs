@@ -11,5 +11,10 @@ namespace Model
         public string LastName { get; set; }
 
         public List<Vessel> Vessels { get; } = new List<Vessel>();
+
+        public override string ToString()
+        {
+            return $"Owner information: \n\t-Id: {Id} \t-First name: {FirstName} \t-Last name: {LastName}";
+        }
     }
 }
