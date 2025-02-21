@@ -5,4 +5,5 @@ using Application.ManageProgram;
 
 var manageProgram = new OperationsCentralBase();
 
-manageProgram.AddVessel();
+//manageProgram.AddVessel();
+manageProgram.ShowVessels();

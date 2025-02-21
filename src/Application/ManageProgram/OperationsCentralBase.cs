@@ -50,6 +50,12 @@ namespace Application.ManageProgram
             return imoNumber;
         }
 
+        private List<Vessel> getVessels()
+        {
+            var vessels = db.Vessels.ToList();
+            return vessels;
+        }
+
         internal string AddVessel()
         {
             var msgAddVessel = "Vessel added correctly!";
@@ -65,6 +71,15 @@ namespace Application.ManageProgram
             }
 
             return msgAddVessel;
+        }
+
+        internal void ShowVessels()
+        {
+            var vessels = getVessels();
+
+            vessels.ForEach(ve => {
+                Console.WriteLine(ve);
+            });
         }
     }
 }
