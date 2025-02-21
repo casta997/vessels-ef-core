@@ -10,9 +10,10 @@ namespace Application.ManageProgram
 {
     internal class OperationsCentralBase
     {
+        private readonly ManageVesselContext db;
         public OperationsCentralBase() 
         {
-            var db = new ManageVesselContext();
+            db = new ManageVesselContext();
         }
 
         private Vessel createVessel() 
@@ -26,25 +27,24 @@ namespace Application.ManageProgram
         private string insertImoNumber()
         {
             var imoNumber = "";
+            var msgConsole = "";
             var existImoNumber = false;
             while (!existImoNumber)
             {
+                Console.Clear();
                 Console.WriteLine("Insert IMO Number of the vessel:");
-                string msgConsole = Console.ReadLine();
+                msgConsole = Console.ReadLine();
 
-                if (msgConsole.Length != 0)
+                if (msgConsole.Trim().Length != 0)
                 {
                     imoNumber = msgConsole;
                     existImoNumber = true;
-                }
-
-                if (msgConsole.Length == 0)
+                } else
                 {
                     Console.WriteLine("IMO Number is a required field!");
-                    Console.Write("Press enter to continue...");
-                    Console.Read();                    
+                    Console.Write("Press any key to continue... ");
+                    Console.ReadKey();
                 }
-                Console.Clear();
             }
             
             return imoNumber;
@@ -52,8 +52,19 @@ namespace Application.ManageProgram
 
         internal string AddVessel()
         {
+            var msgAddVessel = "Vessel added correctly!";
             var vessel = createVessel();
-            return vessel.ToString();
+
+            try
+            {
+                db.Vessels.Add(vessel);
+                db.SaveChanges();
+            } catch 
+            {
+                msgAddVessel = "Error with adding of the vessel";
+            }
+
+            return msgAddVessel;
         }
     }
 }
