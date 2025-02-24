@@ -25,32 +25,33 @@ A.- Assign a vessel to an owner.
 
     string inputTypeOperation = Console.ReadLine();
     Console.Clear();
+    string stateFunction = "";
 
     switch (inputTypeOperation)
     {
         case "CV":
-            manageProgram.AddVessel();
+            stateFunction = manageProgram.AddVessel();
             break;
         case "CO":
-            manageProgram.AddOwner();
+            stateFunction = manageProgram.AddOwner();
             break;
         case "RV":
-            manageProgram.ShowVessels();
+            stateFunction = manageProgram.ShowVessels();
             break;
         case "RO":
-            manageProgram.ShowOwners();
+            stateFunction = manageProgram.ShowOwners();
             break;
         case "UV":
-            manageProgram.UpdateVessel();
+            stateFunction = manageProgram.UpdateVessel();
             break;
         case "UO":
-            manageProgram.UpdateOwner();
+            stateFunction = manageProgram.UpdateOwner();
             break;
         case "DV":
-            manageProgram.DeleteVessel();
+            stateFunction = manageProgram.DeleteVessel();
             break;
         case "DO":
-            manageProgram.DeleteOwner();
+            stateFunction = manageProgram.DeleteOwner();
             break;
         case "A":
             manageProgram.AssignVesselToOwner();
@@ -60,5 +61,17 @@ A.- Assign a vessel to an owner.
             Console.WriteLine("Option not available!!\ntry again...");
             break;
     }
+
+    manageProgram.BreakConcludeOperation(stateFunction);
+
+    if (inputTypeOperation == "CV" || inputTypeOperation == "CO" || inputTypeOperation == "RV" || inputTypeOperation == "RO" || inputTypeOperation == "UV" 
+        || inputTypeOperation == "UO" || inputTypeOperation == "DV" || inputTypeOperation == "DO" || inputTypeOperation == "A")
+    {
+        manageProgram.ShowOwners();
+        Console.WriteLine("\n\n");
+        manageProgram.ShowVessels();
+        manageProgram.BreakConcludeOperation("");
+    }
+
 }
 

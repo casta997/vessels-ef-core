@@ -3,6 +3,7 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,13 +34,12 @@ namespace Application.ManageProgram
         private string insertImoNumber()
         {
             var imoNumber = "";
-            var msgConsole = "";
             var existImoNumber = false;
             while (!existImoNumber)
             {
                 Console.Clear();
                 Console.WriteLine("Insert IMO Number of the vessel:");
-                msgConsole = Console.ReadLine();
+                string msgConsole = Console.ReadLine();
 
                 if (msgConsole.Trim().Length != 0)
                 {
@@ -47,9 +47,7 @@ namespace Application.ManageProgram
                     existImoNumber = true;
                 } else
                 {
-                    Console.WriteLine("IMO Number is a required field!");
-                    Console.Write("Press any key to continue... ");
-                    Console.ReadKey();
+                    BreakConcludeOperation("IMO Number is a required field!");
                 }
             }
             
@@ -62,32 +60,45 @@ namespace Application.ManageProgram
             return vessels;
         }
 
-        private void changeValuesForVessel()
+        private int changeValuesForVessel()
         {
             ShowVessels();
+            var idVessel = -1;
             Console.WriteLine("\nInsert id of vessel to update:");
             string inputIdVessel = Console.ReadLine();
 
-            bool success = int.TryParse(inputIdVessel, out int idVessel);
+            bool success = int.TryParse(inputIdVessel, out idVessel);
 
             if (success) 
             {
                 var vessel = db.Vessels
-                .Find(idVessel);
+                        .Find(idVessel);
 
-                Console.Clear();
-                Console.WriteLine("Insert imo number to change:");
-                var imoNumber = Console.ReadLine();
-                vessel.ImoNumber = imoNumber;
-
-                Console.Clear();
-                Console.WriteLine("check database for vessel!");
+                try
+                {
+                    if (!vessel.Equals(null))
+                    {
+                        Console.Clear();
+                        Console.WriteLine("\nInsert imo number to change:");
+                        var imoNumber = Console.ReadLine();
+                        vessel.ImoNumber = imoNumber;
+                    }
+                }
+                catch (Exception)
+                {
+                    idVessel = -1;
+                    Console.Clear();
+                    Console.WriteLine("Vessel not found!");
+                    throw;
+                }
             }
             else
             {
                 Console.Clear();
                 Console.WriteLine("Id has to be a number of type int!");
             }
+
+            return idVessel;
         }
 
         private int checkIfVesselCanBeDeleted()
@@ -124,7 +135,6 @@ namespace Application.ManageProgram
                 }
 
                 Console.Clear();
-                Console.WriteLine("check database if vessel is deleted!");
             }
             else
             {
@@ -229,7 +239,7 @@ namespace Application.ManageProgram
             while (newInsert) 
             {
                 Console.Clear();
-                Console.WriteLine("Do you want insert a vessel? Y / N");
+                Console.WriteLine("Do you want insert a vessel? Y / n");
                 var inputInsertVessel = Console.ReadKey();
 
                 if (inputInsertVessel.KeyChar == 'Y')
@@ -283,7 +293,7 @@ namespace Application.ManageProgram
                 {
                     if (!owner.Equals(null))
                     {
-                        Console.WriteLine("Do you want to modify first name? Y / N");
+                        Console.WriteLine("\nDo you want to modify first name? Y / n");
                         var answerFirstName = Console.ReadKey();
 
                         if (answerFirstName.KeyChar == 'Y')
@@ -291,7 +301,7 @@ namespace Application.ManageProgram
                             changeFirstNameOwner(owner);
                         }
 
-                        Console.WriteLine("Do you want to modify last name? Y / N");
+                        Console.WriteLine("\nDo you want to modify last name? Y / n");
                         var answerLastName = Console.ReadKey();
 
                         if (answerLastName.KeyChar == 'Y')
@@ -309,7 +319,6 @@ namespace Application.ManageProgram
                     throw;
                 }
                 Console.Clear();
-                Console.WriteLine("check database for vessel!");
             }
             else
             {
@@ -352,7 +361,6 @@ namespace Application.ManageProgram
                 }
 
                 Console.Clear();
-                Console.WriteLine("check database if owner is deleted!");
             }
             else
             {
@@ -372,7 +380,7 @@ namespace Application.ManageProgram
          */
         internal string AddVessel()
         {
-            var msgAddVessel = "Vessel added correctly!";
+            var msgAddVessel = "\nVessel added correctly!";
             var vessel = createVessel();
 
             try
@@ -382,28 +390,42 @@ namespace Application.ManageProgram
             }
             catch
             {
-                msgAddVessel = "Error with adding of the vessel";
+                msgAddVessel = "\nError with adding of the vessel";
             }
-
             return msgAddVessel;
         }
 
-        internal void ShowVessels()
+        internal string ShowVessels()
         {
+            var msgFoundVessels = "";
             var vessels = getVessels();
 
-            vessels.ForEach(ve => {
-                Console.WriteLine(ve); 
-            });
+            if (vessels.Count != 0)
+            {
+                Console.WriteLine("-Vessel Information-");
+                Console.WriteLine($"\n- Id \t|- IMO Number \t|- Owner id");
+                vessels.ForEach(ve => {
+                    Console.WriteLine(ve);
+                });
+            }
+            else
+                msgFoundVessels = "There are not Vessels!";
+            
+            return msgFoundVessels;
         }
 
         internal string UpdateVessel()
         {
-            var msgUpdVessel = "Vessel updated correctly";
+            var msgUpdVessel = "";
             try
             {
-                changeValuesForVessel();
-                db.SaveChanges();
+                var idVessel = changeValuesForVessel();
+                if (idVessel != -1)
+                {
+                    db.SaveChanges();
+                    msgUpdVessel = "Vessel updated correctly";
+                }
+                
             }
             catch
             {
@@ -414,7 +436,7 @@ namespace Application.ManageProgram
 
         internal string DeleteVessel()
         {
-            var msgDelVessel = "Vessel deleted correctly";
+            var msgDelVessel = "";
             try
             {
                 var idVesselToDelete = checkIfVesselCanBeDeleted();
@@ -424,6 +446,7 @@ namespace Application.ManageProgram
                     var vessel = db.Vessels.Find(idVesselToDelete);
                     db.Vessels.Remove(vessel);
                     db.SaveChanges();
+                    msgDelVessel = "Vessel deleted correctly";
                 }
             }
             catch
@@ -438,7 +461,7 @@ namespace Application.ManageProgram
          */
         internal string AddOwner()
         {
-            var msgAddOwner = "Owner added correctly!";
+            var msgAddOwner = "\nOwner added correctly!";
             var owner = createOwner();
 
             try
@@ -448,26 +471,30 @@ namespace Application.ManageProgram
             }
             catch
             {
-                msgAddOwner = "Error with adding of the owner";
+                msgAddOwner = "\nError with adding of the owner";
             }
 
             return msgAddOwner;
         }
 
-        internal void ShowOwners()
+        internal string ShowOwners()
         {
+            var msgFoundOwners = "";
             var owners = getOwners();
 
             if (owners.Count != 0)
             {
+                Console.WriteLine("-Owner Information-");
+                Console.WriteLine($"\n- Id \t|- First name \t\t|- Last name");
                 owners.ForEach(ow =>
                 {
                     Console.WriteLine(ow);
                 });
             }
             else
-                Console.WriteLine("There are not Owners!");
-            
+                msgFoundOwners = "There are not Owners!";
+
+            return msgFoundOwners;
         }
 
         internal string UpdateOwner()
@@ -487,7 +514,7 @@ namespace Application.ManageProgram
 
         internal string DeleteOwner()
         {
-            var msgDelOwner = "Owner deleted correctly";
+            var msgDelOwner = "";
             try
             {
                 var idOwnerToDelete = checkIfOwnerCanBeDeleted();
@@ -497,6 +524,7 @@ namespace Application.ManageProgram
                     var owner = db.Owners.Find(idOwnerToDelete);
                     db.Owners.Remove(owner);
                     db.SaveChanges();
+                    msgDelOwner = "Owner deleted correctly";
                 }
             }
             catch
@@ -520,7 +548,7 @@ namespace Application.ManageProgram
                     ShowOwners();
                     Console.WriteLine("Insert id of the owner:");
                     var idOwner = checkOwnerById();
-                    if (idOwner != 1)
+                    if (idOwner != -1)
                     {
                         var vessel = db.Vessels.Find(idVessel);
                         var owner = db.Owners.Find(idOwner);
@@ -541,6 +569,16 @@ namespace Application.ManageProgram
                 msgSuccessAssign = "Assign fail...";
             }
             return msgSuccessAssign;
+        }
+
+        /**
+         * Common functions globally
+         */
+        internal void BreakConcludeOperation(string errorMessage)
+        {
+            Console.WriteLine($"{errorMessage}\nPress any key to continue...");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

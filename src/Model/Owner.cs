@@ -14,7 +14,7 @@ namespace Model
 
         public override string ToString()
         {
-            return $"Owner information: \n\t-Id: {Id} \t-First name: {FirstName} \t-Last name: {LastName}";
+            return $"\n {Id} \t| - {FirstName} \t\t| - {LastName}";
         }
     }
 }

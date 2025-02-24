@@ -17,8 +17,7 @@ namespace Model
 
         public override string ToString()
         {
-            //var typeValueOwner = OwnerId.GetType().ToString();
-            return $"Vessel information\n -Id: {Id} \t -IMO Number: {ImoNumber} \t -Type Value Owner: ";
+            return $"\n- {Id} \t| - {ImoNumber} \t| - {OwnerId}";
         }
     }
 }
