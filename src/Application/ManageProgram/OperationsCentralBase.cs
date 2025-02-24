@@ -119,7 +119,7 @@ namespace Application.ManageProgram
                 {
                     if (!vessel.Equals(null))
                     {
-                        Console.WriteLine("Are you sure to delete this vessel? Y / N");
+                        Console.WriteLine("Are you sure to delete this vessel? Y / n");
                         var answerDeleteVessel = Console.ReadKey();
 
                         if (answerDeleteVessel.KeyChar == 'Y')
@@ -345,7 +345,7 @@ namespace Application.ManageProgram
                 {
                     if (!owner.Equals(null))
                     {
-                        Console.WriteLine("Are you sure to delete this owner? Y / N");
+                        Console.WriteLine("Are you sure to delete this owner? Y / n");
                         var answerDeleteOwner = Console.ReadKey();
 
                         if (answerDeleteOwner.KeyChar == 'Y')
