@@ -2,12 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace VesselManagementLogic.Services
 {
     public class MenuService
     {
+        private static OwnerService ownerService = new OwnerService();
+
+        public void WaitUserInput()
+        {
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadLine();
+        }
+
+        public bool CheckInput(string userInput)
+        {
+            string pattern = @"[0-9!@#$%^&*()_+\-=\[\]{};':""\\|,.<>/?]+";
+            bool checkRegex = Regex.IsMatch(userInput, pattern);
+
+            if (userInput.Length >= 1 && checkRegex == false && userInput != null)
+            {
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("\nInvalid input! At least one charachter, no numbers and no special characters!");
+                WaitUserInput();
+                return true;
+            }
+        }
+
         public bool SelectAction()
         {
             do
@@ -27,42 +53,37 @@ namespace VesselManagementLogic.Services
                                     "\n\nA.) Vessel to Owner");
 
                 Console.Write("\nSelect action: ");
-                string? actionSelected = Console.ReadLine()?.ToUpper();
+                string actionSelected = Console.ReadLine().ToUpper().Trim().Replace(" ", "");
 
                 Console.Clear();
 
                 switch (actionSelected)
                 {
                     case "CV":
-                        Console.WriteLine($"Action selected: {actionSelected}");
                         break;
                     case "CO":
-                        Console.WriteLine($"Action selected: {actionSelected}");
+                        ownerService.Create();
+                        WaitUserInput();
                         break;
                     case "RV":
-                        Console.WriteLine($"Action selected: {actionSelected}");
                         break;
                     case "RO":
-                        Console.WriteLine($"Action selected: {actionSelected}");
+                        ownerService.Read();
+                        WaitUserInput();
                         break;
                     case "UV":
-                        Console.WriteLine($"Action selected: {actionSelected}");
                         break;
                     case "UO":
-                        Console.WriteLine($"Action selected: {actionSelected}");
                         break;
                     case "DV":
-                        Console.WriteLine($"Action selected: {actionSelected}");
                         break;
                     case "DO":
-                        Console.WriteLine($"Action selected: {actionSelected}");
                         break;
                     case "A":
-                        Console.WriteLine($"Action selected: {actionSelected}");
                         break;
                     default:
-                        Console.WriteLine($"Action selected: {actionSelected}");
                         Console.WriteLine("\nInvalid input!");
+                        WaitUserInput();
                         break;
                 }
             }
