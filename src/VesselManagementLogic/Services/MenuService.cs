@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using VesselManagementData;
+using VesselManagementData.Models;
 
 namespace VesselManagementLogic.Services
 {
     public class MenuService
     {
         private static OwnerService ownerService = new OwnerService();
+        static VesselManagemetContext context = new VesselManagemetContext();
 
         public void WaitUserInput()
         {
@@ -34,6 +37,19 @@ namespace VesselManagementLogic.Services
             }
         }
 
+        public void ShowDbState()
+        {
+            Console.Clear();
+
+            Console.WriteLine("List of owners:\n");
+            context.Owners.ToList().ForEach(owner => Console.WriteLine($"ID: {owner.Id}\tFIRST NAME: {owner.FirstName}\tLAST NAME: {owner.LastName}"));
+            
+            Console.WriteLine("\n\nList of vessels:\n");
+            context.Vessels.ToList().ForEach(vessel => Console.WriteLine($"ID: {vessel.Id}\tIMO NUMBER: {vessel.ImoNumber}\tOWNER: {vessel.OwnerId}"));
+
+            WaitUserInput();   
+        }
+
         public bool SelectAction()
         {
             do
@@ -52,8 +68,6 @@ namespace VesselManagementLogic.Services
                                     "\n\nAssign:"+
                                     "\n\nA.) Vessel to Owner\n");
 
-                ownerService.Read();
-
                 Console.Write("\nSelect action: ");
                 string actionSelected = Console.ReadLine().ToUpper().Trim().Replace(" ", "");
 
@@ -62,30 +76,39 @@ namespace VesselManagementLogic.Services
                 switch (actionSelected)
                 {
                     case "CV":
+                        ShowDbState();
                         break;
                     case "CO":
                         ownerService.Create();
                         WaitUserInput();
+                        ShowDbState();
                         break;
                     case "RV":
+                        ShowDbState();
                         break;
                     case "RO":
                         ownerService.Read();
                         WaitUserInput();
+                        ShowDbState();
                         break;
                     case "UV":
+                        ShowDbState();
                         break;
                     case "UO":
                         ownerService.Update();
                         WaitUserInput();
+                        ShowDbState();
                         break;
                     case "DV":
+                        ShowDbState();
                         break;
                     case "DO":
                         ownerService.Delete();
                         WaitUserInput();
+                        ShowDbState();
                         break;
                     case "A":
+                        ShowDbState();
                         break;
                     default:
                         Console.WriteLine("\nInvalid input!");
