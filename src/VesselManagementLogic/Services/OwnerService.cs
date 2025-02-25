@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using VesselManagementData;
 using VesselManagementData.Models;
+using VesselManagementLogic.Interfaces;
 
 namespace VesselManagementLogic.Services
 {
-    public class OwnerService
+    public class OwnerService : IOwner
     {
-        static VesselManagemetContext context = new VesselManagemetContext();
+        private static VesselManagemetContext context = new VesselManagemetContext();
         private static MenuService menuService = new MenuService();
 
         public void Create()

@@ -11,8 +11,9 @@ namespace VesselManagementLogic.Services
 {
     public class MenuService
     {
+        private static VesselService vesselService = new VesselService();
         private static OwnerService ownerService = new OwnerService();
-        static VesselManagemetContext context = new VesselManagemetContext();
+        private static VesselManagemetContext context = new VesselManagemetContext();
 
         public void WaitUserInput()
         {
@@ -37,11 +38,62 @@ namespace VesselManagementLogic.Services
             }
         }
 
+        public bool CheckImoNumber(string userInput)
+        {
+            string pattern = @"[!@#$%^&*()_+\-=\[\]{};':""\\|,.<>/?]+";
+            bool checkRegex = Regex.IsMatch(userInput, pattern);
+
+            if (userInput.Length >= 1 && checkRegex == false && userInput != null)
+            {
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("\nInvalid input! At least one charachter and no special characters!");
+                WaitUserInput();
+                return true;
+            }
+        }
+
+        public bool CheckIdOwner(string userInput)
+        {
+            if (userInput.Contains("NO"))
+            {
+                return false;
+            }
+            else
+            {
+                bool idToConvert = int.TryParse(userInput, out int idParsed);
+
+                if (idToConvert)
+                {
+                    var ownerFound = context.Owners.FirstOrDefault(owner => owner.Id == idParsed);
+
+                    if (ownerFound != null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nOwner not found!");
+                        WaitUserInput();
+                        return true;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\nInvalid input!");
+                    WaitUserInput();
+                    return true;
+                };
+            }
+        }
+
         public void ShowDbState()
         {
             Console.Clear();
 
-            Console.WriteLine("List of owners:\n");
+            Console.WriteLine("Db state\n\nList of owners:\n");
             context.Owners.ToList().ForEach(owner => Console.WriteLine($"ID: {owner.Id}\tFIRST NAME: {owner.FirstName}\tLAST NAME: {owner.LastName}"));
             
             Console.WriteLine("\n\nList of vessels:\n");
@@ -76,6 +128,8 @@ namespace VesselManagementLogic.Services
                 switch (actionSelected)
                 {
                     case "CV":
+                        vesselService.Create();
+                        WaitUserInput();
                         ShowDbState();
                         break;
                     case "CO":
@@ -84,6 +138,8 @@ namespace VesselManagementLogic.Services
                         ShowDbState();
                         break;
                     case "RV":
+                        vesselService.Read();
+                        WaitUserInput();
                         ShowDbState();
                         break;
                     case "RO":
@@ -92,6 +148,7 @@ namespace VesselManagementLogic.Services
                         ShowDbState();
                         break;
                     case "UV":
+                        WaitUserInput();
                         ShowDbState();
                         break;
                     case "UO":
@@ -100,6 +157,7 @@ namespace VesselManagementLogic.Services
                         ShowDbState();
                         break;
                     case "DV":
+                        WaitUserInput();
                         ShowDbState();
                         break;
                     case "DO":
@@ -108,6 +166,7 @@ namespace VesselManagementLogic.Services
                         ShowDbState();
                         break;
                     case "A":
+                        WaitUserInput();
                         ShowDbState();
                         break;
                     default:
