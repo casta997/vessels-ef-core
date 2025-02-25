@@ -10,7 +10,7 @@ namespace VesselManagementData.Models
     {
         public int Id { get; set; }
         public string ImoNumber { get; set; }
-        public Owner Owner { get; set; }
+        //public Owner Owner { get; set; }
         public int? OwnerId { get; set; }
     }
 }
