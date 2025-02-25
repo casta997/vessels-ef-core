@@ -11,7 +11,7 @@ namespace VesselManagementLogic.Services
 {
     public class OwnerService : IOwner
     {
-        private static VesselManagemetContext context = new VesselManagemetContext();
+        static VesselManagemetContext context = new VesselManagemetContext();
         private static MenuService menuService = new MenuService();
 
         public void Create()
@@ -52,9 +52,10 @@ namespace VesselManagementLogic.Services
 
         public void Update()
         {
-            Console.Write("Update an owner" +
+            Read();
+            Console.Write("\nUpdate an owner" +
                                 "\n\nId: ");
-            string idOwnerToUpdate = Console.ReadLine();
+            string idOwnerToUpdate = Console.ReadLine().Trim();
             bool idToConvert = int.TryParse(idOwnerToUpdate, out int idParsed);
 
             if (idToConvert)
@@ -67,7 +68,8 @@ namespace VesselManagementLogic.Services
                     do
                     {
                         Console.Clear();
-                        Console.Write($"Update owner: {idOwnerToUpdate}" +
+                        Read();
+                        Console.Write($"\nUpdate owner: {idOwnerToUpdate}" +
                                         "\n\nFirst name: ");
                         name = Console.ReadLine().Trim();
                     }
@@ -77,7 +79,8 @@ namespace VesselManagementLogic.Services
                     do
                     {
                         Console.Clear();
-                        Console.Write($"Update owner: {idOwnerToUpdate}" +
+                        Read();
+                        Console.Write($"\nUpdate owner: {idOwnerToUpdate}" +
                                         $"\n\nFirst name: {name}" +
                                         $"\nLast name: ");
                         surname = Console.ReadLine().Trim();
@@ -105,7 +108,7 @@ namespace VesselManagementLogic.Services
         {
             Console.Write("Delete an owner"+
                                 "\n\nId: ");
-            string idOwnerToDelete = Console.ReadLine();
+            string idOwnerToDelete = Console.ReadLine().Trim();
             bool idToConvert = int.TryParse(idOwnerToDelete, out int idParsed);
 
             if (idToConvert)
@@ -114,7 +117,10 @@ namespace VesselManagementLogic.Services
 
                 if (itemToDelete != null)
                 {
-                    context.Owners.Remove(itemToDelete);
+                    var vesselWithOwnerToDelete = context.Vessels.Where(v => v.OwnerId == idParsed).ToList();
+                    vesselWithOwnerToDelete.ForEach(v => v.OwnerId = null);
+
+                    context.Owners.Remove(itemToDelete);                    
                     context.SaveChanges();
 
                     Console.WriteLine("\nOwner deleted with success!");

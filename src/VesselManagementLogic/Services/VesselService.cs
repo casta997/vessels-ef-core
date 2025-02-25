@@ -12,7 +12,7 @@ namespace VesselManagementLogic.Services
 {
     public class VesselService : IVessel
     {
-        private static VesselManagemetContext context = new VesselManagemetContext();
+        static VesselManagemetContext context = new VesselManagemetContext();
         private static MenuService menuService = new MenuService();
 
         public void Create()
@@ -33,7 +33,7 @@ namespace VesselManagementLogic.Services
                 Console.Clear();
                 Console.Write("Create a vessel" +
                                 $"\n\nImo number: {imoNumber}" +
-                                $"\nOwner id: ");
+                                $"\nOwner id (write \"no\" for no owners): ");
                 idOwner = Console.ReadLine().Trim().ToUpper();
             }
             while (menuService.CheckIdOwner(idOwner));
@@ -49,7 +49,6 @@ namespace VesselManagementLogic.Services
             else
             {
                 bool idToConvert = int.TryParse(idOwner, out int idParsed);
-                var ownerFound = context.Owners.FirstOrDefault(owner => owner.Id == idParsed);
 
                 Vessel newVessel = new() { ImoNumber = imoNumber, OwnerId = idParsed };
                 context.Add(newVessel);
@@ -67,12 +66,98 @@ namespace VesselManagementLogic.Services
 
         public void Update() 
         {
+            Read();
+            Console.Write("\nUpdate a vessel" +
+                                "\n\nId: ");
+            string idVesselToUpdate = Console.ReadLine().Trim();
+            bool idToConvert = int.TryParse(idVesselToUpdate, out int idParsed);
 
+            if (idToConvert)
+            {
+                var itemToUpdate = context.Vessels.FirstOrDefault(vessel => vessel.Id == idParsed);
+
+                if (itemToUpdate != null)
+                {
+                    string imoNumber;
+                    do
+                    {
+                        Console.Clear();
+                        Read();
+                        Console.Write($"\nUpdate vessel: {idVesselToUpdate}" +
+                                    "\n\nImo number: ");
+                        imoNumber = Console.ReadLine().Trim();
+                    }
+                    while (menuService.CheckImoNumber(imoNumber));
+
+                    string idOwner;
+                    do
+                    {
+                        Console.Clear();
+                        Read();
+                        Console.Write($"\nUpdate vessel: {idVesselToUpdate}" +
+                                        $"\n\nImo number: {imoNumber}" +
+                                        $"\nId owner (write \"no\" for no owners): ");
+                        idOwner = Console.ReadLine().Trim().ToUpper();
+                    }
+                    while (menuService.CheckIdOwner(idOwner));
+
+                    if (idOwner == "NO")
+                    {
+                        itemToUpdate.OwnerId = null;
+                        itemToUpdate.ImoNumber = imoNumber;
+                        context.SaveChanges();
+
+                        Console.WriteLine("\nVessel created with success!");
+                    }
+                    else
+                    {
+                        bool idOwnerToConvert = int.TryParse(idOwner, out int idOwnerParsed);
+
+                        itemToUpdate.ImoNumber = imoNumber;
+                        itemToUpdate.OwnerId = idOwnerParsed;
+                        context.SaveChanges();
+
+                        Console.WriteLine("\nVessel updated with success!");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\nId not found!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nInvalid input!");
+            }
         }
 
         public void Delete()
         {
+            Console.Write("Delete a vessel" +
+                                "\n\nId: ");
+            string idVesselToDelete = Console.ReadLine().Trim();
+            bool idToConvert = int.TryParse(idVesselToDelete, out int idParsed);
 
+            if (idToConvert)
+            {
+                var itemToDelete = context.Vessels.FirstOrDefault(vessel => vessel.Id == idParsed);
+
+                if (itemToDelete != null)
+                {
+                    context.Vessels.Remove(itemToDelete);
+                    context.SaveChanges();
+
+                    Console.WriteLine("\nVessel deleted with success!");
+                }
+                else
+                {
+                    Console.WriteLine("\nId not found!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nInvalid input!");
+            }
         }
     }
 }

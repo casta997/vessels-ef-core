@@ -13,7 +13,7 @@ namespace VesselManagementLogic.Services
     {
         private static VesselService vesselService = new VesselService();
         private static OwnerService ownerService = new OwnerService();
-        private static VesselManagemetContext context = new VesselManagemetContext();
+        static VesselManagemetContext context = new VesselManagemetContext();
 
         public void WaitUserInput()
         {
@@ -93,11 +93,9 @@ namespace VesselManagementLogic.Services
         {
             Console.Clear();
 
-            Console.WriteLine("Db state\n\nList of owners:\n");
-            context.Owners.ToList().ForEach(owner => Console.WriteLine($"ID: {owner.Id}\tFIRST NAME: {owner.FirstName}\tLAST NAME: {owner.LastName}"));
-            
-            Console.WriteLine("\n\nList of vessels:\n");
-            context.Vessels.ToList().ForEach(vessel => Console.WriteLine($"ID: {vessel.Id}\tIMO NUMBER: {vessel.ImoNumber}\tOWNER: {vessel.OwnerId}"));
+            vesselService.Read();
+            Console.WriteLine();
+            ownerService.Read();
 
             WaitUserInput();   
         }
@@ -121,7 +119,7 @@ namespace VesselManagementLogic.Services
                                     "\n\nA.) Vessel to Owner\n");
 
                 Console.Write("\nSelect action: ");
-                string actionSelected = Console.ReadLine().ToUpper().Trim().Replace(" ", "");
+                string actionSelected = Console.ReadLine().ToUpper().Replace(" ", "");
 
                 Console.Clear();
 
@@ -148,6 +146,7 @@ namespace VesselManagementLogic.Services
                         ShowDbState();
                         break;
                     case "UV":
+                        vesselService.Update();
                         WaitUserInput();
                         ShowDbState();
                         break;
@@ -157,6 +156,7 @@ namespace VesselManagementLogic.Services
                         ShowDbState();
                         break;
                     case "DV":
+                        vesselService.Delete();
                         WaitUserInput();
                         ShowDbState();
                         break;
