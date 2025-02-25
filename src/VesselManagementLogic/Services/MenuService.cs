@@ -50,7 +50,9 @@ namespace VesselManagementLogic.Services
                                     "\n\nDelete:"+
                                     "\n\nDV.) Vessel\nDO.) Owner"+
                                     "\n\nAssign:"+
-                                    "\n\nA.) Vessel to Owner");
+                                    "\n\nA.) Vessel to Owner\n");
+
+                ownerService.Read();
 
                 Console.Write("\nSelect action: ");
                 string actionSelected = Console.ReadLine().ToUpper().Trim().Replace(" ", "");
@@ -74,10 +76,14 @@ namespace VesselManagementLogic.Services
                     case "UV":
                         break;
                     case "UO":
+                        ownerService.Update();
+                        WaitUserInput();
                         break;
                     case "DV":
                         break;
                     case "DO":
+                        ownerService.Delete();
+                        WaitUserInput();
                         break;
                     case "A":
                         break;
