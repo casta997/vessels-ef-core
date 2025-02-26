@@ -1,8 +1,9 @@
-﻿using VesselManagementData;
+﻿using Microsoft.EntityFrameworkCore;
+using VesselManagementData;
 
 using (VesselManagemetContext vmc = new VesselManagemetContext())
 {
-    vmc.Database.EnsureCreated();
+    vmc.Database.Migrate();
 }
 
 VesselManagementLogic.Services.MenuService vesselMS = new VesselManagementLogic.Services.MenuService();

@@ -9,7 +9,7 @@ namespace VesselManagementLogic.Interfaces
     public interface IVessel
     {
         public void Create();
-        public void Show();
+        public void PrintTable();
         public void Update();
         public void Delete();
     }

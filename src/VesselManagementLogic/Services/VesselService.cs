@@ -12,11 +12,14 @@ namespace VesselManagementLogic.Services
 {
     public class VesselService : IVessel
     {
-        static VesselManagemetContext context { get => new VesselManagemetContext(); }
+        private static VesselManagemetContext context = new VesselManagemetContext();
         private static MenuService menuService = new MenuService();
+        private static OwnerService ownerService = new OwnerService();
 
+        //Method used for the creation of a vessel
         public void Create()
         {
+            //Do-while for the input imoNumber
             string imoNumber;
             do
             {
@@ -25,8 +28,10 @@ namespace VesselManagementLogic.Services
                                 "\n\nImo number: ");
                 imoNumber = Console.ReadLine().Trim();
             }
+            //Validation of the input imoNumber
             while (menuService.CheckImoNumber(imoNumber));
 
+            //Do-while for the input idOwner
             string idOwner;
             do
             {
@@ -36,64 +41,89 @@ namespace VesselManagementLogic.Services
                                 $"\nOwner id (write \"no\" for no owners): ");
                 idOwner = Console.ReadLine().Replace(" ", "").ToUpper();
             }
+            //Validation of the input idOwner
             while (menuService.CheckIdOwner(idOwner));
 
+            //If idOwner equals 'no' then the vessel will be created without an owner
             if (idOwner == "NO")
             {
                 Vessel newVessel = new() { ImoNumber = imoNumber };
-                context.Add(newVessel);
-                context.SaveChanges();
 
-                Console.WriteLine("\nVessel created with success!");
+                if (imoNumber != null)
+                {
+                    context.Add(newVessel);
+                    context.SaveChanges();
+                    Console.WriteLine("\nVessel created with success!");
+                }
+                else
+                {
+                    Console.WriteLine("\nError during the creation!");
+                }
             }
+            //Else check for the id and than used for the creation of a vessel with an owner
             else
             {
                 bool idToConvert = int.TryParse(idOwner, out int idParsed);
 
                 Vessel newVessel = new() { ImoNumber = imoNumber, OwnerId = idParsed };
-                context.Add(newVessel);
-                context.SaveChanges();
 
-                Console.WriteLine("\nVessel created with success!");
+                if (imoNumber != null && idToConvert)
+                {
+                    context.Add(newVessel);
+                    context.SaveChanges();
+                    Console.WriteLine("\nVessel created with success!");
+                }
+                else
+                {
+                    Console.WriteLine("\nError during the creation!");
+                }
             }
         }
 
-        public void Show()
+        //Method that prints the vessel table
+        public void PrintTable()
         {
-            Console.WriteLine("List of vessels:\n");
+            Console.WriteLine("\nList of vessels:\n");
             context.Vessels.ToList().ForEach(vessel => Console.WriteLine($"ID: {vessel.Id}\tIMO NUMBER: {vessel.ImoNumber}\tOWNER: {vessel.OwnerId}"));
         }
 
+        //Method used for updating the details of a vessel
         public void Update()
         {
-            Show();
+            PrintTable();
             Console.Write("\nUpdate a vessel" +
                                 "\n\nId: ");
             string idVesselToUpdate = Console.ReadLine().Replace(" ", "");
             bool idToConvert = int.TryParse(idVesselToUpdate, out int idParsed);
 
+            //Check to see if the id is valid
             if (idToConvert)
             {
                 var itemToUpdate = context.Vessels.FirstOrDefault(vessel => vessel.Id == idParsed);
 
+                //Check to see if the id exist in the db
                 if (itemToUpdate != null)
                 {
+                    //Do-while for the input imoNumber
                     string imoNumber;
                     do
                     {
                         Console.Clear();
-                        Show();
+                        PrintTable();
+                        ownerService.PrintTable();
                         Console.Write($"\nUpdate vessel: {idVesselToUpdate}" +
                                     "\n\nImo number: ");
                         imoNumber = Console.ReadLine().Trim();
                     }
                     while (menuService.CheckImoNumber(imoNumber));
 
+                    //Do-while for the input idOwner
                     string idOwner;
                     do
                     {
                         Console.Clear();
-                        Show();
+                        PrintTable();
+                        ownerService.PrintTable();
                         Console.Write($"\nUpdate vessel: {idVesselToUpdate}" +
                                         $"\n\nImo number: {imoNumber}" +
                                         $"\nId owner (write \"no\" for no owners): ");
@@ -101,23 +131,39 @@ namespace VesselManagementLogic.Services
                     }
                     while (menuService.CheckIdOwner(idOwner));
 
+                    //If idOwner equals 'no' then the vessel will be updated without an owner
                     if (idOwner == "NO")
                     {
-                        itemToUpdate.OwnerId = null;
-                        itemToUpdate.ImoNumber = imoNumber;
-                        context.SaveChanges();
+                        if (imoNumber != null)
+                        {
+                            itemToUpdate.OwnerId = null;
+                            itemToUpdate.ImoNumber = imoNumber;
+                            context.SaveChanges();
 
-                        Console.WriteLine("\nVessel created with success!");
+                            Console.WriteLine("\nVessel updated with success!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nError during the update!");
+                        }
                     }
+                    //Else check for the id and than used for the update of the vessel
                     else
                     {
                         bool idOwnerToConvert = int.TryParse(idOwner, out int idOwnerParsed);
 
-                        itemToUpdate.ImoNumber = imoNumber;
-                        itemToUpdate.OwnerId = idOwnerParsed;
-                        context.SaveChanges();
+                        if (imoNumber != null && idToConvert)
+                        {
+                            itemToUpdate.ImoNumber = imoNumber;
+                            itemToUpdate.OwnerId = idOwnerParsed;
+                            context.SaveChanges();
 
-                        Console.WriteLine("\nVessel updated with success!");
+                            Console.WriteLine("\nVessel updated with success!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nError during the update!");
+                        }
                     }
                 }
                 else
@@ -131,17 +177,22 @@ namespace VesselManagementLogic.Services
             }
         }
 
+        //Method used to delete a vessel by its id
         public void Delete()
         {
-            Console.Write("Delete a vessel" +
+            PrintTable();
+            ownerService.PrintTable();
+            Console.Write("\nDelete a vessel" +
                                 "\n\nId: ");
             string idVesselToDelete = Console.ReadLine().Replace(" ", "");
             bool idToConvert = int.TryParse(idVesselToDelete, out int idParsed);
 
+            //Check to see if the id is valid
             if (idToConvert)
             {
                 var itemToDelete = context.Vessels.FirstOrDefault(vessel => vessel.Id == idParsed);
-
+                
+                //Check to see the id exist in the db
                 if (itemToDelete != null)
                 {
                     context.Remove(itemToDelete);

@@ -14,5 +14,22 @@ namespace VesselManagementData
                 @"Server = (localdb)\test; Database = VesselManagement; Trusted_Connection = True; ConnectRetryCount = 0"
                 );
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            var initialVessels = new[]
+            {
+                new Vessel {Id = 1, ImoNumber = "IMO 0000001"},
+                new Vessel {Id = 2, ImoNumber = "IMO 0000002"}
+            };
+            modelBuilder.Entity<Vessel>().HasData(initialVessels);
+
+            var initialOwners = new[]
+            {
+                new Owner {Id = 1, FirstName = "Giorgio", LastName = "Tomaino"},
+                new Owner {Id = 2, FirstName = "Tommaso", LastName = "Turigliato"}
+            };
+            modelBuilder.Entity<Owner>().HasData(initialOwners);
+        }
     }
 }
