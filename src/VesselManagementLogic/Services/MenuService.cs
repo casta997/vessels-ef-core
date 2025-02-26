@@ -93,9 +93,10 @@ namespace VesselManagementLogic.Services
         {
             Console.Clear();
 
-            vesselService.Read();
+            Console.WriteLine("Status database\n");
+            vesselService.Show();
             Console.WriteLine();
-            ownerService.Read();
+            ownerService.Show();
 
             WaitUserInput();   
         }
@@ -136,12 +137,12 @@ namespace VesselManagementLogic.Services
                         ShowDbState();
                         break;
                     case "RV":
-                        vesselService.Read();
+                        vesselService.Show();
                         WaitUserInput();
                         ShowDbState();
                         break;
                     case "RO":
-                        ownerService.Read();
+                        ownerService.Show();
                         WaitUserInput();
                         ShowDbState();
                         break;
@@ -166,6 +167,7 @@ namespace VesselManagementLogic.Services
                         ShowDbState();
                         break;
                     case "A":
+                        ownerService.AssignVessel();
                         WaitUserInput();
                         ShowDbState();
                         break;

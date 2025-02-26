@@ -11,8 +11,9 @@ namespace VesselManagementLogic.Services
 {
     public class OwnerService : IOwner
     {
-        static VesselManagemetContext context = new VesselManagemetContext();
+        static VesselManagemetContext context { get => new VesselManagemetContext(); }
         private static MenuService menuService = new MenuService();
+        private static VesselService vesselService = new VesselService();
 
         public void Create()
         {
@@ -44,7 +45,7 @@ namespace VesselManagementLogic.Services
             Console.WriteLine("\nOwner created with success!");
         }
 
-        public void Read()
+        public void Show()
         {
             Console.WriteLine("List of owners:\n");
             context.Owners.ToList().ForEach(owner => Console.WriteLine($"ID: {owner.Id}\tFIRST NAME: {owner.FirstName}\tLAST NAME: {owner.LastName}"));
@@ -52,10 +53,10 @@ namespace VesselManagementLogic.Services
 
         public void Update()
         {
-            Read();
+            Show();
             Console.Write("\nUpdate an owner" +
                                 "\n\nId: ");
-            string idOwnerToUpdate = Console.ReadLine().Trim();
+            string idOwnerToUpdate = Console.ReadLine().Replace(" ", "");
             bool idToConvert = int.TryParse(idOwnerToUpdate, out int idParsed);
 
             if (idToConvert)
@@ -68,7 +69,7 @@ namespace VesselManagementLogic.Services
                     do
                     {
                         Console.Clear();
-                        Read();
+                        Show();
                         Console.Write($"\nUpdate owner: {idOwnerToUpdate}" +
                                         "\n\nFirst name: ");
                         name = Console.ReadLine().Trim();
@@ -79,7 +80,7 @@ namespace VesselManagementLogic.Services
                     do
                     {
                         Console.Clear();
-                        Read();
+                        Show();
                         Console.Write($"\nUpdate owner: {idOwnerToUpdate}" +
                                         $"\n\nFirst name: {name}" +
                                         $"\nLast name: ");
@@ -106,9 +107,10 @@ namespace VesselManagementLogic.Services
 
         public void Delete()
         {
+            Show();
             Console.Write("Delete an owner"+
                                 "\n\nId: ");
-            string idOwnerToDelete = Console.ReadLine().Trim();
+            string idOwnerToDelete = Console.ReadLine().Replace(" ", "");
             bool idToConvert = int.TryParse(idOwnerToDelete, out int idParsed);
 
             if (idToConvert)
@@ -120,7 +122,7 @@ namespace VesselManagementLogic.Services
                     var vesselWithOwnerToDelete = context.Vessels.Where(v => v.OwnerId == idParsed).ToList();
                     vesselWithOwnerToDelete.ForEach(v => v.OwnerId = null);
 
-                    context.Owners.Remove(itemToDelete);                    
+                    context.Remove(itemToDelete);                    
                     context.SaveChanges();
 
                     Console.WriteLine("\nOwner deleted with success!");
@@ -128,6 +130,59 @@ namespace VesselManagementLogic.Services
                 else
                 {
                     Console.WriteLine("\nId not found!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nInvalid input!");
+            }
+        }
+
+        public void AssignVessel()
+        {
+            Show();
+            Console.WriteLine();
+            vesselService.Show();
+            Console.Write("\nAssign vessel\n\nId Vessel: ");
+            string idVesselToAssign = Console.ReadLine().Replace(" ", "");
+
+            bool idToConvert = int.TryParse(idVesselToAssign, out int idParsed);
+
+            if (idToConvert)
+            {
+                var itemToAssign = context.Vessels.FirstOrDefault(vessel => vessel.Id == idParsed);
+
+                if (itemToAssign != null)
+                {
+                    Console.Write("\nId Owner: ");
+                    string idOwner = Console.ReadLine().Replace(" ", "");
+
+                    bool idOwnerToConvert = int.TryParse(idOwner, out int idOwnerParsed);
+
+                    if (idOwnerToConvert)
+                    {
+                        var itemAssignedTo = context.Owners.FirstOrDefault(owner => owner.Id == idOwnerParsed);
+
+                        if (itemAssignedTo != null)
+                        {
+                            itemToAssign.OwnerId = idOwnerParsed;
+                            context.SaveChanges();
+
+                            Console.WriteLine("\nVessel assigned with success!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nItem not found!");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nInvalid input!");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\nItem not found!");
                 }
             }
             else

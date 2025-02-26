@@ -12,7 +12,7 @@ namespace VesselManagementLogic.Services
 {
     public class VesselService : IVessel
     {
-        static VesselManagemetContext context = new VesselManagemetContext();
+        static VesselManagemetContext context { get => new VesselManagemetContext(); }
         private static MenuService menuService = new MenuService();
 
         public void Create()
@@ -34,13 +34,13 @@ namespace VesselManagementLogic.Services
                 Console.Write("Create a vessel" +
                                 $"\n\nImo number: {imoNumber}" +
                                 $"\nOwner id (write \"no\" for no owners): ");
-                idOwner = Console.ReadLine().Trim().ToUpper();
+                idOwner = Console.ReadLine().Replace(" ", "").ToUpper();
             }
             while (menuService.CheckIdOwner(idOwner));
 
-            if(idOwner == "NO")
+            if (idOwner == "NO")
             {
-                Vessel newVessel = new() { ImoNumber = imoNumber};
+                Vessel newVessel = new() { ImoNumber = imoNumber };
                 context.Add(newVessel);
                 context.SaveChanges();
 
@@ -58,18 +58,18 @@ namespace VesselManagementLogic.Services
             }
         }
 
-        public void Read()
+        public void Show()
         {
             Console.WriteLine("List of vessels:\n");
             context.Vessels.ToList().ForEach(vessel => Console.WriteLine($"ID: {vessel.Id}\tIMO NUMBER: {vessel.ImoNumber}\tOWNER: {vessel.OwnerId}"));
         }
 
-        public void Update() 
+        public void Update()
         {
-            Read();
+            Show();
             Console.Write("\nUpdate a vessel" +
                                 "\n\nId: ");
-            string idVesselToUpdate = Console.ReadLine().Trim();
+            string idVesselToUpdate = Console.ReadLine().Replace(" ", "");
             bool idToConvert = int.TryParse(idVesselToUpdate, out int idParsed);
 
             if (idToConvert)
@@ -82,7 +82,7 @@ namespace VesselManagementLogic.Services
                     do
                     {
                         Console.Clear();
-                        Read();
+                        Show();
                         Console.Write($"\nUpdate vessel: {idVesselToUpdate}" +
                                     "\n\nImo number: ");
                         imoNumber = Console.ReadLine().Trim();
@@ -93,11 +93,11 @@ namespace VesselManagementLogic.Services
                     do
                     {
                         Console.Clear();
-                        Read();
+                        Show();
                         Console.Write($"\nUpdate vessel: {idVesselToUpdate}" +
                                         $"\n\nImo number: {imoNumber}" +
                                         $"\nId owner (write \"no\" for no owners): ");
-                        idOwner = Console.ReadLine().Trim().ToUpper();
+                        idOwner = Console.ReadLine().Replace(" ", "").ToUpper();
                     }
                     while (menuService.CheckIdOwner(idOwner));
 
@@ -135,7 +135,7 @@ namespace VesselManagementLogic.Services
         {
             Console.Write("Delete a vessel" +
                                 "\n\nId: ");
-            string idVesselToDelete = Console.ReadLine().Trim();
+            string idVesselToDelete = Console.ReadLine().Replace(" ", "");
             bool idToConvert = int.TryParse(idVesselToDelete, out int idParsed);
 
             if (idToConvert)
@@ -144,7 +144,7 @@ namespace VesselManagementLogic.Services
 
                 if (itemToDelete != null)
                 {
-                    context.Vessels.Remove(itemToDelete);
+                    context.Remove(itemToDelete);
                     context.SaveChanges();
 
                     Console.WriteLine("\nVessel deleted with success!");

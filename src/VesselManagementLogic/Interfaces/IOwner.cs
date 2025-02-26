@@ -9,7 +9,7 @@ namespace VesselManagementLogic.Interfaces
     public interface IOwner
     {
         public void Create();
-        public void Read();
+        public void Show();
         public void Update();
         public void Delete();
     }
