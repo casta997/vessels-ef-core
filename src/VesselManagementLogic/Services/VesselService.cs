@@ -64,10 +64,10 @@ namespace VesselManagementLogic.Services
             else
             {
                 bool idToConvert = int.TryParse(idOwner, out int idParsed);
-
+                var ownerFound = context.Owners.FirstOrDefault(owner => owner.Id == idParsed);
                 Vessel newVessel = new() { ImoNumber = imoNumber, OwnerId = idParsed };
 
-                if (imoNumber != null && idToConvert)
+                if (imoNumber != null && ownerFound != null)
                 {
                     context.Add(newVessel);
                     context.SaveChanges();
@@ -151,9 +151,10 @@ namespace VesselManagementLogic.Services
                     //Else check for the id and than used for the update of the vessel
                     else
                     {
+                        var ownerFound = context.Owners.FirstOrDefault(owner => owner.Id == idParsed);
                         bool idOwnerToConvert = int.TryParse(idOwner, out int idOwnerParsed);
 
-                        if (imoNumber != null && idToConvert)
+                        if (imoNumber != null && ownerFound != null)
                         {
                             itemToUpdate.ImoNumber = imoNumber;
                             itemToUpdate.OwnerId = idOwnerParsed;

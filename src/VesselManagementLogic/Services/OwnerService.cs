@@ -204,8 +204,9 @@ namespace VesselManagementLogic.Services
             bool idVesselToConvert = int.TryParse(idVesselToAssign, out int idVesselParsed);
             bool idOwnerToConvert = int.TryParse(idOwnerToAssign, out int idOwnerParsed);
             var itemToUpdate = context.Vessels.FirstOrDefault(vessel => vessel.Id == idVesselParsed);
+            var ownerFound = context.Owners.FirstOrDefault(owner => owner.Id == idOwnerParsed);
 
-            if (itemToUpdate != null)
+            if (itemToUpdate != null && ownerFound != null)
             {
                 itemToUpdate.OwnerId = idOwnerParsed;
                 context.SaveChanges();
