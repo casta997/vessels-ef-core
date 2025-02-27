@@ -83,8 +83,9 @@ namespace VesselManagementLogic.Services
         //Method that prints the vessel table
         public void PrintTable()
         {
+            var x = new VesselManagemetContext();
             Console.WriteLine("\nList of vessels:\n");
-            context.Vessels.ToList().ForEach(vessel => Console.WriteLine($"ID: {vessel.Id}\tIMO NUMBER: {vessel.ImoNumber}\tOWNER: {vessel.OwnerId}"));
+            x.Vessels.ToList().ForEach(vessel => Console.WriteLine($"ID: {vessel.Id}\tIMO NUMBER: {vessel.ImoNumber}\tOWNER: {vessel.OwnerId}"));
         }
 
         //Method used for updating the details of a vessel

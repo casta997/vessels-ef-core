@@ -140,7 +140,7 @@ namespace VesselManagementLogic.Services
         {
             vesselService.PrintTable();
             PrintTable();
-            Console.Write("Delete an owner"+
+            Console.Write("\nDelete an owner"+
                                 "\n\nId: ");
             string idOwnerToDelete = Console.ReadLine().Replace(" ", "");
             bool idToConvert = int.TryParse(idOwnerToDelete, out int idParsed);
@@ -194,7 +194,6 @@ namespace VesselManagementLogic.Services
             {
                 Console.Clear();
                 vesselService.PrintTable();
-                Console.WriteLine();
                 PrintTable();
                 Console.Write($"\nAssign vessel\n\nId Vessel: {idVesselToAssign}\nId Owner: ");
                 idOwnerToAssign = Console.ReadLine().Replace(" ", "");
