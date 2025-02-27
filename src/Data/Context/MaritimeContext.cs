@@ -9,5 +9,5 @@ public class MaritimeContext : DbContext
     internal DbSet<Vessel> Vessels { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
-    => options.UseSqlServer($"Server=(localdb)\\CCC;Database=test_con_William;Trusted_Connection=True");
+    => options.UseSqlServer($"Server=(localdb)\\quellochevuoi;Database=envDev;Trusted_Connection=True");
 }

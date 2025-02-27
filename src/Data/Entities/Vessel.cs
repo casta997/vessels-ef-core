@@ -6,5 +6,5 @@ public class Vessel
     public string ImoNumber { get; set; }
 
     public int? OwnerId { get; set; }
-    public Owner Owner { get; set; }
+    public Owner? Owner { get; set; }
 }
