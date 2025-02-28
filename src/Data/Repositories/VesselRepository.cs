@@ -11,9 +11,9 @@ public class VesselRepository(MaritimeContext maritimeContext) : IVesselReposito
         return maritimeContext.Vessels.ToListAsync();
     }
 
-    public Task<EntityEntry<Vessel>> AddSingleRecordAsync() {
+    public Task<EntityEntry<Vessel>> AddSingleRecordAsync(Vessel vesselToAdd) {
 
-        var vessel = maritimeContext.Vessels.AddAsync(new Vessel() { ImoNumber = "MKO590348" });
+        var vessel = maritimeContext.Vessels.AddAsync(vesselToAdd);
         var taskVessel = vessel.AsTask();
         maritimeContext.SaveChanges();
 

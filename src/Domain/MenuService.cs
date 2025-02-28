@@ -12,10 +12,10 @@ public class MenuService(IVesselService vesselService) : IMenuService
         switch (choice)
         {
             case "a":
-                await vesselService.RegisterOnlyOne(outputProvider);
+                await vesselService.RegisterOnlyOne(inputProvider, outputProvider);
                 break;
             default:
-                await vesselService.ShowAllAsync(outputProvider);
+                await vesselService.ShowAllAsync();
                 break;
         }
     }

@@ -7,5 +7,5 @@ public interface IVesselRepository
 {
     Task<List<Vessel>> GetAllAsync();
 
-    Task<EntityEntry<Vessel>> AddSingleRecordAsync();
+    Task<EntityEntry<Vessel>> AddSingleRecordAsync(Vessel vessel);
 }

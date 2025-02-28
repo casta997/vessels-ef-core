@@ -2,7 +2,7 @@
 
 public interface IVesselService
 {
-    Task ShowAllAsync(Action<string> outputProvider);
+    Task ShowAllAsync();
 
-    Task RegisterOnlyOne(Action<string> outputProvider);
+    Task RegisterOnlyOne(Func<string> inputProvider, Action<string> outputProvider);
 }
