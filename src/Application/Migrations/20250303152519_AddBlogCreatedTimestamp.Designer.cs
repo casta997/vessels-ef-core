@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Migrations
 {
     [DbContext(typeof(ManageVesselContext))]
-    [Migration("20250220152615_InitialCreateOwnerAndVessel")]
-    partial class InitialCreateOwnerAndVessel
+    [Migration("20250303152519_AddBlogCreatedTimestamp")]
+    partial class AddBlogCreatedTimestamp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,8 +35,8 @@ namespace Application.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LastName")
-                        .HasColumnType("int");
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -66,9 +66,11 @@ namespace Application.Migrations
 
             modelBuilder.Entity("Model.Vessel", b =>
                 {
-                    b.HasOne("Model.Owner", null)
+                    b.HasOne("Model.Owner", "Owner")
                         .WithMany("Vessels")
                         .HasForeignKey("OwnerId");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("Model.Owner", b =>

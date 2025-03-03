@@ -1,9 +1,29 @@
-﻿//using var db = new ManageVesselContext();
-//db.Database.MigrateAsync().Wait();
-
+﻿using Application.DBContext;
 using Application.ManageProgram;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-var manageProgram = new OperationsCentralBase();
+
+
+var builder = Host.CreateApplicationBuilder(args);
+
+var connectionString =
+    builder.Configuration.GetConnectionString("MaritimeDb")
+        ?? throw new InvalidOperationException("Connection string"
+        + "'DefaultConnection' not found.");
+
+builder.Services
+    .AddTransient<OperationsCentralBase>()
+    .AddDbContext<ManageVesselContext>(options => options.UseSqlServer(connectionString));
+
+
+
+using var host = builder.Build();
+
+
+var manageProgram = host.Services.GetService<OperationsCentralBase>();
 
 var isProgramOn = true;
 

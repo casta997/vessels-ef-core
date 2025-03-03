@@ -12,9 +12,10 @@ namespace Application.ManageProgram
     internal class OperationsCentralBase
     {
         private readonly ManageVesselContext db;
-        public OperationsCentralBase() 
+
+        public OperationsCentralBase(ManageVesselContext mngVessel ) 
         {
-            db = new ManageVesselContext();
+            db = mngVessel;
         }
 
         /**
