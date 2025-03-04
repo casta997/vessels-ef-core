@@ -2,6 +2,8 @@
 
 public interface IVesselService
 {
-    void AddVessel();
+    void Add();
     void ShowAll();
+    void ModifyValues();
+    void Remove();
 }

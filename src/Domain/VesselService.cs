@@ -13,7 +13,7 @@ public class VesselService(IVesselRepository vesselRepository) : IVesselService
         {
             Console.Clear();
             Console.WriteLine("Insert IMO Number of the vessel:");
-            string msgConsole = Console.ReadLine();
+            string msgConsole = Console.ReadLine() ?? String.Empty;
 
             if (msgConsole.Trim().Length != 0)
             {
@@ -35,122 +35,7 @@ public class VesselService(IVesselRepository vesselRepository) : IVesselService
         Console.ReadKey();
         Console.Clear();
     }
-    /*
-    private int changeValuesForVessel()
-    {
-        ShowVessels();
-        var idVessel = -1;
-        Console.WriteLine("\nInsert id of vessel to update:");
-        string inputIdVessel = Console.ReadLine();
 
-        bool success = int.TryParse(inputIdVessel, out idVessel);
-
-        if (success)
-        {
-            var vessel = _dbMaritimeContext.Vessels
-                    .Find(idVessel);
-
-            try
-            {
-                if (!vessel.Equals(null))
-                {
-                    Console.Clear();
-                    Console.WriteLine("\nInsert imo number to change:");
-                    var imoNumber = Console.ReadLine();
-                    vessel.ImoNumber = imoNumber;
-                }
-            }
-            catch (Exception)
-            {
-                idVessel = -1;
-                Console.Clear();
-                Console.WriteLine("Vessel not found!");
-                throw;
-            }
-        }
-        else
-        {
-            Console.Clear();
-            Console.WriteLine("Id has to be a number of type int!");
-        }
-
-        return idVessel;
-    }
-
-    private int checkIfVesselCanBeDeleted()
-    {
-        var idVesselFound = -1;
-        ShowVessels();
-        Console.WriteLine("\nInsert id of vessel to delete:");
-        string inputIdVessel = Console.ReadLine();
-
-        bool success = int.TryParse(inputIdVessel, out int idVessel);
-
-        if (success)
-        {
-            var vessel = _dbMaritimeContext.Vessels
-            .Find(idVessel);
-
-            try
-            {
-                if (!vessel.Equals(null))
-                {
-                    Console.WriteLine("Are you sure to delete this vessel? Y / n");
-                    var answerDeleteVessel = Console.ReadKey();
-
-                    if (answerDeleteVessel.KeyChar == 'Y')
-                    {
-                        idVesselFound = idVessel;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Vessel not found!");
-                throw;
-            }
-
-            Console.Clear();
-        }
-        else
-        {
-            Console.Clear();
-            Console.WriteLine("Id has to be a number of type int!");
-        }
-
-        return idVesselFound;
-    }
-
-    private int checkVesselById()
-    {
-        var inputIdVessel = Console.ReadLine();
-
-        if (int.TryParse(inputIdVessel, out int idVessel))
-        {
-            var vessel = _dbMaritimeContext.Vessels
-                .Find(idVessel);
-
-            if (vessel.Equals(null))
-                idVessel = -1;
-        }
-        return idVessel;
-    }
-
-    private int checkOwnerById()
-    {
-        var inputIdOwner = Console.ReadLine();
-
-        if (int.TryParse(inputIdOwner, out int idOwner))
-        {
-            var owner = _dbMaritimeContext.Owners
-                .Find(idOwner);
-
-            if (owner.Equals(null))
-                idOwner = -1;
-        }
-        return idOwner;
-    }
-    */
     public void ShowAll()
     {
         var vessels = vesselRepository.ReadVessels();
@@ -161,7 +46,7 @@ public class VesselService(IVesselRepository vesselRepository) : IVesselService
         }
     }
 
-    public void AddVessel()
+    public void Add()
     {
         var imoNumber = InsertImoNumber();
 
@@ -171,5 +56,48 @@ public class VesselService(IVesselRepository vesselRepository) : IVesselService
         };
 
         vesselRepository.CreateVessel(vessel);
+    }
+
+    public void ModifyValues()
+    {
+        ShowAll();
+        Console.WriteLine("\nInsert id of vessel to modify:");
+        string inputConsole = Console.ReadLine() ?? string.Empty; ;
+        bool idIsParsed = int.TryParse(inputConsole, out int idVessel);
+
+        if (idIsParsed && idVessel > 0)
+        {
+            if (vesselRepository.CheckIfIdExist(idVessel))
+            {
+                Console.Clear();
+                Console.WriteLine("\nInsert imo number to change:");
+                var imoNumber = Console.ReadLine() ?? string.Empty;
+
+                Console.WriteLine((vesselRepository.UpdateImoNumber(idVessel, imoNumber) > 0) ? "Vessel modified successfully." : "No changes were made to the Vessel.");
+            }
+            else
+                Console.WriteLine("Id inserted doesn't exist");
+        }
+        else
+            Console.WriteLine("Id must be a positive number");
+    }
+
+    public void Remove()
+    {
+        ShowAll();
+        Console.WriteLine("\nInsert id of vessel to delete:");
+        string inputConsole = Console.ReadLine() ?? string.Empty; ;
+        bool idIsParsed = int.TryParse(inputConsole, out int idVessel);
+
+        if (idIsParsed && idVessel > 0)
+            Console.WriteLine(
+                (vesselRepository.CheckIfIdExist(idVessel)) ?
+                    ((vesselRepository.DeleteVessel(idVessel) > 0)
+                        ? "Vessel deleted successfully." 
+                        : "No changes were made to the Vessel.")
+                    : "Id inserted doesn't exist"
+                );
+        else
+            Console.WriteLine("Id must be a positive number");
     }
 }

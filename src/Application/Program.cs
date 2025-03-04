@@ -15,16 +15,15 @@ var connectionString =
         + "'DefaultConnection' not found.");
 
 builder.Services
-    .AddTransient<VesselService>()
     .AddTransient<OperationsCentralBase>()
-    .AddData(connectionString);
-    //.AddDbContext<MaritimeContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Data")));
+    .AddData(connectionString)
+    .AddDomain();
 
 using var host = builder.Build();
 
 
 var manageProgram = host.Services.GetService<OperationsCentralBase>();
-var vesselService = host.Services.GetService<VesselService>();
+var vesselService = host.Services.GetService<IVesselService>();
 
 var isProgramOn = true;
 
@@ -52,7 +51,7 @@ A.- Assign a vessel to an owner.
     {
         case "CV":
             //stateFunction = manageProgram.AddVessel();
-            vesselService.AddVessel();
+            vesselService.Add();
             break;
         case "CO":
             //stateFunction = manageProgram.AddOwner();
@@ -66,12 +65,14 @@ A.- Assign a vessel to an owner.
             break;
         case "UV":
             //stateFunction = manageProgram.UpdateVessel();
+            vesselService.ModifyValues();
             break;
         case "UO":
             //stateFunction = manageProgram.UpdateOwner();
             break;
         case "DV":
             //stateFunction = manageProgram.DeleteVessel();
+            vesselService.Remove();
             break;
         case "DO":
             //stateFunction = manageProgram.DeleteOwner();

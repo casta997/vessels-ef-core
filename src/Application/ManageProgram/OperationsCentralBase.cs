@@ -259,25 +259,7 @@ namespace Application.ManageProgram
             return msgFoundVessels;
         }
 
-        internal string UpdateVessel()
-        {
-            var msgUpdVessel = "";
-            try
-            {
-                var idVessel = changeValuesForVessel();
-                if (idVessel != -1)
-                {
-                    _dbMaritimeContext.SaveChanges();
-                    msgUpdVessel = "Vessel updated correctly";
-                }
-                
-            }
-            catch
-            {
-                msgUpdVessel = "Update fail...";
-            }
-            return msgUpdVessel;
-        }
+        
 
         internal string DeleteVessel()
         {
