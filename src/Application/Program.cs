@@ -18,7 +18,8 @@ var connectionString =
 
 builder.Services
     .AddTransient<OperationsCentralBase>()
-    .AddDbContext<MaritimeContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Data")));
+    .AddData(connectionString);
+    //.AddDbContext<MaritimeContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Data")));
 
 using var host = builder.Build();
 
