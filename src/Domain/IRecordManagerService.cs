@@ -1,6 +1,6 @@
 ﻿namespace Domain;
 
-public interface IVesselService
+public interface IRecordManagerService
 {
     void Add();
     void ShowAll();

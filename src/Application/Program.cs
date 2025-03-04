@@ -23,7 +23,10 @@ using var host = builder.Build();
 
 
 var manageProgram = host.Services.GetService<OperationsCentralBase>();
-var vesselService = host.Services.GetService<IVesselService>();
+var vesselService = host.Services.GetService<IRecordManagerService>();
+
+//Check the correct service line 26
+//var serviceB = vesselService.First(o => o.GetType() == typeof(VesselService));
 
 var isProgramOn = true;
 
@@ -50,28 +53,24 @@ A.- Assign a vessel to an owner.
     switch (inputTypeOperation)
     {
         case "CV":
-            //stateFunction = manageProgram.AddVessel();
             vesselService.Add();
             break;
         case "CO":
             //stateFunction = manageProgram.AddOwner();
             break;
         case "RV":
-            //stateFunction = vesselService.ShowAllAsync();
             vesselService.ShowAll();
             break;
         case "RO":
             //stateFunction = manageProgram.ShowOwners();
             break;
         case "UV":
-            //stateFunction = manageProgram.UpdateVessel();
             vesselService.ModifyValues();
             break;
         case "UO":
             //stateFunction = manageProgram.UpdateOwner();
             break;
         case "DV":
-            //stateFunction = manageProgram.DeleteVessel();
             vesselService.Remove();
             break;
         case "DO":

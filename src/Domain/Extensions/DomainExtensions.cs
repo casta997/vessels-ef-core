@@ -6,7 +6,9 @@ public static class DomainExtensions
 {
     public static IServiceCollection AddDomain(this IServiceCollection services)
     {
-        services.AddTransient<IVesselService, VesselService>();
+        services
+            .AddTransient<IRecordManagerService, OwnerService>()
+            .AddTransient<IRecordManagerService, VesselService>();
         return services;
     }
 }

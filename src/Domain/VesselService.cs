@@ -3,7 +3,7 @@ using Data.Repositories;
 
 namespace Domain;
 
-public class VesselService(IVesselRepository vesselRepository) : IVesselService
+public class VesselService(IVesselRepository vesselRepository, VesselService vesselService) : IRecordManagerService
 {
     private string InsertImoNumber()
     {
