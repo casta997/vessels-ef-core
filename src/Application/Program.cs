@@ -1,5 +1,7 @@
-﻿using Application.DBContext;
+﻿
+
 using Application.ManageProgram;
+using Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,9 +18,7 @@ var connectionString =
 
 builder.Services
     .AddTransient<OperationsCentralBase>()
-    .AddDbContext<ManageVesselContext>(options => options.UseSqlServer(connectionString));
-
-
+    .AddDbContext<MaritimeContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Data")));
 
 using var host = builder.Build();
 
@@ -84,7 +84,7 @@ A.- Assign a vessel to an owner.
 
     manageProgram.BreakConcludeOperation(stateFunction);
 
-    if (inputTypeOperation == "CV" || inputTypeOperation == "CO" || inputTypeOperation == "RV" || inputTypeOperation == "RO" || inputTypeOperation == "UV" 
+    if (inputTypeOperation == "CV" || inputTypeOperation == "CO" || inputTypeOperation == "RV" || inputTypeOperation == "RO" || inputTypeOperation == "UV"
         || inputTypeOperation == "UO" || inputTypeOperation == "DV" || inputTypeOperation == "DO" || inputTypeOperation == "A")
     {
         manageProgram.ShowOwners();

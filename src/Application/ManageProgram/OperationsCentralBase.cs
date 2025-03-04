@@ -1,21 +1,14 @@
-﻿using Application.DBContext;
-using Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Data.Entities;
 
 namespace Application.ManageProgram
 {
     internal class OperationsCentralBase
     {
-        private readonly ManageVesselContext db;
+        private readonly MaritimeContext _dbMaritimeContext;
 
-        public OperationsCentralBase(ManageVesselContext mngVessel ) 
+        public OperationsCentralBase(MaritimeContext maritimeContext)
         {
-            db = mngVessel;
+            _dbMaritimeContext = maritimeContext;
         }
 
         /**
@@ -57,7 +50,7 @@ namespace Application.ManageProgram
 
         private List<Vessel> getVessels()
         {
-            var vessels = db.Vessels.ToList();
+            var vessels = _dbMaritimeContext.Vessels.ToList();
             return vessels;
         }
 
@@ -72,7 +65,7 @@ namespace Application.ManageProgram
 
             if (success) 
             {
-                var vessel = db.Vessels
+                var vessel = _dbMaritimeContext.Vessels
                         .Find(idVessel);
 
                 try
@@ -113,7 +106,7 @@ namespace Application.ManageProgram
 
             if (success)
             {
-                var vessel = db.Vessels
+                var vessel = _dbMaritimeContext.Vessels
                 .Find(idVessel);
 
                 try
@@ -152,7 +145,7 @@ namespace Application.ManageProgram
 
             if (int.TryParse(inputIdVessel, out int idVessel))
             {
-                var vessel = db.Vessels
+                var vessel = _dbMaritimeContext.Vessels
                     .Find(idVessel);
 
                 if (vessel.Equals(null))
@@ -167,7 +160,7 @@ namespace Application.ManageProgram
 
             if(int.TryParse(inputIdOwner, out int idOwner))
             {
-                var owner = db.Owners
+                var owner = _dbMaritimeContext.Owners
                     .Find(idOwner);
 
                 if (owner.Equals(null))
@@ -258,7 +251,7 @@ namespace Application.ManageProgram
 
         private List<Owner> getOwners()
         {
-            return db.Owners.ToList();
+            return _dbMaritimeContext.Owners.ToList();
         }
 
         private void changeFirstNameOwner(Owner owner)
@@ -287,7 +280,7 @@ namespace Application.ManageProgram
 
             if (success)
             {
-                var owner = db.Owners
+                var owner = _dbMaritimeContext.Owners
                 .Find(idOwner);
 
                 try
@@ -339,7 +332,7 @@ namespace Application.ManageProgram
 
             if (success)
             {
-                var owner = db.Owners
+                var owner = _dbMaritimeContext.Owners
                 .Find(idOwner);
 
                 try
@@ -386,8 +379,8 @@ namespace Application.ManageProgram
 
             try
             {
-                db.Vessels.Add(vessel);
-                db.SaveChanges();
+                _dbMaritimeContext.Vessels.Add(vessel);
+                _dbMaritimeContext.SaveChanges();
             }
             catch
             {
@@ -423,7 +416,7 @@ namespace Application.ManageProgram
                 var idVessel = changeValuesForVessel();
                 if (idVessel != -1)
                 {
-                    db.SaveChanges();
+                    _dbMaritimeContext.SaveChanges();
                     msgUpdVessel = "Vessel updated correctly";
                 }
                 
@@ -444,9 +437,9 @@ namespace Application.ManageProgram
 
                 if (idVesselToDelete != -1)
                 {
-                    var vessel = db.Vessels.Find(idVesselToDelete);
-                    db.Vessels.Remove(vessel);
-                    db.SaveChanges();
+                    var vessel = _dbMaritimeContext.Vessels.Find(idVesselToDelete);
+                    _dbMaritimeContext.Vessels.Remove(vessel);
+                    _dbMaritimeContext.SaveChanges();
                     msgDelVessel = "Vessel deleted correctly";
                 }
             }
@@ -467,8 +460,8 @@ namespace Application.ManageProgram
 
             try
             {
-                db.Owners.Add(owner);
-                db.SaveChanges();
+                _dbMaritimeContext.Owners.Add(owner);
+                _dbMaritimeContext.SaveChanges();
             }
             catch
             {
@@ -504,7 +497,7 @@ namespace Application.ManageProgram
             try
             {
                 changeValuesForOwner();
-                db.SaveChanges();
+                _dbMaritimeContext.SaveChanges();
             }
             catch
             {
@@ -522,9 +515,9 @@ namespace Application.ManageProgram
 
                 if (idOwnerToDelete != -1)
                 {
-                    var owner = db.Owners.Find(idOwnerToDelete);
-                    db.Owners.Remove(owner);
-                    db.SaveChanges();
+                    var owner = _dbMaritimeContext.Owners.Find(idOwnerToDelete);
+                    _dbMaritimeContext.Owners.Remove(owner);
+                    _dbMaritimeContext.SaveChanges();
                     msgDelOwner = "Owner deleted correctly";
                 }
             }
@@ -551,10 +544,10 @@ namespace Application.ManageProgram
                     var idOwner = checkOwnerById();
                     if (idOwner != -1)
                     {
-                        var vessel = db.Vessels.Find(idVessel);
-                        var owner = db.Owners.Find(idOwner);
+                        var vessel = _dbMaritimeContext.Vessels.Find(idVessel);
+                        var owner = _dbMaritimeContext.Owners.Find(idOwner);
                         owner.Vessels.Add(vessel);
-                        db.SaveChanges();
+                        _dbMaritimeContext.SaveChanges();
                     }
                     else
                     {
