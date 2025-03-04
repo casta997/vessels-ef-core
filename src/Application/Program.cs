@@ -1,7 +1,5 @@
-﻿
-
-using Application.ManageProgram;
-using Data.Entities;
+﻿using Application.ManageProgram;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +15,7 @@ var connectionString =
         + "'DefaultConnection' not found.");
 
 builder.Services
+    .AddTransient<VesselService>()
     .AddTransient<OperationsCentralBase>()
     .AddData(connectionString);
     //.AddDbContext<MaritimeContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Data")));
@@ -25,6 +24,7 @@ using var host = builder.Build();
 
 
 var manageProgram = host.Services.GetService<OperationsCentralBase>();
+var vesselService = host.Services.GetService<VesselService>();
 
 var isProgramOn = true;
 
@@ -51,31 +51,32 @@ A.- Assign a vessel to an owner.
     switch (inputTypeOperation)
     {
         case "CV":
-            stateFunction = manageProgram.AddVessel();
+            //stateFunction = manageProgram.AddVessel();
             break;
         case "CO":
-            stateFunction = manageProgram.AddOwner();
+            //stateFunction = manageProgram.AddOwner();
             break;
         case "RV":
-            stateFunction = manageProgram.ShowVessels();
+            //stateFunction = vesselService.ShowAllAsync();
+            vesselService.ShowAllAsync();
             break;
         case "RO":
-            stateFunction = manageProgram.ShowOwners();
+            //stateFunction = manageProgram.ShowOwners();
             break;
         case "UV":
-            stateFunction = manageProgram.UpdateVessel();
+            //stateFunction = manageProgram.UpdateVessel();
             break;
         case "UO":
-            stateFunction = manageProgram.UpdateOwner();
+            //stateFunction = manageProgram.UpdateOwner();
             break;
         case "DV":
-            stateFunction = manageProgram.DeleteVessel();
+            //stateFunction = manageProgram.DeleteVessel();
             break;
         case "DO":
-            stateFunction = manageProgram.DeleteOwner();
+            //stateFunction = manageProgram.DeleteOwner();
             break;
         case "A":
-            manageProgram.AssignVesselToOwner();
+            //manageProgram.AssignVesselToOwner();
             break;
         default:
             isProgramOn = false;
@@ -83,8 +84,9 @@ A.- Assign a vessel to an owner.
             break;
     }
 
-    manageProgram.BreakConcludeOperation(stateFunction);
+    //manageProgram.BreakConcludeOperation(stateFunction);
 
+    /*
     if (inputTypeOperation == "CV" || inputTypeOperation == "CO" || inputTypeOperation == "RV" || inputTypeOperation == "RO" || inputTypeOperation == "UV"
         || inputTypeOperation == "UO" || inputTypeOperation == "DV" || inputTypeOperation == "DO" || inputTypeOperation == "A")
     {
@@ -93,6 +95,7 @@ A.- Assign a vessel to an owner.
         manageProgram.ShowVessels();
         manageProgram.BreakConcludeOperation("");
     }
+    */
 
 }
 
