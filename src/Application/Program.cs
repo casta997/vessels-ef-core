@@ -52,13 +52,14 @@ A.- Assign a vessel to an owner.
     {
         case "CV":
             //stateFunction = manageProgram.AddVessel();
+            vesselService.AddVessel();
             break;
         case "CO":
             //stateFunction = manageProgram.AddOwner();
             break;
         case "RV":
             //stateFunction = vesselService.ShowAllAsync();
-            vesselService.ShowAllAsync();
+            vesselService.ShowAll();
             break;
         case "RO":
             //stateFunction = manageProgram.ShowOwners();

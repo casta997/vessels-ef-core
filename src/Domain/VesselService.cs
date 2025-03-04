@@ -1,21 +1,11 @@
-﻿using Data.Repositories;
+﻿using Data.Entities;
+using Data.Repositories;
 
 namespace Domain;
 
-public class VesselService(VesselRepository vessel) : IVesselService
+public class VesselService(IVesselRepository vesselRepository) : IVesselService
 {
-    /*
-    private Vessel createVessel()
-    {
-        var imoNumber = insertImoNumber();
-
-        return new Vessel()
-        {
-            ImoNumber = imoNumber
-        };
-    }
-
-    private string insertImoNumber()
+    private string InsertImoNumber()
     {
         var imoNumber = "";
         var existImoNumber = false;
@@ -39,12 +29,13 @@ public class VesselService(VesselRepository vessel) : IVesselService
         return imoNumber;
     }
 
-    private List<Vessel> getVessels()
+    internal void BreakConcludeOperation(string errorMessage)
     {
-        var vessels = _dbMaritimeContext.Vessels.ToList();
-        return vessels;
+        Console.WriteLine($"{errorMessage}\nPress any key to continue...");
+        Console.ReadKey();
+        Console.Clear();
     }
-
+    /*
     private int changeValuesForVessel()
     {
         ShowVessels();
@@ -160,13 +151,25 @@ public class VesselService(VesselRepository vessel) : IVesselService
         return idOwner;
     }
     */
-    public void ShowAllAsync()
+    public void ShowAll()
     {
-        var vessels = vessel.GetVessels();
+        var vessels = vesselRepository.ReadVessels();
 
         foreach (var ve in vessels)
         {
             Console.WriteLine(ve);
         }
+    }
+
+    public void AddVessel()
+    {
+        var imoNumber = InsertImoNumber();
+
+        var vessel = new Vessel()
+        {
+            ImoNumber = imoNumber
+        };
+
+        vesselRepository.CreateVessel(vessel);
     }
 }

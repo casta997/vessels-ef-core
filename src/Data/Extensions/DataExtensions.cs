@@ -8,7 +8,7 @@ public static class DataExtensions
 {
     public static IServiceCollection AddData(this IServiceCollection services, string connectionString)
     {
-        services.AddTransient<VesselRepository>()
+        services.AddTransient<IVesselRepository, VesselRepository>()
                 .AddDbContext<MaritimeContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Data")));
         return services;
     }

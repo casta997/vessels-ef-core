@@ -2,5 +2,6 @@
 
 public interface IVesselService
 {
-    void ShowAllAsync();
+    void AddVessel();
+    void ShowAll();
 }

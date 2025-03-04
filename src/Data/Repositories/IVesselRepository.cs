@@ -4,5 +4,6 @@ namespace Data.Repositories;
 
 public interface IVesselRepository
 {
-    List<Vessel> GetVessels();
+    List<Vessel> ReadVessels();
+    void CreateVessel(Vessel v);
 }

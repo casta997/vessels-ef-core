@@ -2,11 +2,16 @@
 
 namespace Data.Repositories;
 
-public class VesselRepository(MaritimeContext maritimeContext)//: IVesselRepository
+public class VesselRepository(MaritimeContext maritimeContext): IVesselRepository
 {
-    public List<Vessel> GetVessels()
+    public List<Vessel> ReadVessels()
     {
         return maritimeContext.Vessels.ToList();
     }
 
+    public void CreateVessel(Vessel vessel)
+    {
+        maritimeContext.Vessels.Add(vessel);
+        maritimeContext.SaveChanges();
+    }
 }
