@@ -53,7 +53,6 @@ A.- Assign a vessel to an owner.
             vesselService.Add();
             break;
         case "CO":
-            //stateFunction = manageProgram.AddOwner();
             ownerService.Add();
             break;
         case "RV":
@@ -61,13 +60,11 @@ A.- Assign a vessel to an owner.
             break;
         case "RO":
             ownerService.ShowAll();
-            //stateFunction = manageProgram.ShowOwners();
             break;
         case "UV":
             vesselService.ModifyValues();
             break;
         case "UO":
-            //stateFunction = manageProgram.UpdateOwner();
             ownerService.ModifyValues();
             break;
         case "DV":
@@ -75,10 +72,9 @@ A.- Assign a vessel to an owner.
             break;
         case "DO":
             ownerService.Remove();
-            //stateFunction = manageProgram.DeleteOwner();
             break;
         case "A":
-            //manageProgram.AssignVesselToOwner();
+            ownerService.AssociateManyToThis();
             break;
         default:
             isProgramOn = false;

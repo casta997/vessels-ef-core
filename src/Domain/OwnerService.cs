@@ -3,9 +3,10 @@ using Data.Repositories;
 
 namespace Domain;
 
-public class OwnerService(IOwnerRepository ownerRepository) : IRecordManagerService<OwnerService>
+public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository vesselRepository) : IRecordManagerService<OwnerService>
 {
     private readonly IOwnerRepository _ownerRepository = ownerRepository;
+    private readonly IVesselRepository _vesselRepository = vesselRepository;
 
     private string InsertFirstName()
     {
@@ -232,6 +233,66 @@ public class OwnerService(IOwnerRepository ownerRepository) : IRecordManagerServ
 
     public void AssociateManyToThis()
     {
+        var vessels = _vesselRepository.ReadVessels();
+        if (vessels.Count > 0)
+        {
+            Console.WriteLine("*****Vessel Information*****");
+            Console.WriteLine($"\n Id \t| ImoNumber \t| OwnerId");
+            foreach (var ve in vessels)
+            {
+                Console.WriteLine(ve);
+            }
+        }
+        else
+            Console.WriteLine("There are no Vessels!");
 
+        Console.WriteLine("Insert id of the Vessel to assign:");
+
+        string inputConsole = Console.ReadLine() ?? string.Empty; ;
+        bool idIsParsed = int.TryParse(inputConsole, out int idVessel);
+
+        if (idIsParsed && idVessel > 0)
+        {
+            Console.Clear();
+            Console.WriteLine("Are you sure to assign this vessel? Y / N");
+            var confirmationAnswerOwner = Console.ReadKey();
+
+            Console.WriteLine(
+                (confirmationAnswerOwner.KeyChar == 'Y')
+                    ?(
+                        (_vesselRepository.CheckIfIdExist(idVessel))
+                            ? AssignVesselToOwner(idVessel)
+                            : "Id inserted doesn't exist"
+                    )
+                    : "No changes were made to the Owner."
+            );
+        }
+        else
+            Console.WriteLine("Id must be a positive number");
+    }
+
+    private string AssignVesselToOwner(int idVessel)
+    {
+        Console.Clear();
+        ShowAll();
+        Console.WriteLine("\nInsert id of the owner:");
+
+        string inputConsole = Console.ReadLine() ?? string.Empty; ;
+        bool idIsParsed = int.TryParse(inputConsole, out int idOwner);
+
+        if (idIsParsed && idOwner > 0)
+        {
+            Console.Clear();
+            return (_ownerRepository.CheckIfIdExist(idOwner))
+                        ?(
+                            (_ownerRepository.AddVessel(idOwner, idVessel) > 0)
+                                ? "Vessel assigned correctly!"
+                                : "No changes were made to the Owner.\nPlease try again, or contact the Admin for assistance."
+                         )
+                        : "Id inserted doesn't exist"
+                ;
+        }
+        else
+            return "Id must be a positive number";
     }
 }

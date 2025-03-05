@@ -40,4 +40,14 @@ public class OwnerRepository(MaritimeContext maritimeContext) : IOwnerRepository
         maritimeContext.Owners.Remove(FindOwnerById(id));
         return maritimeContext.SaveChanges();
     }
+
+    public int AddVessel (int idOwner, int idVessel)
+    {
+        Owner owner = FindOwnerById(idOwner);
+        Vessel vessel = maritimeContext.Vessels.Find(idVessel);
+
+        owner.Vessels.Add(vessel);
+
+        return maritimeContext.SaveChanges();
+    }
 }

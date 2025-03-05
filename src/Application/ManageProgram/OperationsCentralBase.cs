@@ -30,44 +30,6 @@ namespace Application.ManageProgram
             return msgUpdOwner;
         }
 
-       
-
-        internal string AssignVesselToOwner()
-        {
-            var msgSuccessAssign = "Vessel assigned correctly!";
-
-            try
-            {
-                ShowVessels();
-                Console.WriteLine("Insert id of the Vessel to assign:");
-                var idVessel = checkVesselById();
-                if (idVessel != -1)
-                {
-                    ShowOwners();
-                    Console.WriteLine("Insert id of the owner:");
-                    var idOwner = checkOwnerById();
-                    if (idOwner != -1)
-                    {
-                        var vessel = _dbMaritimeContext.Vessels.Find(idVessel);
-                        var owner = _dbMaritimeContext.Owners.Find(idOwner);
-                        owner.Vessels.Add(vessel);
-                        _dbMaritimeContext.SaveChanges();
-                    }
-                    else
-                    {
-                        Console.WriteLine("Owner not found!");
-                    }
-                } else
-                {
-                    Console.WriteLine("Vessel not found!");
-                }
-            }
-            catch
-            {
-                msgSuccessAssign = "Assign fail...";
-            }
-            return msgSuccessAssign;
-        }
         */
 
         /**
