@@ -6,4 +6,5 @@ public interface IRecordManagerService<in T> where T : class
     void ShowAll();
     void ModifyValues();
     void Remove();
+    void AssociateManyToThis();
 }

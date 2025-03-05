@@ -12,6 +12,6 @@ public class Owner
 
     public override string ToString()
     {
-        return $"\n {Id} \t| - {FirstName} \t\t| - {LastName}";
+        return $"\n {Id} \t| {FirstName} \t\t| {LastName}";
     }
 }

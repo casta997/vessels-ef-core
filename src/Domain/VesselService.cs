@@ -3,13 +3,9 @@ using Data.Repositories;
 
 namespace Domain;
 
-public class VesselService : IRecordManagerService<VesselService>
+public class VesselService(IVesselRepository vesselRepository) : IRecordManagerService<VesselService>
 {
-    private readonly IVesselRepository _vesselRepository;
-    public VesselService(IVesselRepository vesselRepository)
-    {
-        _vesselRepository = vesselRepository;
-    }
+    private readonly IVesselRepository _vesselRepository = vesselRepository;
 
     private string InsertImoNumber()
     {
@@ -48,6 +44,8 @@ public class VesselService : IRecordManagerService<VesselService>
 
         if (vessels.Count > 0)
         {
+            Console.WriteLine("*****Vessel Information*****");
+            Console.WriteLine($"\n Id \t| ImoNumber \t| OwnerId");
             foreach (var ve in vessels)
             {
                 Console.WriteLine(ve);
@@ -122,5 +120,10 @@ public class VesselService : IRecordManagerService<VesselService>
         }
         else
             Console.WriteLine("Id must be a positive number");
+    }
+
+    public void AssociateManyToThis()
+    {
+        //Not implemented yet. Can be useful for future tasks
     }
 }

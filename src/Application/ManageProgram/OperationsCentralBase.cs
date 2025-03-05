@@ -10,36 +10,10 @@ namespace Application.ManageProgram
         {
             _dbMaritimeContext = maritimeContext;
         }
-
-
-        
-
-        
-
         /**
          * Owner
          */
         /*
-
-        internal string ShowOwners()
-        {
-            var msgFoundOwners = "";
-            var owners = getOwners();
-
-            if (owners.Count != 0)
-            {
-                Console.WriteLine("-Owner Information-");
-                Console.WriteLine($"\n- Id \t|- First name \t\t|- Last name");
-                owners.ForEach(ow =>
-                {
-                    Console.WriteLine(ow);
-                });
-            }
-            else
-                msgFoundOwners = "There are not Owners!";
-
-            return msgFoundOwners;
-        }
 
         internal string UpdateOwner()
         {

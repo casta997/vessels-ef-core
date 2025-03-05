@@ -11,6 +11,6 @@ public class Vessel
 
     public override string ToString()
     {
-        return $"\n- {Id} \t| - {ImoNumber} \t| - {OwnerId}";
+        return $"\n {Id} \t| {ImoNumber} \t| {OwnerId}";
     }
 }

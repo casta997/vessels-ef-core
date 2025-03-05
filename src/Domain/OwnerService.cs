@@ -3,15 +3,11 @@ using Data.Repositories;
 
 namespace Domain;
 
-public class OwnerService : IRecordManagerService<OwnerService>
+public class OwnerService(IOwnerRepository ownerRepository) : IRecordManagerService<OwnerService>
 {
-    private readonly IOwnerRepository _ownerRepository;
-    public OwnerService(IOwnerRepository ownerRepository)
-    {
-        _ownerRepository = ownerRepository;
-    }
+    private readonly IOwnerRepository _ownerRepository = ownerRepository;
 
-    private string insertFirstName()
+    private string InsertFirstName()
     {
         Console.WriteLine("Insert first name:");
         var firstName = Console.ReadLine();
@@ -19,7 +15,7 @@ public class OwnerService : IRecordManagerService<OwnerService>
         return firstName;
     }
 
-    private string insertLastName()
+    private string InsertLastName()
     {
         var lastName = "";
         var existLastName = false;
@@ -108,8 +104,8 @@ public class OwnerService : IRecordManagerService<OwnerService>
 
     public void Add()
     {
-        var firstName = insertFirstName();
-        var lastName = insertLastName();
+        var firstName = InsertFirstName();
+        var lastName = InsertLastName();
         //var vessels = insertVessels();
 
         var owner = new Owner()
@@ -223,6 +219,8 @@ public class OwnerService : IRecordManagerService<OwnerService>
 
         if (owners.Count > 0)
         {
+            Console.WriteLine("*****Owner Information*****");
+            Console.WriteLine($"\n Id \t| First name \t\t| Last name");
             foreach (var ow in owners)
             {
                 Console.WriteLine(ow);
@@ -230,5 +228,10 @@ public class OwnerService : IRecordManagerService<OwnerService>
         }
         else
             Console.WriteLine("There are no Owners!");
+    }
+
+    public void AssociateManyToThis()
+    {
+
     }
 }
