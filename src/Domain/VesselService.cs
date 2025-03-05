@@ -46,10 +46,15 @@ public class VesselService : IRecordManagerService<VesselService>
     {
         var vessels = _vesselRepository.ReadVessels();
 
-        foreach (var ve in vessels)
+        if (vessels.Count > 0)
         {
-            Console.WriteLine(ve);
+            foreach (var ve in vessels)
+            {
+                Console.WriteLine(ve);
+            }
         }
+        else
+            Console.WriteLine("There are no Vessels!");
     }
 
     public void Add()
@@ -99,7 +104,7 @@ public class VesselService : IRecordManagerService<VesselService>
             Console.WriteLine(
                 (_vesselRepository.CheckIfIdExist(idVessel)) ?
                     ((_vesselRepository.DeleteVessel(idVessel) > 0)
-                        ? "Vessel deleted successfully." 
+                        ? "Vessel deleted successfully."
                         : "No changes were made to the Vessel.")
                     : "Id inserted doesn't exist"
                 );

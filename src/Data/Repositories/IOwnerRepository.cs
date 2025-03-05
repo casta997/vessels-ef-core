@@ -5,4 +5,5 @@ namespace Data.Repositories;
 public interface IOwnerRepository
 {
     int CreateOwner(Owner owner);
+    List<Owner> ReadOwners();
 }

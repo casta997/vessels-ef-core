@@ -16,4 +16,6 @@ public class OwnerRepository(MaritimeContext maritimeContext): IOwnerRepository
             return -1;
         }
     }
+
+    public List<Owner> ReadOwners() => maritimeContext.Owners.ToList();
 }

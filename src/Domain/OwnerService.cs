@@ -114,6 +114,16 @@ public class OwnerService: IRecordManagerService<OwnerService>
 
     public void ShowAll()
     {
-        throw new NotImplementedException();
+        var owners = _ownerRepository.ReadOwners();
+
+        if (owners.Count > 0)
+        {
+            foreach (var ow in owners)
+            {
+                Console.WriteLine(ow);
+            }
+        }
+        else
+            Console.WriteLine("There are no Owners!");
     }
 }
