@@ -45,6 +45,40 @@ public class OwnerService: IRecordManagerService<OwnerService>
         return lastName;
     }
 
+    private string ChangeFirstNameOwner()
+    {
+        Console.Clear();
+        Console.WriteLine("Insert new first name:");
+        return Console.ReadLine();
+    }
+
+    private string ChangeLastNameOwner()
+    {
+        var lastName = "";
+        var existLastName = false;
+        //Try for tentatives, maybe with 'for' iteration of 5 opportunities
+        while (!existLastName)
+        {
+            Console.Clear();
+            Console.WriteLine("Insert new last name:");
+            var inputConsole = Console.ReadLine() ?? string.Empty;
+
+            if (inputConsole.Trim().Length != 0)
+            {
+                lastName = inputConsole;
+                existLastName = true;
+            }
+            else
+            {
+                Console.WriteLine("Last name is a required field!");
+                Console.Write("Press any key to continue... ");
+                Console.ReadKey();
+            }
+        }
+
+        return lastName;
+    }
+
     /*
     private List<Vessel> insertVessels()
     {
@@ -104,7 +138,53 @@ public class OwnerService: IRecordManagerService<OwnerService>
 
     public void ModifyValues()
     {
-        throw new NotImplementedException();
+        ShowAll();
+        Console.WriteLine("\nInsert id of owner to modify:");
+        string inputConsole = Console.ReadLine() ?? string.Empty; ;
+        bool idIsParsed = int.TryParse(inputConsole, out int idOwner);
+
+        if (idIsParsed && idOwner > 0)
+        {
+            if (_ownerRepository.CheckIfIdExist(idOwner))
+            {
+                string firstName = "", lastName = "";
+                bool canChangeFirstName = false, canChangeLastName = false;
+                Console.Clear();
+                Console.WriteLine("\nDo you want to modify first name? Y / N");
+
+                var answerFirstName = Console.ReadKey();
+
+                if (answerFirstName.KeyChar == 'Y')
+                {
+                    Console.Clear();
+                    firstName = ChangeFirstNameOwner();
+                    canChangeFirstName = true;
+                }
+
+                Console.WriteLine("\nDo you want to modify last name? Y / N");
+                var answerLastName = Console.ReadKey();
+
+                if (answerLastName.KeyChar == 'Y')
+                {
+                    Console.Clear();
+                    lastName = ChangeLastNameOwner();
+                    canChangeLastName = true;
+                }
+
+                // update value vessel of owner (is possible to do the following operations:
+                //  add Vessel
+                //  delete Vessel
+                // )
+
+                Console.WriteLine((_ownerRepository
+                    .UpdateAllValues(idOwner, firstName, canChangeFirstName, lastName, canChangeLastName) > 0) 
+                        ? "Owner modified successfully." : "No changes were made to the Owner.");
+            }
+            else
+                Console.WriteLine("Id inserted doesn't exist");
+        }
+        else
+            Console.WriteLine("Id must be a positive number");
     }
 
     public void Remove()
