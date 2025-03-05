@@ -3,8 +3,14 @@ using Data.Repositories;
 
 namespace Domain;
 
-public class VesselService(IVesselRepository vesselRepository, VesselService vesselService) : IRecordManagerService
+public class VesselService : IRecordManagerService<VesselService>
 {
+    private readonly IVesselRepository _vesselRepository;
+    public VesselService(IVesselRepository vesselRepository)
+    {
+        _vesselRepository = vesselRepository;
+    }
+
     private string InsertImoNumber()
     {
         var imoNumber = "";
@@ -38,7 +44,7 @@ public class VesselService(IVesselRepository vesselRepository, VesselService ves
 
     public void ShowAll()
     {
-        var vessels = vesselRepository.ReadVessels();
+        var vessels = _vesselRepository.ReadVessels();
 
         foreach (var ve in vessels)
         {
@@ -55,7 +61,7 @@ public class VesselService(IVesselRepository vesselRepository, VesselService ves
             ImoNumber = imoNumber
         };
 
-        vesselRepository.CreateVessel(vessel);
+        _vesselRepository.CreateVessel(vessel);
     }
 
     public void ModifyValues()
@@ -67,13 +73,13 @@ public class VesselService(IVesselRepository vesselRepository, VesselService ves
 
         if (idIsParsed && idVessel > 0)
         {
-            if (vesselRepository.CheckIfIdExist(idVessel))
+            if (_vesselRepository.CheckIfIdExist(idVessel))
             {
                 Console.Clear();
                 Console.WriteLine("\nInsert imo number to change:");
                 var imoNumber = Console.ReadLine() ?? string.Empty;
 
-                Console.WriteLine((vesselRepository.UpdateImoNumber(idVessel, imoNumber) > 0) ? "Vessel modified successfully." : "No changes were made to the Vessel.");
+                Console.WriteLine((_vesselRepository.UpdateImoNumber(idVessel, imoNumber) > 0) ? "Vessel modified successfully." : "No changes were made to the Vessel.");
             }
             else
                 Console.WriteLine("Id inserted doesn't exist");
@@ -91,8 +97,8 @@ public class VesselService(IVesselRepository vesselRepository, VesselService ves
 
         if (idIsParsed && idVessel > 0)
             Console.WriteLine(
-                (vesselRepository.CheckIfIdExist(idVessel)) ?
-                    ((vesselRepository.DeleteVessel(idVessel) > 0)
+                (_vesselRepository.CheckIfIdExist(idVessel)) ?
+                    ((_vesselRepository.DeleteVessel(idVessel) > 0)
                         ? "Vessel deleted successfully." 
                         : "No changes were made to the Vessel.")
                     : "Id inserted doesn't exist"

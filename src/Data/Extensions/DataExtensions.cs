@@ -8,8 +8,10 @@ public static class DataExtensions
 {
     public static IServiceCollection AddData(this IServiceCollection services, string connectionString)
     {
-        services.AddTransient<IVesselRepository, VesselRepository>()
-                .AddDbContext<MaritimeContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Data")));
+        services
+            .AddTransient<IOwnerRepository, OwnerRepository>()
+            .AddTransient<IVesselRepository, VesselRepository>()
+            .AddDbContext<MaritimeContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Data")));
         return services;
     }
 }

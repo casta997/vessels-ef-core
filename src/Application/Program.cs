@@ -11,8 +11,7 @@ var builder = Host.CreateApplicationBuilder(args);
 
 var connectionString =
     builder.Configuration.GetConnectionString("MaritimeDb")
-        ?? throw new InvalidOperationException("Connection string"
-        + "'DefaultConnection' not found.");
+        ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services
     .AddTransient<OperationsCentralBase>()
@@ -23,10 +22,8 @@ using var host = builder.Build();
 
 
 var manageProgram = host.Services.GetService<OperationsCentralBase>();
-var vesselService = host.Services.GetService<IRecordManagerService>();
-
-//Check the correct service line 26
-//var serviceB = vesselService.First(o => o.GetType() == typeof(VesselService));
+var vesselService = host.Services.GetService<IRecordManagerService<VesselService>>();
+var ownerService = host.Services.GetService<IRecordManagerService<OwnerService>>();
 
 var isProgramOn = true;
 
@@ -57,6 +54,7 @@ A.- Assign a vessel to an owner.
             break;
         case "CO":
             //stateFunction = manageProgram.AddOwner();
+            ownerService.Add();
             break;
         case "RV":
             vesselService.ShowAll();

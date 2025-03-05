@@ -1,6 +1,6 @@
 ﻿namespace Domain;
 
-public interface IRecordManagerService
+public interface IRecordManagerService<in T> where T : class
 {
     void Add();
     void ShowAll();

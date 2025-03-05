@@ -11,9 +11,6 @@ namespace Application.ManageProgram
             _dbMaritimeContext = maritimeContext;
         }
 
-        /**
-         * private methods for vessel
-         */
 
         
 
@@ -21,82 +18,6 @@ namespace Application.ManageProgram
          * private methods for owner
          */
         /*
-        private Owner createOwner()
-        {
-            var firstName = insertFirstName();
-            var lastName = insertLastName();
-            var vessels = insertVessels();
-
-            var owner = new Owner()
-            {
-                FirstName = firstName,
-                LastName = lastName
-            };
-
-            foreach (var item in vessels)
-            {
-                owner.Vessels.Add(item);
-            }
-            return owner;
-        }
-
-        private string insertFirstName()
-        {
-            Console.WriteLine("Insert first name:");
-            var firstName = Console.ReadLine();
-
-            return firstName;
-        }
-
-        private string insertLastName()
-        {
-            var lastName = "";
-            var existLastName = false;
-            while (!existLastName)
-            {
-                Console.Clear();
-                Console.WriteLine("Insert last name of the owner:");
-                var msgConsole = Console.ReadLine();
-
-                if (msgConsole.Trim().Length != 0)
-                {
-                    lastName = msgConsole;
-                    existLastName = true;
-                }
-                else
-                {
-                    Console.WriteLine("Last name is a required field!");
-                    Console.Write("Press any key to continue... ");
-                    Console.ReadKey();
-                }
-            }
-
-            return lastName;
-        }
-
-        private List<Vessel> insertVessels() 
-        {
-            var newInsert = true;
-            var list = new List<Vessel>();
-
-            while (newInsert) 
-            {
-                Console.Clear();
-                Console.WriteLine("Do you want insert a vessel? Y / n");
-                var inputInsertVessel = Console.ReadKey();
-
-                if (inputInsertVessel.KeyChar == 'Y')
-                {
-                    var vessel = createVessel();
-                    list.Add(vessel);
-                } else 
-                {
-                    newInsert = false;
-                }
-            }
-            
-            return list;
-        }
 
         private List<Owner> getOwners()
         {
@@ -219,92 +140,12 @@ namespace Application.ManageProgram
          * Functions of the program 
          */
 
-        /*
-         * Vessel
-         */
-        /*
-        internal string AddVessel()
-        {
-            var msgAddVessel = "\nVessel added correctly!";
-            var vessel = createVessel();
-
-            try
-            {
-                _dbMaritimeContext.Vessels.Add(vessel);
-                _dbMaritimeContext.SaveChanges();
-            }
-            catch
-            {
-                msgAddVessel = "\nError with adding of the vessel";
-            }
-            return msgAddVessel;
-        }
-
-        internal string ShowVessels()
-        {
-            var msgFoundVessels = "";
-            var vessels = getVessels();
-
-            if (vessels.Count != 0)
-            {
-                Console.WriteLine("-Vessel Information-");
-                Console.WriteLine($"\n- Id \t|- IMO Number \t|- Owner id");
-                vessels.ForEach(ve => {
-                    Console.WriteLine(ve);
-                });
-            }
-            else
-                msgFoundVessels = "There are not Vessels!";
-            
-            return msgFoundVessels;
-        }
-
         
-
-        internal string DeleteVessel()
-        {
-            var msgDelVessel = "";
-            try
-            {
-                var idVesselToDelete = checkIfVesselCanBeDeleted();
-
-                if (idVesselToDelete != -1)
-                {
-                    var vessel = _dbMaritimeContext.Vessels.Find(idVesselToDelete);
-                    _dbMaritimeContext.Vessels.Remove(vessel);
-                    _dbMaritimeContext.SaveChanges();
-                    msgDelVessel = "Vessel deleted correctly";
-                }
-            }
-            catch
-            {
-                msgDelVessel = "Delete fail...";
-            }
-            return msgDelVessel;
-        }
-        */
 
         /**
          * Owner
          */
         /*
-        internal string AddOwner()
-        {
-            var msgAddOwner = "\nOwner added correctly!";
-            var owner = createOwner();
-
-            try
-            {
-                _dbMaritimeContext.Owners.Add(owner);
-                _dbMaritimeContext.SaveChanges();
-            }
-            catch
-            {
-                msgAddOwner = "\nError with adding of the owner";
-            }
-
-            return msgAddOwner;
-        }
 
         internal string ShowOwners()
         {
