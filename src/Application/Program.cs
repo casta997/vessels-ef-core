@@ -74,6 +74,7 @@ A.- Assign a vessel to an owner.
             vesselService.Remove();
             break;
         case "DO":
+            ownerService.Remove();
             //stateFunction = manageProgram.DeleteOwner();
             break;
         case "A":

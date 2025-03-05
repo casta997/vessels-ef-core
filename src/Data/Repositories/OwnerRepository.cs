@@ -2,16 +2,16 @@
 
 namespace Data.Repositories;
 
-public class OwnerRepository(MaritimeContext maritimeContext): IOwnerRepository
+public class OwnerRepository(MaritimeContext maritimeContext) : IOwnerRepository
 {
     public int CreateOwner(Owner owner)
     {
-        try 
+        try
         {
             maritimeContext.Owners.Add(owner);
             return maritimeContext.SaveChanges();
         }
-        catch 
+        catch
         {
             return -1;
         }
@@ -34,4 +34,10 @@ public class OwnerRepository(MaritimeContext maritimeContext): IOwnerRepository
     }
 
     public Owner FindOwnerById(int id) => maritimeContext.Owners.Find(id);
+
+    public int DeleteOwner(int id)
+    {
+        maritimeContext.Owners.Remove(FindOwnerById(id));
+        return maritimeContext.SaveChanges();
+    }
 }

@@ -14,68 +14,6 @@ namespace Application.ManageProgram
 
         
 
-        /**
-         * private methods for owner
-         */
-        /*
-
-        private List<Owner> getOwners()
-        {
-            return _dbMaritimeContext.Owners.ToList();
-        }
-
-        
-
-
-        private int checkIfOwnerCanBeDeleted()
-        {
-            var idOwnerFound = -1;
-            ShowOwners();
-            Console.WriteLine("\nInsert id of owner to delete:");
-            string inputIdOwner = Console.ReadLine();
-
-            bool success = int.TryParse(inputIdOwner, out int idOwner);
-
-            if (success)
-            {
-                var owner = _dbMaritimeContext.Owners
-                .Find(idOwner);
-
-                try
-                {
-                    if (!owner.Equals(null))
-                    {
-                        Console.WriteLine("Are you sure to delete this owner? Y / n");
-                        var answerDeleteOwner = Console.ReadKey();
-
-                        if (answerDeleteOwner.KeyChar == 'Y')
-                        {
-                            idOwnerFound = idOwner;
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Owner not found!");
-                    throw;
-                }
-
-                Console.Clear();
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("Id has to be a number of type int!");
-            }
-
-            return idOwnerFound;
-        }
-        */
-
-        /*
-         * Functions of the program 
-         */
-
         
 
         /**
@@ -118,27 +56,7 @@ namespace Application.ManageProgram
             return msgUpdOwner;
         }
 
-        internal string DeleteOwner()
-        {
-            var msgDelOwner = "";
-            try
-            {
-                var idOwnerToDelete = checkIfOwnerCanBeDeleted();
-
-                if (idOwnerToDelete != -1)
-                {
-                    var owner = _dbMaritimeContext.Owners.Find(idOwnerToDelete);
-                    _dbMaritimeContext.Owners.Remove(owner);
-                    _dbMaritimeContext.SaveChanges();
-                    msgDelOwner = "Owner deleted correctly";
-                }
-            }
-            catch
-            {
-                msgDelOwner = "Delete fail...";
-            }
-            return msgDelOwner;
-        }
+       
 
         internal string AssignVesselToOwner()
         {

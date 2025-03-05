@@ -3,7 +3,7 @@ using Data.Repositories;
 
 namespace Domain;
 
-public class OwnerService: IRecordManagerService<OwnerService>
+public class OwnerService : IRecordManagerService<OwnerService>
 {
     private readonly IOwnerRepository _ownerRepository;
     public OwnerService(IOwnerRepository ownerRepository)
@@ -126,9 +126,9 @@ public class OwnerService: IRecordManagerService<OwnerService>
         */
 
         var numberEntitiesSaved = _ownerRepository.CreateOwner(owner);
-        
+
         Console.WriteLine(
-            (numberEntitiesSaved > -1) 
+            (numberEntitiesSaved > -1)
                 ? (numberEntitiesSaved > 0)
                     ? "\nOwner added correctly!"
                     : "\nNo Owner was saved. Save action issue"
@@ -177,7 +177,7 @@ public class OwnerService: IRecordManagerService<OwnerService>
                 // )
 
                 Console.WriteLine((_ownerRepository
-                    .UpdateAllValues(idOwner, firstName, canChangeFirstName, lastName, canChangeLastName) > 0) 
+                    .UpdateAllValues(idOwner, firstName, canChangeFirstName, lastName, canChangeLastName) > 0)
                         ? "Owner modified successfully." : "No changes were made to the Owner.");
             }
             else
@@ -189,7 +189,32 @@ public class OwnerService: IRecordManagerService<OwnerService>
 
     public void Remove()
     {
-        throw new NotImplementedException();
+        ShowAll();
+        Console.WriteLine("\nInsert id of owner to delete:");
+        string inputConsole = Console.ReadLine() ?? string.Empty; ;
+        bool idIsParsed = int.TryParse(inputConsole, out int idOwner);
+
+        if (idIsParsed && idOwner > 0)
+        {
+            Console.WriteLine("Are you sure to delete this owner? Y / N");
+            var answerDeleteOwner = Console.ReadKey();
+
+            Console.WriteLine(
+                (answerDeleteOwner.KeyChar == 'Y')
+                    ? (
+                        (_ownerRepository.CheckIfIdExist(idOwner)) 
+                            ? (
+                                (_ownerRepository.DeleteOwner(idOwner) > 0)
+                                    ? "Owner deleted successfully."
+                                    : "No changes were made to the Owner.\nPlease try again, or contact the Admin for assistance."
+                                )
+                            : "Id inserted doesn't exist"
+                        )
+                    : "No changes were made to the Owner."
+            );
+        }
+        else
+            Console.WriteLine("Id must be a positive number");
     }
 
     public void ShowAll()

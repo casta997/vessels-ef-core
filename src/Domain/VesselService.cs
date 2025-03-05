@@ -101,13 +101,25 @@ public class VesselService : IRecordManagerService<VesselService>
         bool idIsParsed = int.TryParse(inputConsole, out int idVessel);
 
         if (idIsParsed && idVessel > 0)
+        {
+            Console.WriteLine("Are you sure to delete this vessel? Y / N");
+            var answerDeleteVessel = Console.ReadKey();
+
             Console.WriteLine(
-                (_vesselRepository.CheckIfIdExist(idVessel)) ?
-                    ((_vesselRepository.DeleteVessel(idVessel) > 0)
-                        ? "Vessel deleted successfully."
-                        : "No changes were made to the Vessel.")
-                    : "Id inserted doesn't exist"
-                );
+                (answerDeleteVessel.KeyChar == 'Y')
+                        ? (
+                            (_vesselRepository.CheckIfIdExist(idVessel)) 
+                                ? (
+                                    (_vesselRepository.DeleteVessel(idVessel) > 0)
+                                        ? "Vessel deleted successfully."
+                                        : "No changes were made to the Vessel.\nPlease try again, or contact the Admin for assistance."
+                                    )
+                                : "Id inserted doesn't exist"
+                            )
+                        : "No changes were made to the Vessel."
+            );
+
+        }
         else
             Console.WriteLine("Id must be a positive number");
     }
