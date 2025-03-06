@@ -10,27 +10,6 @@ namespace Application.ManageProgram
         {
             _dbMaritimeContext = maritimeContext;
         }
-        /**
-         * Owner
-         */
-        /*
-
-        internal string UpdateOwner()
-        {
-            var msgUpdOwner = "Owner updated correctly!";
-            try
-            {
-                changeValuesForOwner();
-                _dbMaritimeContext.SaveChanges();
-            }
-            catch
-            {
-                msgUpdOwner = "Update fail...";
-            }
-            return msgUpdOwner;
-        }
-
-        */
 
         /**
          * Common functions globally

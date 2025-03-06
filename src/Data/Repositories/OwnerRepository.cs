@@ -16,7 +16,7 @@ public class OwnerRepository(MaritimeContext maritimeContext) : IOwnerRepository
 
     public List<Owner> ReadOwners() => maritimeContext.Owners.ToList();
 
-    public bool CheckIfIdExist(int id) => maritimeContext.Owners.ToList().Exists(x => x.Id == id);
+    public bool CheckIfIdExist(int id) => maritimeContext.Owners.Any(x => x.Id == id);
 
     public int UpdateAllValues(int idOwner, string firstName, bool canChangeFirstName, string lastName, bool canChangeLastName, List<int> idVesselsVerified)
     {

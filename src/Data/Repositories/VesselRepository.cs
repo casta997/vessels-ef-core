@@ -17,7 +17,7 @@ public class VesselRepository(MaritimeContext maritimeContext) : IVesselReposito
 
     }
 
-    public bool CheckIfIdExist(int id) => maritimeContext.Vessels.ToList().Exists(x => x.Id == id);
+    public bool CheckIfIdExist(int id) => maritimeContext.Vessels.Any(x => x.Id == id);
 
     public int UpdateImoNumber(int id, string imoNumber)
     {

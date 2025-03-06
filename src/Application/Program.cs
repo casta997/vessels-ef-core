@@ -22,6 +22,12 @@ builder.Services
 using var host = builder.Build();
 
 /*
+using (MaritimeContext vmc = host.Services.GetService<>())
+{
+    vmc.Database.EnsureCreated();
+}
+*/
+/*
 var dbContext = host.Services.GetService<MaritimeContext>();
 
 
