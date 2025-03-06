@@ -12,6 +12,8 @@ public static class DataExtensions
             .AddTransient<IOwnerRepository, OwnerRepository>()
             .AddTransient<IVesselRepository, VesselRepository>()
             .AddDbContext<MaritimeContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Data")));
+        //EnableSensitiveDataLogging - Search about this function
+        //.AddDbContext<MaritimeContext>(options => options.EnableSensitiveDataLogging().UseSqlServer(connectionString, b => b.MigrationsAssembly("Data")));
         return services;
     }
 }

@@ -64,7 +64,12 @@ public class VesselService(IVesselRepository vesselRepository) : IRecordManagerS
             ImoNumber = imoNumber
         };
 
-        _vesselRepository.CreateVessel(vessel);
+        Console.WriteLine(
+            (_vesselRepository.CreateVessel(vessel) > 0)
+            ? "Vessel modified successfully."
+            : "ok"
+            
+        );
     }
 
     public void ModifyValues()

@@ -168,13 +168,15 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
                     canChangeLastName = true;
                 }
 
+                var listIdVesselToAddToOwner = QuestionVesselToModify();
+
                 // update value vessel of owner (is possible to do the following operations:
-                //  add Vessel
-                //  delete Vessel
+                //  assign Vessel
+                //  unassign Vessel
                 // )
 
                 Console.WriteLine((_ownerRepository
-                    .UpdateAllValues(idOwner, firstName, canChangeFirstName, lastName, canChangeLastName) > 0)
+                    .UpdateAllValues(idOwner, firstName, canChangeFirstName, lastName, canChangeLastName, listIdVesselToAddToOwner) > 0)
                         ? "Owner modified successfully." : "No changes were made to the Owner.");
             }
             else
@@ -182,6 +184,56 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
         }
         else
             Console.WriteLine("Id must be a positive number");
+    }
+
+    public List<int> QuestionVesselToModify()
+    {
+        List<int> listIdVesselVerifiedToAssign = [];
+        bool continueToModify = true;
+        do
+        {
+            Console.WriteLine("\nDo you want to modify the vessel list? Y / N");
+            var answerModifyVesselList = Console.ReadKey();
+
+            if (answerModifyVesselList.KeyChar == 'Y')
+            {
+                Console.Clear();
+                Console.WriteLine("\nDo you want to assign a vessel or revoke? A / R");
+                var answerAssignOrRevoke = Console.ReadKey();
+
+                if (answerAssignOrRevoke.KeyChar == 'A')
+                {
+                    Console.Clear();
+                    Console.Write("\nEnter vessel id: ");
+                    string? idVesselToAssign = Console.ReadLine();
+                    bool idVesselIsConverted = int.TryParse(idVesselToAssign, out int idVesselParsed);
+                    if (idVesselIsConverted && idVesselParsed > 0)
+                    {
+                        if (_vesselRepository.CheckIfIdExist(idVesselParsed))
+                        {
+                            listIdVesselVerifiedToAssign.Add(idVesselParsed);
+                        }
+                        else
+                            Console.WriteLine("Id inserted doesn't exist");
+                    }
+                    else
+                        Console.WriteLine("Id must be a positive number");
+                }
+
+                if (answerAssignOrRevoke.KeyChar == 'R')
+                {
+
+                }
+            }
+
+            if(answerModifyVesselList.KeyChar == 'N')
+            {
+                continueToModify = false;
+            }
+        }
+        while (continueToModify);
+
+        return listIdVesselVerifiedToAssign;
     }
 
     public void Remove()

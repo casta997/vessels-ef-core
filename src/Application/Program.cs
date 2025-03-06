@@ -1,4 +1,5 @@
 ﻿using Application.ManageProgram;
+using Data.Entities;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,17 @@ builder.Services
 
 using var host = builder.Build();
 
+/*
+var dbContext = host.Services.GetService<MaritimeContext>();
+
+
+var list = dbContext.Vessels
+    .Where(x => x.Id == 1)
+    .Where(x => x.Id == 1)
+    .Select(x => x.Id)
+    .Where(x => x % 2 == 0)
+    .ToList();
+*/
 
 var manageProgram = host.Services.GetService<OperationsCentralBase>();
 var vesselService = host.Services.GetService<IRecordManagerService<VesselService>>();
