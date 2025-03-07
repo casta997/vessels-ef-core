@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 
 
@@ -17,6 +18,8 @@ var connectionString =
 builder.Services
     .AddTransient<OperationsCentralBase>()
     .AddData(connectionString)
+    .AddLogging(builder => builder.AddConsole())
+    .AddCommon()
     .AddDomain();
 
 using var host = builder.Build();

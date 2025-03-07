@@ -1,4 +1,6 @@
-﻿namespace Domain;
+﻿using Microsoft.Extensions.Logging;
+
+namespace Domain;
 
 public interface IRecordManagerService<in T> where T : class
 {

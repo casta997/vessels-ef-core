@@ -1,11 +1,28 @@
 ﻿using Data.Entities;
 using Data.Repositories;
+using Microsoft.Extensions.Logging;
+using System.Text;
 
 namespace Domain;
 
-public class VesselService(IVesselRepository vesselRepository) : IRecordManagerService<VesselService>
+public class VesselService(IVesselRepository vesselRepository, ILogger<VesselService> loggerService) : IRecordManagerService<VesselService>
 {
     private readonly IVesselRepository _vesselRepository = vesselRepository;
+
+    private readonly ILogger<VesselService> _loggerService = loggerService;
+
+
+    private bool ClearConsoleProgramm()
+    {
+        Console.Clear();
+        return true;
+    }
+
+    private string ClearConsoleAndShowMessagge(string msg)
+    {
+        Console.Clear();
+        return msg;
+    }
 
     private string InsertImoNumber()
     {
@@ -44,15 +61,17 @@ public class VesselService(IVesselRepository vesselRepository) : IRecordManagerS
 
         if (vessels.Count > 0)
         {
-            Console.WriteLine("*****Vessel Information*****");
-            Console.WriteLine($"\n Id \t| ImoNumber \t| OwnerId");
+            var msgVesselInformation = new StringBuilder();
+            msgVesselInformation.AppendLine("*****Vessel Information*****");
+            msgVesselInformation.AppendLine($"\n Id \t| ImoNumber \t| OwnerId");
             foreach (var ve in vessels)
             {
-                Console.WriteLine(ve);
+                msgVesselInformation.AppendLine(ve.ToString());
             }
+            _loggerService.LogInformation(msgVesselInformation.ToString());
         }
         else
-            Console.WriteLine("There are no Vessels!");
+            _loggerService.LogInformation("There are no Vessels!");
     }
 
     public void Add()
@@ -68,63 +87,69 @@ public class VesselService(IVesselRepository vesselRepository) : IRecordManagerS
             (_vesselRepository.CreateVessel(vessel) > 0)
             ? "Vessel modified successfully."
             : "ok"
-            
+
         );
     }
 
     public void ModifyValues()
     {
         ShowAll();
-        Console.WriteLine("\nInsert id of vessel to modify:");
-        string inputConsole = Console.ReadLine() ?? string.Empty; ;
-        bool idIsParsed = int.TryParse(inputConsole, out int idVessel);
-
-        if (idIsParsed && idVessel > 0)
+        if (_vesselRepository.ReadVessels().Count > 0)
         {
-            if (_vesselRepository.CheckIfIdExist(idVessel))
-            {
-                Console.Clear();
-                Console.WriteLine("\nInsert imo number to change:");
-                var imoNumber = Console.ReadLine() ?? string.Empty;
+            Console.WriteLine("\nInsert id of vessel to modify:");
+            string inputConsole = Console.ReadLine() ?? string.Empty; ;
+            bool idIsParsed = int.TryParse(inputConsole, out int idVessel);
 
-                Console.WriteLine((_vesselRepository.UpdateImoNumber(idVessel, imoNumber) > 0) ? "Vessel modified successfully." : "No changes were made to the Vessel.");
+            if (idIsParsed && idVessel > 0)
+            {
+                if (_vesselRepository.CheckIfIdExist(idVessel))
+                {
+                    Console.Clear();
+                    Console.WriteLine("\nInsert imo number to change:");
+                    var imoNumber = Console.ReadLine() ?? string.Empty;
+
+                    Console.WriteLine((_vesselRepository.UpdateImoNumber(idVessel, imoNumber) > 0) ? "Vessel modified successfully." : "No changes were made to the Vessel.");
+                }
+                else
+                    Console.WriteLine("Id inserted doesn't exist");
             }
             else
-                Console.WriteLine("Id inserted doesn't exist");
+                Console.WriteLine("Id must be a positive number");
         }
-        else
-            Console.WriteLine("Id must be a positive number");
     }
 
     public void Remove()
     {
         ShowAll();
-        Console.WriteLine("\nInsert id of vessel to delete:");
-        string inputConsole = Console.ReadLine() ?? string.Empty; ;
-        bool idIsParsed = int.TryParse(inputConsole, out int idVessel);
-
-        if (idIsParsed && idVessel > 0)
+        if (_vesselRepository.ReadVessels().Count > 0)
         {
-            Console.WriteLine("Are you sure to delete this vessel? Y / N");
-            var answerDeleteVessel = Console.ReadKey();
+            Console.WriteLine("\nInsert id of vessel to delete:");
+            string inputConsole = Console.ReadLine() ?? string.Empty; ;
+            bool idIsParsed = int.TryParse(inputConsole, out int idVessel);
 
-            Console.WriteLine(
-                (answerDeleteVessel.KeyChar == 'Y')
-                        ? (
-                            (_vesselRepository.CheckIfIdExist(idVessel)) 
-                                ? (
-                                    (_vesselRepository.DeleteVessel(idVessel) > 0)
-                                        ? "Vessel deleted successfully."
-                                        : "No changes were made to the Vessel.\nPlease try again, or contact the Admin for assistance."
-                                    )
-                                : "Id inserted doesn't exist"
-                            )
-                        : "No changes were made to the Vessel."
-            );
+            if (idIsParsed && idVessel > 0)
+            {
+                Console.WriteLine("Are you sure to delete this vessel? Y / N");
+                var answerDeleteVessel = Console.ReadKey();
 
+                Console.WriteLine(
+                    (answerDeleteVessel.KeyChar == 'Y')
+                            ? (
+                                (ClearConsoleProgramm() && _vesselRepository.CheckIfIdExist(idVessel))
+                                    ? (
+                                        (_vesselRepository.DeleteVessel(idVessel) > 0)
+                                            ? "Vessel deleted successfully."
+                                            : "No changes were made to the Vessel.\nPlease try again, or contact the Admin for assistance."
+                                        )
+                                    : "Id inserted doesn't exist"
+                                )
+                            : ClearConsoleAndShowMessagge("No changes were made to the Vessel.")
+                );
+
+            }
+            else
+                Console.WriteLine("Id must be a positive number");
         }
-        else
-            Console.WriteLine("Id must be a positive number");
     }
 
     public void AssociateManyToThis()

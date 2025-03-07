@@ -1,16 +1,19 @@
 ﻿using Data.Entities;
 using Data.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace Domain;
 
-public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository vesselRepository) : IRecordManagerService<OwnerService>
+public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository vesselRepository, ILogger<OwnerService> loggerOwner) : IRecordManagerService<OwnerService>
 {
     private readonly IOwnerRepository _ownerRepository = ownerRepository;
     private readonly IVesselRepository _vesselRepository = vesselRepository;
+    private readonly ILogger<OwnerService> _loggerOwner = loggerOwner;
 
     private string InsertFirstName()
     {
-        Console.WriteLine("Insert first name:");
+        Console.Clear();
+        _loggerOwner.LogInformation("Insert first name:");
         var firstName = Console.ReadLine();
 
         return firstName;
@@ -22,8 +25,7 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
         var existLastName = false;
         while (!existLastName)
         {
-            Console.Clear();
-            Console.WriteLine("Insert last name of the owner:");
+            StopAndClearAndPrintMessageDynamic(1, "Insert last name of the owner:", 2);
             var msgConsole = Console.ReadLine();
 
             if (msgConsole.Trim().Length != 0)
@@ -33,13 +35,62 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
             }
             else
             {
-                Console.WriteLine("Last name is a required field!");
-                Console.Write("Press any key to continue... ");
-                Console.ReadKey();
+                StopAndClearAndPrintMessageDynamic(3, "Last name is a required field!\nPress any key to continue... ", 2);
             }
         }
 
         return lastName;
+    }
+
+    private void StopAndClearAndPrintMessageDynamic(int levelClear, string msg, int logLevel)
+    {
+        if (levelClear == 0)
+        {
+            PrintLog(msg, logLevel);
+        }
+        if (levelClear == 1)
+        {
+            Console.Clear();
+            PrintLog(msg, logLevel);
+        }
+
+        if (levelClear == 3)
+        {
+            PrintLog(msg, logLevel);
+            Console.ReadKey();
+            Console.Clear();
+        }
+    }
+
+    private void PrintLog(string msg, int logLevel)
+    {
+        switch (logLevel)
+        {
+            case 0:
+                _loggerOwner.LogTrace(msg);
+                break;
+            case 1:
+                _loggerOwner.LogDebug(msg);
+                break;
+            case 2:
+                _loggerOwner.LogInformation(msg);
+                break;
+            case 3:
+                _loggerOwner.LogWarning(msg);
+                break;
+            case 4:
+                _loggerOwner.LogError(msg);
+                break;
+            case 5:
+                _loggerOwner.LogCritical(msg);
+                break;
+            case 6:
+                _loggerOwner.Log(LogLevel.None, msg);
+                break;
+            default:
+                _loggerOwner.LogError("Value log level not recognized.");
+                break;
+        }
     }
 
     private string ChangeFirstNameOwner()
@@ -75,33 +126,6 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
 
         return lastName;
     }
-
-    /*
-    private List<Vessel> insertVessels()
-    {
-        var newInsert = true;
-        var list = new List<Vessel>();
-
-        while (newInsert)
-        {
-            Console.Clear();
-            Console.WriteLine("Do you want insert a vessel? Y / n");
-            var inputInsertVessel = Console.ReadKey();
-
-            if (inputInsertVessel.KeyChar == 'Y')
-            {
-                var vessel = createVessel();
-                list.Add(vessel);
-            }
-            else
-            {
-                newInsert = false;
-            }
-        }
-
-        return list;
-    }
-    */
 
     public void Add()
     {
@@ -226,7 +250,7 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
                 }
             }
 
-            if(answerModifyVesselList.KeyChar == 'N')
+            if (answerModifyVesselList.KeyChar == 'N')
             {
                 continueToModify = false;
             }
@@ -251,7 +275,7 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
             Console.WriteLine(
                 (answerDeleteOwner.KeyChar == 'Y')
                     ? (
-                        (_ownerRepository.CheckIfIdExist(idOwner)) 
+                        (_ownerRepository.CheckIfIdExist(idOwner))
                             ? (
                                 (_ownerRepository.DeleteOwner(idOwner) > 0)
                                     ? "Owner deleted successfully."
@@ -311,7 +335,7 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
 
             Console.WriteLine(
                 (confirmationAnswerOwner.KeyChar == 'Y')
-                    ?(
+                    ? (
                         (_vesselRepository.CheckIfIdExist(idVessel))
                             ? AssignVesselToOwner(idVessel)
                             : "Id inserted doesn't exist"
@@ -336,7 +360,7 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
         {
             Console.Clear();
             return (_ownerRepository.CheckIfIdExist(idOwner))
-                        ?(
+                        ? (
                             (_ownerRepository.AddVessel(idOwner, idVessel) > 0)
                                 ? "Vessel assigned correctly!"
                                 : "No changes were made to the Owner.\nPlease try again, or contact the Admin for assistance."
