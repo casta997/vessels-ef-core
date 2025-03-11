@@ -3,37 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{89B5DB47-C214-4A8D-B6F5-33AA9BC4666B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "001_aTestDI", "001_aTestDI\001_aTestDI.csproj", "{A2865E6C-4C59-43C7-98BD-0B352DFED490}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "001_TestDI", "..\..\001_TestDI\001_TestDI\001_TestDI.csproj", "{0ED7CD92-057B-4140-93EE-A725A05E05F2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "002_TestDI", "..\..\002_TestDI\002_TestDI\002_TestDI.csproj", "{CAD6858C-E3D0-4C1F-B04A-EAB30D454DBF}"
-EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{89B5DB47-C214-4A8D-B6F5-33AA9BC4666B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89B5DB47-C214-4A8D-B6F5-33AA9BC4666B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89B5DB47-C214-4A8D-B6F5-33AA9BC4666B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89B5DB47-C214-4A8D-B6F5-33AA9BC4666B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2865E6C-4C59-43C7-98BD-0B352DFED490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2865E6C-4C59-43C7-98BD-0B352DFED490}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2865E6C-4C59-43C7-98BD-0B352DFED490}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2865E6C-4C59-43C7-98BD-0B352DFED490}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0ED7CD92-057B-4140-93EE-A725A05E05F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0ED7CD92-057B-4140-93EE-A725A05E05F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0ED7CD92-057B-4140-93EE-A725A05E05F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0ED7CD92-057B-4140-93EE-A725A05E05F2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CAD6858C-E3D0-4C1F-B04A-EAB30D454DBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CAD6858C-E3D0-4C1F-B04A-EAB30D454DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CAD6858C-E3D0-4C1F-B04A-EAB30D454DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CAD6858C-E3D0-4C1F-B04A-EAB30D454DBF}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
