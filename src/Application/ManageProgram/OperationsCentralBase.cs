@@ -10,17 +10,5 @@ namespace Application.ManageProgram
         {
             _dbMaritimeContext = maritimeContext;
         }
-
-        /**
-         * Common functions globally
-         */
-        /*
-        internal void BreakConcludeOperation(string errorMessage)
-        {
-            Console.WriteLine($"{errorMessage}\nPress any key to continue...");
-            Console.ReadKey();
-            Console.Clear();
-        }
-        */
     }
 }

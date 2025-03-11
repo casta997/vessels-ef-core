@@ -11,27 +11,14 @@ public class VesselService(IVesselRepository vesselRepository, ILogger<VesselSer
 
     private readonly ILogger<VesselService> _loggerService = loggerService;
 
-
-    private bool ClearConsoleProgramm()
-    {
-        Console.Clear();
-        return true;
-    }
-
-    private string ClearConsoleAndShowMessagge(string msg)
-    {
-        Console.Clear();
-        return msg;
-    }
-
     private string InsertImoNumber()
     {
         var imoNumber = "";
         var existImoNumber = false;
         while (!existImoNumber)
         {
-            Console.Clear();
-            Console.WriteLine("Insert IMO Number of the vessel:");
+            //Console.Clear();
+            _loggerService.LogInformation("Insert IMO Number of the vessel:");
             string msgConsole = Console.ReadLine() ?? String.Empty;
 
             if (msgConsole.Trim().Length != 0)
@@ -50,9 +37,9 @@ public class VesselService(IVesselRepository vesselRepository, ILogger<VesselSer
 
     internal void BreakConcludeOperation(string errorMessage)
     {
-        Console.WriteLine($"{errorMessage}\nPress any key to continue...");
+        _loggerService.LogInformation($"{errorMessage}\nPress any key to continue...");
         Console.ReadKey();
-        Console.Clear();
+        //Console.Clear();
     }
 
     public void ShowAll()
@@ -83,12 +70,11 @@ public class VesselService(IVesselRepository vesselRepository, ILogger<VesselSer
             ImoNumber = imoNumber
         };
 
-        Console.WriteLine(
-            (_vesselRepository.CreateVessel(vessel) > 0)
-            ? "Vessel modified successfully."
-            : "ok"
+        if (_vesselRepository.CreateVessel(vessel) > 0)
+            _loggerService.LogInformation("Vessel modified successfully.");
 
-        );
+        if (_vesselRepository.CreateVessel(vessel) <= 0)
+            _loggerService.LogError("No changes were made to the Vessel.\nPlease try again, or contact the Admin for assistance.");
     }
 
     public void ModifyValues()
@@ -96,25 +82,27 @@ public class VesselService(IVesselRepository vesselRepository, ILogger<VesselSer
         ShowAll();
         if (_vesselRepository.ReadVessels().Count > 0)
         {
-            Console.WriteLine("\nInsert id of vessel to modify:");
+            _loggerService.LogInformation("\nInsert id of vessel to modify:");
             string inputConsole = Console.ReadLine() ?? string.Empty; ;
             bool idIsParsed = int.TryParse(inputConsole, out int idVessel);
 
-            if (idIsParsed && idVessel > 0)
-            {
-                if (_vesselRepository.CheckIfIdExist(idVessel))
-                {
-                    Console.Clear();
-                    Console.WriteLine("\nInsert imo number to change:");
-                    var imoNumber = Console.ReadLine() ?? string.Empty;
+            if (!idIsParsed || idVessel <= 0)
+                _loggerService.LogWarning("Id must be a positive number");
+            else if (!_vesselRepository.CheckIfIdExist(idVessel))
+                _loggerService.LogWarning("Id inserted doesn't exist");
 
-                    Console.WriteLine((_vesselRepository.UpdateImoNumber(idVessel, imoNumber) > 0) ? "Vessel modified successfully." : "No changes were made to the Vessel.");
-                }
-                else
-                    Console.WriteLine("Id inserted doesn't exist");
+            if (idIsParsed && idVessel > 0 && _vesselRepository.CheckIfIdExist(idVessel))
+            {
+                _loggerService.LogInformation("\nInsert imo number to change:");
+                var imoNumber = Console.ReadLine() ?? string.Empty;
+
+                if (_vesselRepository.UpdateImoNumber(idVessel, imoNumber) > 0)
+                    _loggerService.LogInformation("Vessel modified successfully.");
+
+                if (_vesselRepository.UpdateImoNumber(idVessel, imoNumber) <= 0)
+                    _loggerService.LogError("No changes were made to the Vessel.\nPlease try again, or contact the Admin for assistance.");
             }
-            else
-                Console.WriteLine("Id must be a positive number");
+
         }
     }
 
@@ -123,32 +111,31 @@ public class VesselService(IVesselRepository vesselRepository, ILogger<VesselSer
         ShowAll();
         if (_vesselRepository.ReadVessels().Count > 0)
         {
-            Console.WriteLine("\nInsert id of vessel to delete:");
+            _loggerService.LogInformation("\nInsert id of vessel to delete:");
             string inputConsole = Console.ReadLine() ?? string.Empty; ;
             bool idIsParsed = int.TryParse(inputConsole, out int idVessel);
 
             if (idIsParsed && idVessel > 0)
             {
-                Console.WriteLine("Are you sure to delete this vessel? Y / N");
+                _loggerService.LogInformation("Are you sure to delete this vessel? Y / N");
                 var answerDeleteVessel = Console.ReadKey();
 
-                Console.WriteLine(
-                    (answerDeleteVessel.KeyChar == 'Y')
-                            ? (
-                                (ClearConsoleProgramm() && _vesselRepository.CheckIfIdExist(idVessel))
-                                    ? (
-                                        (_vesselRepository.DeleteVessel(idVessel) > 0)
-                                            ? "Vessel deleted successfully."
-                                            : "No changes were made to the Vessel.\nPlease try again, or contact the Admin for assistance."
-                                        )
-                                    : "Id inserted doesn't exist"
-                                )
-                            : ClearConsoleAndShowMessagge("No changes were made to the Vessel.")
-                );
+                if ((Char.ToUpper(answerDeleteVessel.KeyChar) != 'Y'))
+                    _loggerService.LogInformation("\"No changes were made to the Vessel.");
+                else if (!_vesselRepository.CheckIfIdExist(idVessel))
+                    _loggerService.LogWarning("Id inserted doesn't exist");
+                else if (_vesselRepository.DeleteVessel(idVessel) <= 0)
+                    _loggerService.LogError("No changes were made to the Vessel.\nPlease try again, or contact the Admin for assistance.");
 
+                if (
+                        (Char.ToUpper(answerDeleteVessel.KeyChar) == 'Y') &&
+                        (_vesselRepository.CheckIfIdExist(idVessel)) &&
+                        (_vesselRepository.DeleteVessel(idVessel) > 0)
+                    )
+                    _loggerService.LogInformation("Vessel deleted successfully.");
             }
             else
-                Console.WriteLine("Id must be a positive number");
+                _loggerService.LogWarning("Id must be a positive number");
         }
     }
 
@@ -157,3 +144,4 @@ public class VesselService(IVesselRepository vesselRepository, ILogger<VesselSer
         //Not implemented yet. Can be useful for future tasks
     }
 }
+

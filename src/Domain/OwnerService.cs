@@ -12,7 +12,7 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
 
     private string InsertFirstName()
     {
-        Console.Clear();
+        //Console.Clear();
         _loggerOwner.LogInformation("Insert first name:");
         var firstName = Console.ReadLine();
 
@@ -25,8 +25,8 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
         var existLastName = false;
         while (!existLastName)
         {
-            StopAndClearAndPrintMessageDynamic(1, "Insert last name of the owner:", 2);
-            var msgConsole = Console.ReadLine();
+            _loggerOwner.LogInformation("Insert last name of the owner:");
+            var msgConsole = Console.ReadLine() ?? String.Empty;
 
             if (msgConsole.Trim().Length != 0)
             {
@@ -35,13 +35,15 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
             }
             else
             {
-                StopAndClearAndPrintMessageDynamic(3, "Last name is a required field!\nPress any key to continue... ", 2);
+                _loggerOwner.LogInformation("Last name is a required field!\nPress any key to continue... \n");
+                Console.ReadKey();
             }
         }
 
         return lastName;
     }
 
+    /*
     private void StopAndClearAndPrintMessageDynamic(int levelClear, string msg, int logLevel)
     {
         if (levelClear == 0)
@@ -61,7 +63,9 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
             Console.Clear();
         }
     }
+    */
 
+    /*
     private void PrintLog(string msg, int logLevel)
     {
         switch (logLevel)
@@ -92,12 +96,13 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
                 break;
         }
     }
+    */
 
     private string ChangeFirstNameOwner()
     {
-        Console.Clear();
-        Console.WriteLine("Insert new first name:");
-        return Console.ReadLine();
+        //Console.Clear();
+        _loggerOwner.LogInformation("Insert new first name:");
+        return Console.ReadLine()?? String.Empty;
     }
 
     private string ChangeLastNameOwner()
@@ -107,8 +112,8 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
         //Try for tentatives, maybe with 'for' iteration of 5 opportunities
         while (!existLastName)
         {
-            Console.Clear();
-            Console.WriteLine("Insert new last name:");
+            //Console.Clear();
+            _loggerOwner.LogInformation("Insert new last name:");
             var inputConsole = Console.ReadLine() ?? string.Empty;
 
             if (inputConsole.Trim().Length != 0)
@@ -118,8 +123,7 @@ public class OwnerService(IOwnerRepository ownerRepository, IVesselRepository ve
             }
             else
             {
-                Console.WriteLine("Last name is a required field!");
-                Console.Write("Press any key to continue... ");
+                _loggerOwner.LogInformation("Last name is a required field!\nPress any key to continue... \n");
                 Console.ReadKey();
             }
         }

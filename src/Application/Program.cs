@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Text;
 
 
 
@@ -45,24 +46,25 @@ var list = dbContext.Vessels
 var manageProgram = host.Services.GetService<OperationsCentralBase>();
 var vesselService = host.Services.GetService<IRecordManagerService<VesselService>>();
 var ownerService = host.Services.GetService<IRecordManagerService<OwnerService>>();
+var loggerService = host.Services.GetService<ILogger<Program>>();
 
 var isProgramOn = true;
+var menu = new StringBuilder();
+menu.AppendLine("---------------------Managing Vessels---------------------");
+menu.AppendLine("Select 1 operation:");
+menu.AppendLine("CV.- Create a new vessel.");
+menu.AppendLine("CO.- Create a new owner.");
+menu.AppendLine("RV.- Display the list of vessels.");
+menu.AppendLine("RO.- Display the list of owners.");
+menu.AppendLine("UV.- Update the details of an existing vessel.");
+menu.AppendLine("UO.- Update the details of an existing owner.");
+menu.AppendLine("DV.- Delete a vessel.");
+menu.AppendLine("DO.- Delete an owner.");
+menu.AppendLine("A.- Assign a vessel to an owner.");
 
 while (isProgramOn)
 {
-    Console.WriteLine(@"
----------------------Managing Vessels---------------------
-Select 1 operation:
-CV.- Create a new vessel.
-CO.- Create a new owner.
-RV.- Display the list of vessels.
-RO.- Display the list of owners.
-UV.- Update the details of an existing vessel.
-UO.- Update the details of an existing owner.
-DV.- Delete a vessel.
-DO.- Delete an owner.
-A.- Assign a vessel to an owner.
-");
+    loggerService.LogInformation(menu.ToString());
 
     string inputTypeOperation = Console.ReadLine();
     Console.Clear();
@@ -99,7 +101,7 @@ A.- Assign a vessel to an owner.
             break;
         default:
             isProgramOn = false;
-            Console.WriteLine("Option not available!!\ntry again...");
+            loggerService.LogInformation("Option not available!!\ntry again...");
             break;
     }
 
