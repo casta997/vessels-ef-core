@@ -27,5 +27,12 @@ namespace CarRentalApplication.Controllers
             customerService.CreateObj(name);
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteObj(long id)
+        {
+            customerService.DeleteObj(id);
+            return Ok();
+        }
     }
 }

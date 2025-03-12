@@ -24,5 +24,16 @@ namespace CarRentalApplication.Services
             carContext.Customers.Add(newCustomer);
             carContext.SaveChanges();
         }
+
+        public void DeleteObj(long id)
+        {
+            var findCustomer = carContext.Customers.FirstOrDefault(c => c.Id == id);
+
+            if (findCustomer != null)
+            {
+                carContext.Customers.Remove(findCustomer);
+                carContext.SaveChanges();
+            }
+        }
     }
 }

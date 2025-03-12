@@ -8,5 +8,6 @@ namespace CarRentalApplication.Interfaces
         Rental GetById(long id);
         void RentCar(Car car, Customer customer);
         void ReturnCar(Car car);
+        void DeleteObj(long id);
     }
 }

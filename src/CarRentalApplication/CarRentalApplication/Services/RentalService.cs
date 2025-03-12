@@ -50,5 +50,23 @@ namespace CarRentalApplication.Services
                 }
             }
         }
+
+        public void DeleteObj(long id)
+        {
+            var findRent = carContext.Rentals.FirstOrDefault(r => r.Id == id);
+
+            if(findRent != null)
+            {
+                var findCar = carContext.Cars.FirstOrDefault(c => c.Id == findRent.CarId);
+
+                if(findRent.ReturnDate == null)
+                {
+                    findCar.IsRented = false;
+                }
+
+                carContext.Rentals.Remove(findRent);
+                carContext.SaveChanges();
+            }
+        }
     }
 }

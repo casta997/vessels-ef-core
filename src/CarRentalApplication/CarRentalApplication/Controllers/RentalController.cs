@@ -21,5 +21,12 @@ namespace CarRentalApplication.Controllers
             var rental = rentalService.GetById(rentalId);
             return Ok(rental);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteObj(long id)
+        {
+            rentalService.DeleteObj(id);
+            return Ok();
+        }
     }
 }

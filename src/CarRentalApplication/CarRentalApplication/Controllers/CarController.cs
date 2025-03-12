@@ -28,5 +28,12 @@ namespace CarRentalApplication.Controllers
             carService.CreateObj(plateNumber);
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteObj(int id)
+        {
+            carService.DeleteObj(id);
+            return Ok();
+        }
     }
 }

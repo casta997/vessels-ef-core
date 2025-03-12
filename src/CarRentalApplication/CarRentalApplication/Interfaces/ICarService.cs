@@ -7,5 +7,6 @@ namespace CarRentalApplication.Interfaces
         IEnumerable<Car> GetAll();
         Car GetById(long id);
         void CreateObj(string plateNumber);
+        void DeleteObj(long id);
     }
 }
