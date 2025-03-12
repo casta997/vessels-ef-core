@@ -1,21 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CarRentalApplication.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalApplication.Controllers
 {
     [ApiController]
     [Route("rentals")]
-    public class RentalController : Controller
+    public class RentalController(RentalService rentalService) : Controller
     {
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok();
+            var rentals = rentalService.GetAll();
+            return Ok(rentals);
         }
 
         [HttpGet("{rentalId:long}")]
         public IActionResult GetById(long rentalId)
         {
-            return Ok();
+            var rental = rentalService.GetById(rentalId);
+            return Ok(rental);
         }
     }
 }

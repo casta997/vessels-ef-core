@@ -1,4 +1,5 @@
 using CarRentalApplication.Context;
+using CarRentalApplication.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,9 @@ var connectionString = builder.Configuration.GetConnectionString("ConnectionDb")
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<RentalService>();
+builder.Services.AddTransient<CarService>();
+builder.Services.AddTransient<CustomerService>();
 builder.Services.AddDbContext<CarRentalContext>(options => options.UseSqlServer(connectionString, d => d.MigrationsAssembly("CarRentalApplication")));
 
 var app = builder.Build();

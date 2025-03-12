@@ -1,21 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CarRentalApplication.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalApplication.Controllers
 {
     [ApiController]
     [Route("customers")]
-    public class CustomerController : Controller
+    public class CustomerController(CustomerService customerService) : Controller
     {
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok();
+            var customers = customerService.GetAll();
+            return Ok(customers);
         }
 
         [HttpGet("{customerId:long}")]
         public IActionResult GetById(long customerId)
         {
-            return Ok();
+            var customer = customerService.GetById(customerId);
+            return Ok(customer);
         }
     }
 }

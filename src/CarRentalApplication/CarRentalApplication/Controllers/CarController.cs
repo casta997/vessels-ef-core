@@ -1,21 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CarRentalApplication.Interfaces;
+using CarRentalApplication.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalApplication.Controllers
 {
     [ApiController]
     [Route("cars")]
-    public class CarController : Controller
+    public class CarController(CarService carService) : Controller
     {
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok();
+            var cars = carService.GetAll();
+            return Ok(cars);
         }
 
         [HttpGet("{carId:long}")]
         public IActionResult GetById(long carId)
         {
-            return Ok();
+            var car = carService.GetById(carId);
+            return Ok(car);
         }
     }
 }
