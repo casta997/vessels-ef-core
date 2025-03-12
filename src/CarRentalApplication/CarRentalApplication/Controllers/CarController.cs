@@ -21,5 +21,12 @@ namespace CarRentalApplication.Controllers
             var car = carService.GetById(carId);
             return Ok(car);
         }
+
+        [HttpPost("{plateNumber}")]
+        public IActionResult CreateObj(string plateNumber)
+        {
+            carService.CreateObj(plateNumber);
+            return Ok();
+        }
     }
 }

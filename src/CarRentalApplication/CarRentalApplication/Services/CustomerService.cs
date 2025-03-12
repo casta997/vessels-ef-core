@@ -17,5 +17,12 @@ namespace CarRentalApplication.Services
             var customerWithId = carContext.Customers.FirstOrDefault(x => x.Id == id);
             return customerWithId;
         }
+
+        public void CreateObj(string name)
+        {
+            Customer newCustomer = new() { Name = name };
+            carContext.Customers.Add(newCustomer);
+            carContext.SaveChanges();
+        }
     }
 }

@@ -27,6 +27,7 @@ namespace CarRentalApplication.Services
             if(findCar != null && findCustomer != null) 
             {
                 Rental newRental = new() { CustomerId = customer.Id, CarId = car.Id, RentalDate = DateTime.Now };
+                findCar.IsRented = true;
                 carContext.Rentals.Add(newRental);
                 carContext.SaveChanges();
             }
@@ -44,6 +45,7 @@ namespace CarRentalApplication.Services
                 if (findRental != null)
                 {
                     findRental.ReturnDate = DateTime.Now;
+                    findCar.IsRented = false;
                     carContext.SaveChanges();
                 }
             }

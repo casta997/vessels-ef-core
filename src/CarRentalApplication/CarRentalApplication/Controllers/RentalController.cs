@@ -1,4 +1,5 @@
-﻿using CarRentalApplication.Services;
+﻿using CarRentalApplication.Entities;
+using CarRentalApplication.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalApplication.Controllers

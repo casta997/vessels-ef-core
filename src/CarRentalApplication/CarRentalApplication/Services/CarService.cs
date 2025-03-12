@@ -17,5 +17,12 @@ namespace CarRentalApplication.Services
             var carWithId = carContext.Cars.FirstOrDefault(c => c.Id == id);
             return carWithId;
         }
+
+        public void CreateObj(string plateNumber)
+        {
+            Car newCar = new() { IsRented = false, LicensePlate = plateNumber};
+            carContext.Cars.Add(newCar);
+            carContext.SaveChanges();
+        }
     }
 }

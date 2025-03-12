@@ -20,5 +20,12 @@ namespace CarRentalApplication.Controllers
             var customer = customerService.GetById(customerId);
             return Ok(customer);
         }
+
+        [HttpPost("{name}")]
+        public IActionResult CreateObj(string name)
+        {
+            customerService.CreateObj(name);
+            return Ok();
+        }
     }
 }

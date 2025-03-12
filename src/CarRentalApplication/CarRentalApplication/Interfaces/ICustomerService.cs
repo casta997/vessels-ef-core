@@ -6,5 +6,6 @@ namespace CarRentalApplication.Interfaces
     {
         IEnumerable<Customer> GetAll();
         Customer GetById(long id);
+        void CreateObj(string name);
     }
 }
