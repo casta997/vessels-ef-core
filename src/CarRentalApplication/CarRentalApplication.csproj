@@ -13,8 +13,7 @@
 
 	<ItemGroup>
 		<Folder Include="Context\" />
-		<Folder Include="Controllers"/>
-		<Folder Include="Entities\" />
+		<Folder Include="Controllers" />
 		<Folder Include="Interfaces\" />
 		<Folder Include="Services\" />
 	</ItemGroup>
