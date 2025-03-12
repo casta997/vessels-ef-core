@@ -28,6 +28,13 @@ namespace CarRentalApplication.Controllers
             return Ok();
         }
 
+        [HttpPut("{id}/{name}")]
+        public IActionResult UpdateObj(long id, string name)
+        {
+            customerService.UpdateObj(id, name);
+            return Ok();
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteObj(long id)
         {

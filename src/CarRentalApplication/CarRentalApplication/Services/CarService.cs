@@ -25,6 +25,17 @@ namespace CarRentalApplication.Services
             carContext.SaveChanges();
         }
 
+        public void UpdateObj(long id, string plateNumber)
+        {
+            var findCar = carContext.Cars.FirstOrDefault(c => c.Id == id);
+
+            if (findCar != null)
+            {
+                findCar.LicensePlate = plateNumber;
+                carContext.SaveChanges();
+            }
+        }
+
         public void DeleteObj(long id)
         {
             var findCar = carContext.Cars.FirstOrDefault(c => c.Id == id);

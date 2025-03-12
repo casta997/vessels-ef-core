@@ -22,6 +22,13 @@ namespace CarRentalApplication.Controllers
             return Ok(rental);
         }
 
+        [HttpPut("{id}/{rentalDate}/{customerId}/{carId}")]
+        public IActionResult UpdateObj(long id, long carId, long customerId, DateTime rentalDate, DateTime? returnDate)
+        {
+            rentalService.UpdateObj(id, carId, customerId, rentalDate, returnDate);
+            return Ok();
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteObj(long id)
         {
