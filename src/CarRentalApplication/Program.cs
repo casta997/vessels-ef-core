@@ -1,9 +1,16 @@
 using CarRentalApplication.Context;
+using CarRentalApplication.IServices;
+using CarRentalApplication.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<CarRentalContext>();
+builder.Services
+    .AddDbContext<CarRentalContext>()
+    .AddTransient<ICarService<CarService>, CarService>()
+    .AddTransient<ICustomerService, CustomerService>()
+    .AddTransient<IRentalService, RentalService>()
+    .AddTransient<IFactoryService, FactoryService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
