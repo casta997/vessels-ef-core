@@ -1,4 +1,5 @@
 ﻿using Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories;
 
@@ -6,12 +7,18 @@ public class OwnerRepository(MaritimeContext maritimeContext) : IOwnerRepository
 {
     public int CreateOwner(Owner owner)
     {
+        var resultOperation = -1;
         try
         {
+            using var transaction = maritimeContext.Database.BeginTransaction();
+            maritimeContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [envDev].[dbo].[Owners] On");
             maritimeContext.Owners.Add(owner);
-            return maritimeContext.SaveChanges();
+            resultOperation = maritimeContext.SaveChanges();
+            maritimeContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [envDev].[dbo].[Owners] Off");
+            transaction.Commit();
+            return resultOperation;
         }
-        catch { return -1; }
+        catch { return resultOperation; }
     }
 
     public List<Owner> ReadOwners() => maritimeContext.Owners.ToList();

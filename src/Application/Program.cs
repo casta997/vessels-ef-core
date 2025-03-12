@@ -25,24 +25,6 @@ builder.Services
 
 using var host = builder.Build();
 
-/*
-using (MaritimeContext vmc = host.Services.GetService<>())
-{
-    vmc.Database.EnsureCreated();
-}
-*/
-/*
-var dbContext = host.Services.GetService<MaritimeContext>();
-
-
-var list = dbContext.Vessels
-    .Where(x => x.Id == 1)
-    .Where(x => x.Id == 1)
-    .Select(x => x.Id)
-    .Where(x => x % 2 == 0)
-    .ToList();
-*/
-
 var manageProgram = host.Services.GetService<OperationsCentralBase>();
 var vesselService = host.Services.GetService<IRecordManagerService<VesselService>>();
 var ownerService = host.Services.GetService<IRecordManagerService<OwnerService>>();
@@ -66,11 +48,11 @@ while (isProgramOn)
 {
     loggerService.LogInformation(menu.ToString());
 
-    string inputTypeOperation = Console.ReadLine();
+    string inputTypeOperation = Console.ReadLine() ?? String.Empty;
     Console.Clear();
     string stateFunction = "";
 
-    switch (inputTypeOperation)
+    switch (inputTypeOperation.ToUpper())
     {
         case "CV":
             vesselService.Add();
