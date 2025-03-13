@@ -1,4 +1,5 @@
 ﻿using CarRentalApplication.Interfaces;
+using CarRentalApplication.Request;
 using CarRentalApplication.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,10 +23,10 @@ namespace CarRentalApplication.Controllers
             return Ok(car);
         }
 
-        [HttpPost("{plateNumber}")]
-        public IActionResult CreateObj(string plateNumber)
+        [HttpPost("create car")]
+        public IActionResult CreateObj([FromBody] CarRequest request)
         {
-            carService.CreateObj(plateNumber);
+            carService.CreateObj(request.LicensePlate);
             return Ok();
         }
 

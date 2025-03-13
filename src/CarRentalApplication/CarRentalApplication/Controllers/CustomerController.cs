@@ -1,4 +1,6 @@
-﻿using CarRentalApplication.Services;
+﻿using CarRentalApplication.Entities;
+using CarRentalApplication.Request;
+using CarRentalApplication.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalApplication.Controllers
@@ -21,10 +23,10 @@ namespace CarRentalApplication.Controllers
             return Ok(customer);
         }
 
-        [HttpPost("{name}")]
-        public IActionResult CreateObj(string name)
+        [HttpPost("create customer")]
+        public IActionResult CreateObj([FromBody] CustomerRequest request)
         {
-            customerService.CreateObj(name);
+            customerService.CreateObj(request.Name);
             return Ok();
         }
 

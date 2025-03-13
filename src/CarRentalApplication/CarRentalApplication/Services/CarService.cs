@@ -1,6 +1,7 @@
 ﻿using CarRentalApplication.Context;
 using CarRentalApplication.Entities;
 using CarRentalApplication.Interfaces;
+using System.Linq;
 
 namespace CarRentalApplication.Services
 {
@@ -20,9 +21,13 @@ namespace CarRentalApplication.Services
 
         public void CreateObj(string plateNumber)
         {
-            Car newCar = new() { IsRented = false, LicensePlate = plateNumber};
-            carContext.Cars.Add(newCar);
-            carContext.SaveChanges();
+            var findPlateNumber = carContext.Cars.FirstOrDefault(c => c.LicensePlate == plateNumber);
+            if(findPlateNumber == null)
+            {
+                Car newCar = new() { IsRented = false, LicensePlate = plateNumber };
+                carContext.Cars.Add(newCar);
+                carContext.SaveChanges();
+            }
         }
 
         public void UpdateObj(long id, string plateNumber)
