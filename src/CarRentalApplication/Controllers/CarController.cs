@@ -8,7 +8,7 @@ namespace CarRentalApplication.Controllers
     [Route("cars")]
     public class CarController(IFactoryService factoryService) : Controller
     {
-        private readonly ICarService<CarService> _carService = factoryService.GetService<ICarService<CarService>>();
+        private readonly ICarService _carService = factoryService.GetService<ICarService>();
 
         [HttpGet]
         public IActionResult GetAll()

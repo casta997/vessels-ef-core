@@ -1,5 +1,10 @@
-﻿namespace CarRentalApplication.IServices;
+﻿using CarRentalApplication.Entities;
 
-public interface ICarService<T> : ICommonService<T>
+namespace CarRentalApplication.IServices;
+
+public interface ICarService
 {
+    IEnumerable<Car> GetAll();
+
+    Car GetById(long id);
 }

@@ -1,16 +1,17 @@
 ﻿using CarRentalApplication.Context;
+using CarRentalApplication.Entities;
 using CarRentalApplication.IServices;
 
 namespace CarRentalApplication.Services;
 
-public class CarService(CarRentalContext carRentalContext) : ICarService<CarService>
+public class CarService(CarRentalContext carRentalContext) : ICarService
 {
-    public IEnumerable<CarService> GetAll()
+    public IEnumerable<Car> GetAll()
     {
-        return (IEnumerable<CarService>)carRentalContext.Cars.ToList();
+        return carRentalContext.Cars.ToList();
     }
 
-    public CarService GetById(long id)
+    public Car GetById(long id)
     {
         throw new NotImplementedException();
     }

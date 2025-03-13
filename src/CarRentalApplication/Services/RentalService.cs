@@ -1,15 +1,16 @@
-﻿using CarRentalApplication.IServices;
+﻿using CarRentalApplication.Entities;
+using CarRentalApplication.IServices;
 
 namespace CarRentalApplication.Services;
 
 public class RentalService : IRentalService
 {
-    public IEnumerable<T> GetAll<T>()
+    public IEnumerable<Rental> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public T GetById<T>(long id)
+    public Rental GetById(long id)
     {
         throw new NotImplementedException();
     }

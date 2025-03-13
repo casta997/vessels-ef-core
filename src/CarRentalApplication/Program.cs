@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services
     .AddDbContext<CarRentalContext>()
-    .AddTransient<ICarService<CarService>, CarService>()
+    .AddTransient<ICarService, CarService>()
     .AddTransient<ICustomerService, CustomerService>()
     .AddTransient<IRentalService, RentalService>()
     .AddTransient<IFactoryService, FactoryService>();
