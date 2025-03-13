@@ -21,17 +21,20 @@ namespace CarRentalApplication.Services
 
         public void RentCar(long customerId, string licensePlate, DateTime rentalDate)
         {
-            var findCar = carContext.Cars.FirstOrDefault(c => c.LicensePlate == licensePlate);
+            var findCar = carContext.Cars.FirstOrDefault(c=>c.LicensePlate == licensePlate);
             var findCustomer = carContext.Customers.Find(customerId);
 
             if (findCustomer != null)
             {
-                if (findCar.IsRented == false)//we can rent only cars that aren't already rented by someone else
+                if (findCar != null)
                 {
-                    Rental newRental = new() { CustomerId = customerId, CarId = findCar.Id, RentalDate = rentalDate };
-                    findCar.IsRented = true;
-                    carContext.Rentals.Add(newRental);
-                    carContext.SaveChanges();
+                    if (findCar.IsRented != true)//we can rent only cars that aren't already rented by someone else
+                    {
+                        Rental newRental = new() { CustomerId = customerId, CarId = findCar.Id, RentalDate = rentalDate };
+                        findCar.IsRented = true;
+                        carContext.Rentals.Add(newRental);
+                        carContext.SaveChanges();
+                    }
                 }
             }
         }
@@ -60,28 +63,36 @@ namespace CarRentalApplication.Services
         public void UpdateObj(long id, long carId, long customerId, DateTime rentalDate, DateTime? returnDate)
         {
             var findRental = carContext.Rentals.FirstOrDefault(r => r.Id == id);
-
             if (findRental != null)
             {
-                if(returnDate > rentalDate)
+                var findCar = carContext.Cars.Where(c => c.Id == carId && (c.IsRented == false || c.Id == findRental.CarId)).FirstOrDefault(c => c.Id == carId);
+                if (findCar != null)
                 {
-                    findRental.RentalDate = rentalDate;
-                    findRental.ReturnDate = returnDate;
-                    findRental.CarId = carId;
-                    findRental.CustomerId = customerId;
-
-                    var findCar = carContext.Cars.FirstOrDefault(c => c.Id == findRental.CarId);
-
-                    if (returnDate == null)
+                    var findCustomer = carContext.Customers.FirstOrDefault(cu => cu.Id == customerId);
+                    if (findCustomer != null)
                     {
-                        findCar.IsRented = true;
-                    }
-                    else
-                    {
-                        findCar.IsRented = false;
-                    }
+                        if (findRental != null && findCar != null && findCustomer != null)
+                        {
+                            if (returnDate > rentalDate || returnDate == null)
+                            {
+                                findRental.RentalDate = rentalDate;
+                                findRental.ReturnDate = returnDate;
+                                findRental.CarId = carId;
+                                findRental.CustomerId = customerId;
 
-                    carContext.SaveChanges();
+                                if (returnDate == null)
+                                {
+                                    findCar.IsRented = true;
+                                }
+                                else
+                                {
+                                    findCar.IsRented = false;
+                                }
+
+                                carContext.SaveChanges();
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -36,8 +36,13 @@ namespace CarRentalApplication.Services
 
             if (findCar != null)
             {
-                findCar.LicensePlate = plateNumber;
-                carContext.SaveChanges();
+                var findPlateNumber = carContext.Cars.FirstOrDefault(c => c.LicensePlate == plateNumber);
+                
+                if (findPlateNumber == null)
+                {
+                    findCar.LicensePlate = plateNumber;
+                    carContext.SaveChanges();
+                }
             }
         }
 

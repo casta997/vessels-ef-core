@@ -42,6 +42,17 @@ namespace CarRentalApplication.Services
 
             if (findCustomer != null)
             {
+                var findRental = carContext.Rentals.Where(r => r.CustomerId == id).FirstOrDefault(r => r.ReturnDate == null);
+
+                if (findRental != null)
+                {
+                    findRental.ReturnDate = DateTime.Now;
+
+                    var findCar = carContext.Cars.FirstOrDefault(c => c.Id == findRental.CarId);
+
+                    findCar.IsRented = false;
+                }
+
                 carContext.Customers.Remove(findCustomer);
                 carContext.SaveChanges();
             }
