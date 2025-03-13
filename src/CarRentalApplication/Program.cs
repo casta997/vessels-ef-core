@@ -1,5 +1,8 @@
 using CarRentalApplication.Context;
+using CarRentalApplication.Entities;
+using CarRentalApplication.IRepositories;
 using CarRentalApplication.IServices;
+using CarRentalApplication.Repositories;
 using CarRentalApplication.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,10 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services
     .AddDbContext<CarRentalContext>()
+    .AddTransient<Car>()
+    .AddTransient<Customer>()
+    .AddTransient<Rental>()
+    .AddTransient<ICarRepository, CarRepository>()
+    .AddTransient<ICustomerRepository, CustomerRepository>()
+    .AddTransient<IRentalRepository, RentalRepository>()
     .AddTransient<ICarService, CarService>()
     .AddTransient<ICustomerService, CustomerService>()
-    .AddTransient<IRentalService, RentalService>()
-    .AddTransient<IFactoryService, FactoryService>();
+    .AddTransient<IRentalService, RentalService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

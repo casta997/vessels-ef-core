@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CarRentalApplication.Entities;
+namespace CarRentalApplication.POCO;
 
-public class Customer
+public class CustomerPoco
 {
-    public long Id { get; set; }
     [Required]
     public string Name { get; set; }
 }

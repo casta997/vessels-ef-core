@@ -1,5 +1,48 @@
-﻿namespace CarRentalApplication.Repositories;
+﻿using CarRentalApplication.Context;
+using CarRentalApplication.Entities;
+using CarRentalApplication.IRepositories;
+using CarRentalApplication.POCO;
+using Microsoft.EntityFrameworkCore;
 
-public class CarRepository
+namespace CarRentalApplication.Repositories;
+
+public class CarRepository(CarRentalContext carRentalContext, Car car) : ICarRepository
 {
+    private readonly DbSet<Car> _carContext = carRentalContext.Cars;
+    public IEnumerable<Car> GetAll()
+    {
+        return _carContext.ToList();
+    }
+
+    public Car GetById(long id)
+    {
+        return _carContext.Find(id);
+    }
+
+    public Car GetByLicensePlate(string LicensePlate)
+    {
+        return _carContext.FirstOrDefault(c => c.LicensePlate.Equals(LicensePlate));
+    }
+
+    public Car Add(CarPoco carPoco)
+    {
+        car.LicensePlate = carPoco.LicensePlate;
+        car.IsRented = carPoco.IsRented;
+        _carContext.Add(car);
+        carRentalContext.SaveChanges();
+        return car;
+    }
+
+    public int UpdateIsRented(long carId, bool isRented)
+    {
+        Car carFound = GetById(carId);
+        carFound.IsRented = isRented;
+        return carRentalContext.SaveChanges();
+    }
+
+    public int Delete(Car car)
+    {
+        _carContext.Remove(car);
+        return carRentalContext.SaveChanges();
+    }
 }

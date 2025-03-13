@@ -1,17 +1,64 @@
-﻿using CarRentalApplication.Entities;
+﻿using Azure.Core;
+using CarRentalApplication.Entities;
+using CarRentalApplication.IRepositories;
 using CarRentalApplication.IServices;
+using CarRentalApplication.POCO;
 
 namespace CarRentalApplication.Services;
 
-public class RentalService : IRentalService
+public class RentalService(IRentalRepository rentalRepository, ICarRepository carRepository, ICustomerRepository customerRepository) : IRentalService
 {
+    private readonly IRentalRepository _rentalRepository = rentalRepository;
+    private readonly ICarRepository _carRepository = carRepository;
+    private readonly ICustomerRepository _customerRepository = customerRepository;
     public IEnumerable<Rental> GetAll()
     {
-        throw new NotImplementedException();
+        return _rentalRepository.GetAll();
     }
 
     public Rental GetById(long id)
     {
-        throw new NotImplementedException();
+        return _rentalRepository.GetById(id);
+    }
+
+    public void RentCar(RentalRequest request) {
+        var car = GetCarByLicensePlate(request.LicensePlate);
+        var customer = GetCustomerById(request.CustomerId);
+
+        if (car is not null && customer is not null && car.IsRented == false)
+            if (_rentalRepository.RentCar(car.Id, customer.Id, request.RentalDate) > 0)
+                _carRepository.UpdateIsRented(car.Id, true);
+    }
+    public void ReturnCar(ReturnRequest request) {
+        var car = GetCarByLicensePlate(request.LicensePlate);
+
+        if (car is not null && car.IsRented == true)
+        {
+            Rental rental = GetByLicensePlate(car.LicensePlate);
+            if (_rentalRepository.UpdateRental(rental, request.ReturnDate) > 0)
+                _carRepository.UpdateIsRented(car.Id, false);
+        }
+
+    }
+
+    public Rental GetByLicensePlate(string licensePlate)
+    {
+        if (String.IsNullOrEmpty(licensePlate.Trim()))
+            return null;
+
+        var car = GetCarByLicensePlate(licensePlate);
+
+        return _rentalRepository.GetByLicensePlate(car.Id);
+    }
+
+    public Car GetCarByLicensePlate(string licensePlate) {
+        if (String.IsNullOrEmpty(licensePlate.Trim()))
+            return null;
+
+
+        return _carRepository.GetByLicensePlate(licensePlate);
+    }
+    public Customer GetCustomerById(long customerId) {
+        return _customerRepository.GetById(customerId);
     }
 }
