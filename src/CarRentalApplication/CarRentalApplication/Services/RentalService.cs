@@ -57,23 +57,26 @@ namespace CarRentalApplication.Services
 
             if (findRental != null)
             {
-                findRental.RentalDate = rentalDate;
-                findRental.ReturnDate = returnDate;
-                findRental.CarId = carId;
-                findRental.CustomerId = customerId;
-
-                var findCar = carContext.Cars.FirstOrDefault(c => c.Id == findRental.CarId);
-
-                if (returnDate == null)
+                if(returnDate > rentalDate)
                 {
-                    findCar.IsRented = true;
-                }
-                else
-                {
-                    findCar.IsRented = false;
-                }
+                    findRental.RentalDate = rentalDate;
+                    findRental.ReturnDate = returnDate;
+                    findRental.CarId = carId;
+                    findRental.CustomerId = customerId;
 
-                carContext.SaveChanges();
+                    var findCar = carContext.Cars.FirstOrDefault(c => c.Id == findRental.CarId);
+
+                    if (returnDate == null)
+                    {
+                        findCar.IsRented = true;
+                    }
+                    else
+                    {
+                        findCar.IsRented = false;
+                    }
+
+                    carContext.SaveChanges();
+                }
             }
         }
 

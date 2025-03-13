@@ -39,9 +39,18 @@ namespace CarRentalApplication.Services
         public void DeleteObj(long id)
         {
             var findCar = carContext.Cars.FirstOrDefault(c => c.Id == id);
+            var findRental = carContext.Rentals.Where(r => r.CarId == id);
             
             if (findCar != null)
             {
+                findRental.ToList();
+                foreach (Rental r in findRental)
+                {
+                    if (r.ReturnDate == null)
+                    {
+                        r.ReturnDate = DateTime.Now;
+                    }
+                }
                 carContext.Cars.Remove(findCar);
                 carContext.SaveChanges();
             }
