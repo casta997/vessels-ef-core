@@ -21,7 +21,7 @@ namespace CarRentalApplication.Services
         public void Create(string plateNumber)
         {
             var findPlateNumber = carContext.Cars.FirstOrDefault(c => c.LicensePlate == plateNumber);
-            if(findPlateNumber == null)
+            if (findPlateNumber == null)
             {
                 Car newCar = new() { IsRented = false, LicensePlate = plateNumber };
                 carContext.Cars.Add(newCar);
@@ -33,15 +33,16 @@ namespace CarRentalApplication.Services
         {
             var findCar = carContext.Cars.FirstOrDefault(c => c.Id == id);
 
-            if (findCar != null)
+            if (findCar == null)
             {
-                var findPlateNumber = carContext.Cars.FirstOrDefault(c => c.LicensePlate == plateNumber);
-                
-                if (findPlateNumber == null)
-                {
-                    findCar.LicensePlate = plateNumber;
-                    carContext.SaveChanges();
-                }
+                return;
+            }
+            var findPlateNumber = carContext.Cars.FirstOrDefault(c => c.LicensePlate == plateNumber);
+
+            if (findPlateNumber == null)
+            {
+                findCar.LicensePlate = plateNumber;
+                carContext.SaveChanges();
             }
         }
 
@@ -49,20 +50,21 @@ namespace CarRentalApplication.Services
         {
             var findCar = carContext.Cars.FirstOrDefault(c => c.Id == id);
             var findRental = carContext.Rentals.Where(r => r.CarId == id);
-            
-            if (findCar != null)
+
+            if (findCar == null)
             {
-                findRental.ToList();
-                foreach (Rental r in findRental)
-                {
-                    if (r.ReturnDate == null)
-                    {
-                        r.ReturnDate = DateTime.Now;
-                    }
-                }
-                carContext.Cars.Remove(findCar);
-                carContext.SaveChanges();
+                return;
             }
+            findRental.ToList();
+            foreach (Rental r in findRental)
+            {
+                if (r.ReturnDate == null)
+                {
+                    r.ReturnDate = DateTime.Now;
+                }
+            }
+            carContext.Cars.Remove(findCar);
+            carContext.SaveChanges();
         }
     }
 }
