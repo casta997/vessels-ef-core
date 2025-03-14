@@ -14,29 +14,59 @@ public class CarService(ICarRepository carRepository) : ICarService
         return _carRepository.GetAll();
     }
 
-    public Car GetById(long id)
+    public Car? GetById(long id)
     {
         return _carRepository.GetById(id);
     }
 
-    public Car Add(CarPoco car) {
+    public Car? Add(CarPoco carPoco)
+    {
         try
         {
-            if (String.IsNullOrEmpty(car.LicensePlate.Trim()))
+            if (String.IsNullOrEmpty(carPoco.LicensePlate.Trim()))
                 return null;
 
-            car.LicensePlate = car.LicensePlate.Trim();
+            Car car = GetByLicensePlate(carPoco.LicensePlate);
 
-            return _carRepository.Add(car);
+            if (car is null)
+            {
+                carPoco.LicensePlate = carPoco.LicensePlate.Trim();
+                return _carRepository.Add(carPoco);
+            }
+
+            return null;
         }
         catch { return null; }
     }
 
-    public Car DeleteById(long carId)
+    public Car? DeleteById(long carId)
     {
         Car car = GetById(carId);
         if (car is not null)
             _carRepository.Delete(car);
         return car;
+    }
+
+    public Car? Update(long carId, CarPoco carPoco)
+    {
+        Car car = GetById(carId);
+        if (car is not null)
+        {
+            var licensePlatePoco = carPoco.LicensePlate.Trim();
+            if (licensePlatePoco.Length > 0 && licensePlatePoco != car.LicensePlate)
+            {
+                _carRepository.Update(car, carPoco);
+            }
+        }
+        return car;
+    }
+
+    public Car? GetByLicensePlate(string licensePlate)
+    {
+        if (String.IsNullOrEmpty(licensePlate.Trim()))
+            return null;
+
+
+        return _carRepository.GetByLicensePlate(licensePlate);
     }
 }

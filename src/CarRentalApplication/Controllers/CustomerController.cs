@@ -27,5 +27,17 @@ namespace CarRentalApplication.Controllers
         {
             return Ok(_customerService.Add(customer));
         }
+
+        [HttpDelete("{customerId:long}")]
+        public IActionResult DeleteById(long customerId)
+        {
+            return Ok(_customerService.DeleteById(customerId));
+        }
+
+        [HttpPut("{customerId:long}")]
+        public IActionResult Update(long customerId, [FromBody] CustomerPoco customer)
+        {
+            return Ok(_customerService.Update(customerId, customer));
+        }
     }
 }

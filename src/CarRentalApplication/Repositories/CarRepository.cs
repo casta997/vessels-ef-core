@@ -27,7 +27,7 @@ public class CarRepository(CarRentalContext carRentalContext, Car car) : ICarRep
     public Car Add(CarPoco carPoco)
     {
         car.LicensePlate = carPoco.LicensePlate;
-        car.IsRented = carPoco.IsRented;
+        car.IsRented = false;
         _carContext.Add(car);
         carRentalContext.SaveChanges();
         return car;
@@ -43,6 +43,12 @@ public class CarRepository(CarRentalContext carRentalContext, Car car) : ICarRep
     public int Delete(Car car)
     {
         _carContext.Remove(car);
+        return carRentalContext.SaveChanges();
+    }
+
+    public int Update(Car car, CarPoco carPoco)
+    {
+        car.LicensePlate = carPoco.LicensePlate;
         return carRentalContext.SaveChanges();
     }
 }

@@ -8,22 +8,34 @@ namespace CarRentalApplication.Repositories;
 
 public class CustomerRepository(CarRentalContext carRentalContext, Customer customer) : ICustomerRepository
 {
-    private readonly DbSet<Customer> _customers = carRentalContext.Customers;
+    private readonly DbSet<Customer> _customerContext = carRentalContext.Customers;
     public IEnumerable<Customer> GetAll()
     {
-        return _customers.ToList();
+        return _customerContext.ToList();
     }
 
     public Customer GetById(long id)
     {
-        return _customers.Find(id);
+        return _customerContext.Find(id);
     }
 
     public Customer Add(CustomerPoco customerPoco)
     {
         customer.Name = customerPoco.Name;
-        _customers.Add(customer);
+        _customerContext.Add(customer);
         carRentalContext.SaveChanges();
         return customer;
+    }
+
+    public int Delete(Customer customer)
+    {
+        _customerContext.Remove(customer);
+        return carRentalContext.SaveChanges();
+    }
+
+    public int Update(Customer customer, CustomerPoco customerPoco)
+    {
+        customer.Name = customerPoco.Name;
+        return carRentalContext.SaveChanges();
     }
 }

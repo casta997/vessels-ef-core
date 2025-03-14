@@ -51,13 +51,14 @@ public class RentalService(IRentalRepository rentalRepository, ICarRepository ca
         return _rentalRepository.GetByLicensePlate(car.Id);
     }
 
+    
     public Car GetCarByLicensePlate(string licensePlate) {
         if (String.IsNullOrEmpty(licensePlate.Trim()))
             return null;
 
-
         return _carRepository.GetByLicensePlate(licensePlate);
     }
+    
     public Customer GetCustomerById(long customerId) {
         return _customerRepository.GetById(customerId);
     }

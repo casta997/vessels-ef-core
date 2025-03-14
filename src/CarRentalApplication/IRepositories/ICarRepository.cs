@@ -11,4 +11,5 @@ public interface ICarRepository
     Car Add(CarPoco car);
     int UpdateIsRented(long carId, bool isRented);
     int Delete(Car car);
+    int Update(Car car, CarPoco carPoco);
 }

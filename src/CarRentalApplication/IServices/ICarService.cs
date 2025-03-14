@@ -10,4 +10,6 @@ public interface ICarService
     Car GetById(long id);
     Car Add(CarPoco car);
     Car DeleteById(long carId);
+    Car Update(long carId, CarPoco car);
+    Car GetByLicensePlate(string licensePlate);
 }

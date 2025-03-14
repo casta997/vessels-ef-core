@@ -33,5 +33,11 @@ namespace CarRentalApplication.Controllers
         {
             return Ok(_carService.DeleteById(carId));
         }
+
+        [HttpPut("{carId:long}")]
+        public IActionResult Update(long carId, [FromBody] CarPoco car)
+        {
+            return Ok(_carService.Update(carId, car));
+        }
     }
 }
