@@ -1,5 +1,4 @@
-﻿using CarRentalApplication.Entities;
-using CarRentalApplication.Request;
+﻿using CarRentalApplication.Request;
 using CarRentalApplication.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,14 +25,14 @@ namespace CarRentalApplication.Controllers
         [HttpPost("rent car")]
         public IActionResult RentCar([FromBody] RentalRequest request)
         {
-            rentalService.RentCar(request.CustomerId, request.LicensePlate, request.RentalDate);
+            rentalService.RentCar(request);
             return Ok();
         }
 
         [HttpPost("return car")]
         public IActionResult ReturnCar([FromBody] ReturnRequest request)
         {
-            rentalService.ReturnCar(request.LicensePlate, request.ReturnDate);
+            rentalService.ReturnCar(request);
             return Ok();
         }
 

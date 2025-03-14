@@ -1,7 +1,6 @@
 ﻿using CarRentalApplication.Context;
 using CarRentalApplication.Entities;
 using CarRentalApplication.Interfaces;
-using System.Linq;
 
 namespace CarRentalApplication.Services
 {

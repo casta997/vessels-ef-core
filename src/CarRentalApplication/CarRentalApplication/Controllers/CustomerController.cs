@@ -1,5 +1,4 @@
-﻿using CarRentalApplication.Entities;
-using CarRentalApplication.Request;
+﻿using CarRentalApplication.Request;
 using CarRentalApplication.Services;
 using Microsoft.AspNetCore.Mvc;
 
