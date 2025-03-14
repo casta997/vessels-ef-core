@@ -4,12 +4,18 @@ using CarRentalApplication.IRepositories;
 using CarRentalApplication.IServices;
 using CarRentalApplication.Repositories;
 using CarRentalApplication.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("CarRentalConnection") ??
+    throw new InvalidOperationException("Connection string 'CarRentalConnection'" +
+    " not found.");
+
 // Add services to the container.
 builder.Services
-    .AddDbContext<CarRentalContext>()
+    .AddDbContext<CarRentalContext>(options => options.UseSqlServer(connectionString))
     .AddTransient<ICarRepository, CarRepository>()
     .AddTransient<ICustomerRepository, CustomerRepository>()
     .AddTransient<IRentalRepository, RentalRepository>()
