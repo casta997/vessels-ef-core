@@ -10,7 +10,7 @@ namespace CarRentalApplication.Interfaces
         //void RentCar(Car car, Customer customer);
         void RentCar(RentalRequest rentalRequest);
         void ReturnCar(ReturnRequest returnRequest);
-        void Update(long id, long carId, long customerId, DateTime rentalDate, DateTime? returnDate);
+        void Update(UpdateRentalRequest updateRentalRequest);
         void Delete(long id);
     }
 }

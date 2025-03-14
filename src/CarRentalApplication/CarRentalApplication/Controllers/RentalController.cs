@@ -36,10 +36,10 @@ namespace CarRentalApplication.Controllers
             return Ok();
         }
 
-        [HttpPut("{id}/{rentalDate}/{customerId}/{carId}")]
-        public IActionResult Update(long id, long carId, long customerId, DateTime rentalDate, DateTime? returnDate)
+        [HttpPut("update car")]
+        public IActionResult Update([FromBody] UpdateRentalRequest request)
         {
-            rentalService.Update(id, carId, customerId, rentalDate, returnDate);
+            rentalService.Update(request);
             return Ok();
         }
 

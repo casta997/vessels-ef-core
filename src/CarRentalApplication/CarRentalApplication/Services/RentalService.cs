@@ -64,23 +64,23 @@ namespace CarRentalApplication.Services
             }
         }
 
-        public void Update(long id, long carId, long customerId, DateTime rentalDate, DateTime? returnDate)
+        public void Update(UpdateRentalRequest updateRentalRequest)
         {
-            var findRental = carContext.Rentals.FirstOrDefault(r => r.Id == id);
+            var findRental = carContext.Rentals.FirstOrDefault(r => r.Id == updateRentalRequest.RentalId);
 
             if (findRental == null)
             {
                 return;
             }
 
-            var findCar = carContext.Cars.Where(c => c.Id == carId && (c.IsRented == false || c.Id == findRental.CarId)).FirstOrDefault(c => c.Id == carId);
+            var findCar = carContext.Cars.FirstOrDefault(c => c.Id == updateRentalRequest.CarId && (c.IsRented == false || c.Id == findRental.CarId));
 
             if (findCar == null)
             {
                 return;
             }
 
-            var findCustomer = carContext.Customers.FirstOrDefault(cu => cu.Id == customerId);
+            var findCustomer = carContext.Customers.FirstOrDefault(cu => cu.Id == updateRentalRequest.CustomerId);
 
             if (findCustomer == null)
             {
@@ -92,13 +92,13 @@ namespace CarRentalApplication.Services
                 return;
             }
 
-            if (returnDate > rentalDate || returnDate == null)
+            if (updateRentalRequest.ReturnDate > updateRentalRequest.RentalDate || updateRentalRequest.ReturnDate == null)
             {
-                findRental.RentalDate = rentalDate;
-                findRental.ReturnDate = returnDate;
-                findCar.IsRented = (returnDate == null) ? true : false;
-                findRental.CarId = carId;
-                findRental.CustomerId = customerId;
+                findRental.RentalDate = updateRentalRequest.RentalDate;
+                findRental.ReturnDate = updateRentalRequest.ReturnDate;
+                findCar.IsRented = (updateRentalRequest.ReturnDate == null) ? true : false;
+                findRental.CarId = updateRentalRequest.CarId;
+                findRental.CustomerId = updateRentalRequest.CustomerId;
 
                 carContext.SaveChanges();
             }
