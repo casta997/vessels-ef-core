@@ -4,8 +4,12 @@ using CarRentalApplication.Interfaces;
 
 namespace CarRentalApplication.Services
 {
-    public class CustomerService(CarRentalContext carContext) : ICustomerService
+    public class CustomerService : ServiceBase, ICustomerService
     {
+        public CustomerService(CarRentalContext carContext) : base(carContext)
+        {
+        }
+
         public List<Customer> GetAll()
         {
             List<Customer> customers = carContext.Customers.ToList();

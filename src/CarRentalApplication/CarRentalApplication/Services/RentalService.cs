@@ -5,8 +5,12 @@ using CarRentalApplication.Request;
 
 namespace CarRentalApplication.Services
 {
-    public class RentalService(CarRentalContext carContext) : IRentalService
+    public class RentalService : ServiceBase, IRentalService
     {
+        public RentalService(CarRentalContext carContext) : base(carContext)
+        {
+        }
+
         public List<Rental> GetAll()
         {
             List<Rental> allRentals = carContext.Rentals.ToList();
