@@ -6,9 +6,9 @@ namespace CarRentalApplication.Services
 {
     public class CarService(CarRentalContext carContext) : ICarService
     {
-        public IEnumerable<Car> GetAll()
+        public List<Car> GetAll()
         {
-            var allCars = carContext.Cars;
+            List<Car> allCars = carContext.Cars.ToList();
             return allCars;
         }
 
@@ -18,7 +18,7 @@ namespace CarRentalApplication.Services
             return carWithId;
         }
 
-        public void CreateObj(string plateNumber)
+        public void Create(string plateNumber)
         {
             var findPlateNumber = carContext.Cars.FirstOrDefault(c => c.LicensePlate == plateNumber);
             if(findPlateNumber == null)
@@ -29,7 +29,7 @@ namespace CarRentalApplication.Services
             }
         }
 
-        public void UpdateObj(long id, string plateNumber)
+        public void Update(long id, string plateNumber)
         {
             var findCar = carContext.Cars.FirstOrDefault(c => c.Id == id);
 
@@ -45,7 +45,7 @@ namespace CarRentalApplication.Services
             }
         }
 
-        public void DeleteObj(long id)
+        public void Delete(long id)
         {
             var findCar = carContext.Cars.FirstOrDefault(c => c.Id == id);
             var findRental = carContext.Rentals.Where(r => r.CarId == id);

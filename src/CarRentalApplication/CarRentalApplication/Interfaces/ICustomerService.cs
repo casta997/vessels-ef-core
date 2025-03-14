@@ -4,10 +4,10 @@ namespace CarRentalApplication.Interfaces
 {
     public interface ICustomerService
     {
-        IEnumerable<Customer> GetAll();
+        List<Customer> GetAll();
         Customer GetById(long id);
-        void CreateObj(string name);
-        void UpdateObj(long id, string name);
-        void DeleteObj(long id);
+        void Create(string name);
+        void Update(long id, string name);
+        void Delete(long id);
     }
 }

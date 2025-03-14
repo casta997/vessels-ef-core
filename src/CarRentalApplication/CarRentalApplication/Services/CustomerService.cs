@@ -6,9 +6,9 @@ namespace CarRentalApplication.Services
 {
     public class CustomerService(CarRentalContext carContext) : ICustomerService
     {
-        public IEnumerable<Customer> GetAll()
+        public List<Customer> GetAll()
         {
-            var customers = carContext.Customers;
+            List<Customer> customers = carContext.Customers.ToList();
             return customers;
         }
 
@@ -18,14 +18,14 @@ namespace CarRentalApplication.Services
             return customerWithId;
         }
 
-        public void CreateObj(string name)
+        public void Create(string name)
         {
             Customer newCustomer = new() { Name = name };
             carContext.Customers.Add(newCustomer);
             carContext.SaveChanges();
         }
 
-        public void UpdateObj(long id, string name)
+        public void Update(long id, string name)
         {
             var findCar = carContext.Customers.FirstOrDefault(c => c.Id == id);
 
@@ -36,7 +36,7 @@ namespace CarRentalApplication.Services
             }
         }
 
-        public void DeleteObj(long id)
+        public void Delete(long id)
         {
             var findCustomer = carContext.Customers.FirstOrDefault(c => c.Id == id);
 

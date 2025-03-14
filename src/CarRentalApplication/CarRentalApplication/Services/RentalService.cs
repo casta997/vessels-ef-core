@@ -7,9 +7,9 @@ namespace CarRentalApplication.Services
 {
     public class RentalService(CarRentalContext carContext) : IRentalService
     {
-        public IEnumerable<Rental> GetAll()
+        public List<Rental> GetAll()
         {
-            var allRentals = carContext.Rentals;
+            List<Rental> allRentals = carContext.Rentals.ToList();
             return allRentals;
         }
 
@@ -57,7 +57,7 @@ namespace CarRentalApplication.Services
             }
         }
 
-        public void UpdateObj(long id, long carId, long customerId, DateTime rentalDate, DateTime? returnDate)
+        public void Update(long id, long carId, long customerId, DateTime rentalDate, DateTime? returnDate)
         {
             var findRental = carContext.Rentals.FirstOrDefault(r => r.Id == id);
             if (findRental != null)
@@ -94,7 +94,7 @@ namespace CarRentalApplication.Services
             }
         }
 
-        public void DeleteObj(long id)
+        public void Delete(long id)
         {
             var findRent = carContext.Rentals.FirstOrDefault(r => r.Id == id);
 

@@ -5,12 +5,12 @@ namespace CarRentalApplication.Interfaces
 {
     public interface IRentalService
     {
-        IEnumerable<Rental> GetAll();
+        List<Rental> GetAll();
         Rental GetById(long id);
         //void RentCar(Car car, Customer customer);
         void RentCar(RentalRequest rentalRequest);
         void ReturnCar(ReturnRequest returnRequest);
-        void UpdateObj(long id, long carId, long customerId, DateTime rentalDate, DateTime? returnDate);
-        void DeleteObj(long id);
+        void Update(long id, long carId, long customerId, DateTime rentalDate, DateTime? returnDate);
+        void Delete(long id);
     }
 }

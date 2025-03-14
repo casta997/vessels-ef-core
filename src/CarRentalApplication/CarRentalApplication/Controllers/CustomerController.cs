@@ -1,12 +1,12 @@
-﻿using CarRentalApplication.Request;
-using CarRentalApplication.Services;
+﻿using CarRentalApplication.Interfaces;
+using CarRentalApplication.Request;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalApplication.Controllers
 {
     [ApiController]
     [Route("customers")]
-    public class CustomerController(CustomerService customerService) : Controller
+    public class CustomerController(ICustomerService customerService) : Controller
     {
         [HttpGet]
         public IActionResult GetAll()
@@ -23,23 +23,23 @@ namespace CarRentalApplication.Controllers
         }
 
         [HttpPost("create customer")]
-        public IActionResult CreateObj([FromBody] CustomerRequest request)
+        public IActionResult Create([FromBody] CustomerRequest request)
         {
-            customerService.CreateObj(request.Name);
+            customerService.Create(request.Name);
             return Ok();
         }
 
         [HttpPut("{id}/{name}")]
-        public IActionResult UpdateObj(long id, string name)
+        public IActionResult Update(long id, string name)
         {
-            customerService.UpdateObj(id, name);
+            customerService.Update(id, name);
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteObj(long id)
+        public IActionResult Delete(long id)
         {
-            customerService.DeleteObj(id);
+            customerService.Delete(id);
             return Ok();
         }
     }

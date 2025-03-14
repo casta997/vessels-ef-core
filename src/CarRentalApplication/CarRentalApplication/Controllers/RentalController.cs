@@ -1,12 +1,12 @@
-﻿using CarRentalApplication.Request;
-using CarRentalApplication.Services;
+﻿using CarRentalApplication.Interfaces;
+using CarRentalApplication.Request;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalApplication.Controllers
 {
     [ApiController]
     [Route("rentals")]
-    public class RentalController(RentalService rentalService) : Controller
+    public class RentalController(IRentalService rentalService) : Controller
     {
         [HttpGet]
         public IActionResult GetAll()
@@ -37,16 +37,16 @@ namespace CarRentalApplication.Controllers
         }
 
         [HttpPut("{id}/{rentalDate}/{customerId}/{carId}")]
-        public IActionResult UpdateObj(long id, long carId, long customerId, DateTime rentalDate, DateTime? returnDate)
+        public IActionResult Update(long id, long carId, long customerId, DateTime rentalDate, DateTime? returnDate)
         {
-            rentalService.UpdateObj(id, carId, customerId, rentalDate, returnDate);
+            rentalService.Update(id, carId, customerId, rentalDate, returnDate);
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteObj(long id)
+        public IActionResult Delete(long id)
         {
-            rentalService.DeleteObj(id);
+            rentalService.Delete(id);
             return Ok();
         }
 
