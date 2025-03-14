@@ -2,6 +2,7 @@
 using Data.Entities;
 using Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +25,8 @@ builder.Services
     .AddDomain();
 
 using var host = builder.Build();
+
+host.Services.GetService<MaritimeContext>().Database.EnsureCreated();
 
 var manageProgram = host.Services.GetService<OperationsCentralBase>();
 var vesselService = host.Services.GetService<IRecordManagerService<VesselService>>();
