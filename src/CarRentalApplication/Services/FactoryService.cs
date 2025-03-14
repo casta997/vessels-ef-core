@@ -1,4 +1,4 @@
-﻿using CarRentalApplication.IServices;
+﻿using CarRentalApplication.Interfaces.Services;
 
 namespace CarRentalApplication.Services;
 

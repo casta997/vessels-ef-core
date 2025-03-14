@@ -1,4 +1,4 @@
-﻿namespace CarRentalApplication.IServices;
+﻿namespace CarRentalApplication.Interfaces.Services;
 
 public interface IFactoryService
 {

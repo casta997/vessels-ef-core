@@ -1,7 +1,7 @@
-﻿using CarRentalApplication.Entities;
-using CarRentalApplication.POCO;
+﻿using CarRentalApplication.Dto;
+using CarRentalApplication.Entities;
 
-namespace CarRentalApplication.IServices;
+namespace CarRentalApplication.Interfaces.Services;
 
 public interface IRentalService
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CarRentalApplication.POCO;
+namespace CarRentalApplication.Dto;
 
 public class CustomerPoco
 {

@@ -1,5 +1,5 @@
-﻿using CarRentalApplication.IServices;
-using CarRentalApplication.POCO;
+﻿using CarRentalApplication.Dto;
+using CarRentalApplication.Interfaces.Services;
 using CarRentalApplication.Services;
 using Microsoft.AspNetCore.Mvc;
 

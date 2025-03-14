@@ -1,7 +1,7 @@
-﻿using CarRentalApplication.Entities;
-using CarRentalApplication.IRepositories;
-using CarRentalApplication.IServices;
-using CarRentalApplication.POCO;
+﻿using CarRentalApplication.Dto;
+using CarRentalApplication.Entities;
+using CarRentalApplication.Interfaces.Repositories;
+using CarRentalApplication.Interfaces.Services;
 
 namespace CarRentalApplication.Services;
 
@@ -23,7 +23,9 @@ public class CarService(ICarRepository carRepository) : ICarService
         try
         {
             if (String.IsNullOrEmpty(carPoco.LicensePlate.Trim()))
+            {
                 return null;
+            }
 
             Car car = GetByLicensePlate(carPoco.LicensePlate);
 
@@ -42,7 +44,9 @@ public class CarService(ICarRepository carRepository) : ICarService
     {
         Car car = GetById(carId);
         if (car is not null)
+        {
             _carRepository.Delete(car);
+        }
         return car;
     }
 
@@ -63,8 +67,9 @@ public class CarService(ICarRepository carRepository) : ICarService
     public Car? GetByLicensePlate(string licensePlate)
     {
         if (String.IsNullOrEmpty(licensePlate.Trim()))
+        {
             return null;
-
+        }
 
         return _carRepository.GetByLicensePlate(licensePlate);
     }

@@ -1,7 +1,7 @@
 using CarRentalApplication.Context;
 using CarRentalApplication.Entities;
-using CarRentalApplication.IRepositories;
-using CarRentalApplication.IServices;
+using CarRentalApplication.Interfaces.Repositories;
+using CarRentalApplication.Interfaces.Services;
 using CarRentalApplication.Repositories;
 using CarRentalApplication.Services;
 using Microsoft.EntityFrameworkCore;

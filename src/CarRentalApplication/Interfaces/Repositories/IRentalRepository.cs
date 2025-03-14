@@ -1,6 +1,6 @@
 ﻿using CarRentalApplication.Entities;
 
-namespace CarRentalApplication.IRepositories;
+namespace CarRentalApplication.Interfaces.Repositories;
 
 public interface IRentalRepository
 {

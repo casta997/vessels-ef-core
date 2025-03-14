@@ -1,21 +1,29 @@
 ﻿using CarRentalApplication.Context;
 using CarRentalApplication.Entities;
-using CarRentalApplication.IRepositories;
+using CarRentalApplication.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalApplication.Repositories;
 
-public class RentalRepository(CarRentalContext carRentalContext) : IRentalRepository
+public class RentalRepository : ContextBase, IRentalRepository
 {
-    private readonly DbSet<Rental> _rentalContext = carRentalContext.Rental;
+    private readonly CarRentalContext _context;
+    private readonly DbSet<Rental> _rentalDb;
+
+    public RentalRepository(CarRentalContext carRentalContext) : base(carRentalContext)
+    {
+        _context = _carRentalContext;
+        _rentalDb = _carRentalContext.Rental;
+    }
+
     public IEnumerable<Rental> GetAll()
     {
-        return _rentalContext.ToList();
+        return _rentalDb.ToList();
     }
 
     public Rental GetById(long id)
     {
-        return _rentalContext.Find(id);
+        return _rentalDb.Find(id);
     }
 
     public int RentCar(long carId, long customerId, DateTime rentalDate)
@@ -24,18 +32,18 @@ public class RentalRepository(CarRentalContext carRentalContext) : IRentalReposi
         rental.CarId = carId;
         rental.CustomerId = customerId;
         rental.RentalDate = rentalDate;
-        _rentalContext.Add(rental);
-        return carRentalContext.SaveChanges();
+        _rentalDb.Add(rental);
+        return _context.SaveChanges();
     }
 
     public int UpdateRental(Rental rentalToUpdate, DateTime returnDate)
     {
         rentalToUpdate.ReturnDate = returnDate;
-        return carRentalContext.SaveChanges();
+        return _context.SaveChanges();
     }
 
     public Rental GetByLicensePlate(long carId)
     {
-        return _rentalContext.FirstOrDefault(rental => rental.CarId == carId);
+        return _rentalDb.FirstOrDefault(rental => rental.CarId == carId);
     }
 }

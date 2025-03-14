@@ -1,27 +1,35 @@
 ﻿using CarRentalApplication.Context;
+using CarRentalApplication.Dto;
 using CarRentalApplication.Entities;
-using CarRentalApplication.IRepositories;
-using CarRentalApplication.POCO;
+using CarRentalApplication.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalApplication.Repositories;
 
-public class CarRepository(CarRentalContext carRentalContext) : ICarRepository
+public class CarRepository : ContextBase, ICarRepository
 {
-    private readonly DbSet<Car> _carContext = carRentalContext.Cars;
+    private readonly CarRentalContext _context;
+    private readonly DbSet<Car> _carDb;
+
+    public CarRepository(CarRentalContext carRentalContext) : base(carRentalContext)
+    {
+        _context = _carRentalContext;
+        _carDb = _carRentalContext.Cars;
+    }
+
     public IEnumerable<Car> GetAll()
     {
-        return _carContext.ToList();
+        return _carDb.ToList();
     }
 
     public Car GetById(long id)
     {
-        return _carContext.Find(id);
+        return _carDb.Find(id);
     }
 
     public Car GetByLicensePlate(string LicensePlate)
     {
-        return _carContext.FirstOrDefault(c => c.LicensePlate.Equals(LicensePlate));
+        return _carDb.FirstOrDefault(c => c.LicensePlate.Equals(LicensePlate));
     }
 
     public Car Add(CarPoco carPoco)
@@ -29,8 +37,8 @@ public class CarRepository(CarRentalContext carRentalContext) : ICarRepository
         Car car = new Car();
         car.LicensePlate = carPoco.LicensePlate;
         car.IsRented = false;
-        _carContext.Add(car);
-        carRentalContext.SaveChanges();
+        _carDb.Add(car);
+        _context.SaveChanges();
         return car;
     }
 
@@ -38,18 +46,18 @@ public class CarRepository(CarRentalContext carRentalContext) : ICarRepository
     {
         Car carFound = GetById(carId);
         carFound.IsRented = isRented;
-        return carRentalContext.SaveChanges();
+        return _context.SaveChanges();
     }
 
     public int Delete(Car car)
     {
-        _carContext.Remove(car);
-        return carRentalContext.SaveChanges();
+        _carDb.Remove(car);
+        return _context.SaveChanges();
     }
 
     public int Update(Car car, CarPoco carPoco)
     {
         car.LicensePlate = carPoco.LicensePlate;
-        return carRentalContext.SaveChanges();
+        return _context.SaveChanges();
     }
 }

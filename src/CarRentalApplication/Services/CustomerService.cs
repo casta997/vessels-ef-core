@@ -1,7 +1,7 @@
-﻿using CarRentalApplication.Entities;
-using CarRentalApplication.IRepositories;
-using CarRentalApplication.IServices;
-using CarRentalApplication.POCO;
+﻿using CarRentalApplication.Dto;
+using CarRentalApplication.Entities;
+using CarRentalApplication.Interfaces.Repositories;
+using CarRentalApplication.Interfaces.Services;
 
 namespace CarRentalApplication.Services;
 
@@ -23,7 +23,9 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
         try
         {
             if (String.IsNullOrEmpty(customer.Name.Trim()))
+            {
                 return null;
+            }
 
             customer.Name = customer.Name.Trim();
 
@@ -36,7 +38,9 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
     {
         Customer car = GetById(id);
         if (car is not null)
+        {
             _customerRepository.Delete(car);
+        }
         return car;
     }
 

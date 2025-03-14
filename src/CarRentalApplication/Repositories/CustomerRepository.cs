@@ -1,42 +1,50 @@
 ﻿using CarRentalApplication.Context;
+using CarRentalApplication.Dto;
 using CarRentalApplication.Entities;
-using CarRentalApplication.IRepositories;
-using CarRentalApplication.POCO;
+using CarRentalApplication.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalApplication.Repositories;
 
-public class CustomerRepository(CarRentalContext carRentalContext) : ICustomerRepository
+public class CustomerRepository : ContextBase, ICustomerRepository
 {
-    private readonly DbSet<Customer> _customerContext = carRentalContext.Customers;
+    private readonly CarRentalContext _context;
+    private readonly DbSet<Customer> _customerDb;
+
+    public CustomerRepository(CarRentalContext carRentalContext) : base(carRentalContext)
+    {
+        _context = _carRentalContext;
+        _customerDb = _carRentalContext.Customers;
+    }
+
     public IEnumerable<Customer> GetAll()
     {
-        return _customerContext.ToList();
+        return _customerDb.ToList();
     }
 
     public Customer GetById(long id)
     {
-        return _customerContext.Find(id);
+        return _customerDb.Find(id);
     }
 
     public Customer Add(CustomerPoco customerPoco)
     {
         var customer = new Customer();
         customer.Name = customerPoco.Name;
-        _customerContext.Add(customer);
-        carRentalContext.SaveChanges();
+        _customerDb.Add(customer);
+        _context.SaveChanges();
         return customer;
     }
 
     public int Delete(Customer customer)
     {
-        _customerContext.Remove(customer);
-        return carRentalContext.SaveChanges();
+        _customerDb.Remove(customer);
+        return _context.SaveChanges();
     }
 
     public int Update(Customer customer, CustomerPoco customerPoco)
     {
         customer.Name = customerPoco.Name;
-        return carRentalContext.SaveChanges();
+        return _context.SaveChanges();
     }
 }
