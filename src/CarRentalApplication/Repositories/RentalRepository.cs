@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalApplication.Repositories;
 
-public class RentalRepository(CarRentalContext carRentalContext, Rental rental) : IRentalRepository
+public class RentalRepository(CarRentalContext carRentalContext) : IRentalRepository
 {
     private readonly DbSet<Rental> _rentalContext = carRentalContext.Rental;
     public IEnumerable<Rental> GetAll()
@@ -20,6 +20,7 @@ public class RentalRepository(CarRentalContext carRentalContext, Rental rental) 
 
     public int RentCar(long carId, long customerId, DateTime rentalDate)
     {
+        var rental = new Rental();
         rental.CarId = carId;
         rental.CustomerId = customerId;
         rental.RentalDate = rentalDate;

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalApplication.Repositories;
 
-public class CarRepository(CarRentalContext carRentalContext, Car car) : ICarRepository
+public class CarRepository(CarRentalContext carRentalContext) : ICarRepository
 {
     private readonly DbSet<Car> _carContext = carRentalContext.Cars;
     public IEnumerable<Car> GetAll()
@@ -26,6 +26,7 @@ public class CarRepository(CarRentalContext carRentalContext, Car car) : ICarRep
 
     public Car Add(CarPoco carPoco)
     {
+        Car car = new Car();
         car.LicensePlate = carPoco.LicensePlate;
         car.IsRented = false;
         _carContext.Add(car);

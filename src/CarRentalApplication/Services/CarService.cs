@@ -2,7 +2,6 @@
 using CarRentalApplication.IRepositories;
 using CarRentalApplication.IServices;
 using CarRentalApplication.POCO;
-using CarRentalApplication.Repositories;
 
 namespace CarRentalApplication.Services;
 

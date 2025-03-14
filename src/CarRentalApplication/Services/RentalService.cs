@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using CarRentalApplication.Entities;
+﻿using CarRentalApplication.Entities;
 using CarRentalApplication.IRepositories;
 using CarRentalApplication.IServices;
 using CarRentalApplication.POCO;

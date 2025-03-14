@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalApplication.Repositories;
 
-public class CustomerRepository(CarRentalContext carRentalContext, Customer customer) : ICustomerRepository
+public class CustomerRepository(CarRentalContext carRentalContext) : ICustomerRepository
 {
     private readonly DbSet<Customer> _customerContext = carRentalContext.Customers;
     public IEnumerable<Customer> GetAll()
@@ -21,6 +21,7 @@ public class CustomerRepository(CarRentalContext carRentalContext, Customer cust
 
     public Customer Add(CustomerPoco customerPoco)
     {
+        var customer = new Customer();
         customer.Name = customerPoco.Name;
         _customerContext.Add(customer);
         carRentalContext.SaveChanges();
