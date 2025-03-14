@@ -24,15 +24,16 @@ namespace CarRentalApplication.Services
             var findCar = carContext.Cars.FirstOrDefault(c=>c.LicensePlate == rentalRequest.LicensePlate);
             var findCustomer = carContext.Customers.Find(rentalRequest.CustomerId);
 
-            if (findCustomer != null && findCar != null)
+            if (findCustomer == null)
             {
-                if (!findCar.IsRented)//we can rent only cars that aren't already rented by someone else
-                {
-                    Rental newRental = new() { CustomerId = rentalRequest.CustomerId, CarId = findCar.Id, RentalDate = rentalRequest.RentalDate };
-                    findCar.IsRented = true;
-                    carContext.Rentals.Add(newRental);
-                    carContext.SaveChanges();
-                }
+                return;
+            }
+            if (findCar != null && !findCar.IsRented)//we can rent only cars that aren't already rented by someone else
+            {
+                Rental newRental = new() { CustomerId = rentalRequest.CustomerId, CarId = findCar.Id, RentalDate = rentalRequest.RentalDate };
+                findCar.IsRented = true;
+                carContext.Rentals.Add(newRental);
+                carContext.SaveChanges();
             }
         }
 
@@ -40,19 +41,19 @@ namespace CarRentalApplication.Services
         {
             var findCar = carContext.Cars.FirstOrDefault(c => c.LicensePlate == returnRequest.LicensePlate);
 
-            if(findCar != null)
+            if (findCar == null)
             {
-                var findRental = carContext.Rentals.FirstOrDefault(r => r.CarId == findCar.Id && r.ReturnDate == null);
+                return;
+            }
+            var findRental = carContext.Rentals.FirstOrDefault(r => r.CarId == findCar.Id && r.ReturnDate == null);
 
-
-                if (findRental != null && findRental.ReturnDate == null) //we can return only cars that aren't already been returned (if the user needs to modify a return he can use the put request)  
+            if (findRental != null && findRental.ReturnDate == null) //we can return only cars that aren't already been returned (if the user needs to modify a return he can use the put request)  
+            {
+                if (returnRequest.ReturnDate > findRental.RentalDate)
                 {
-                    if (returnRequest.ReturnDate > findRental.RentalDate)
-                    {
-                        findRental.ReturnDate = returnRequest.ReturnDate;
-                        findCar.IsRented = false;
-                        carContext.SaveChanges();
-                    }
+                    findRental.ReturnDate = returnRequest.ReturnDate;
+                    findCar.IsRented = false;
+                    carContext.SaveChanges();
                 }
             }
         }
