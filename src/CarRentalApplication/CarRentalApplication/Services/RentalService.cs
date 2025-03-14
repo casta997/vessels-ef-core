@@ -21,15 +21,16 @@ namespace CarRentalApplication.Services
 
         public void RentCar(RentalRequest rentalRequest)
         {
-            var findCar = carContext.Cars.FirstOrDefault(c=>c.LicensePlate == rentalRequest.LicensePlate);
+            var findCar = carContext.Cars.FirstOrDefault(c => c.LicensePlate == rentalRequest.LicensePlate);
             var findCustomer = carContext.Customers.Find(rentalRequest.CustomerId);
 
             if (findCustomer == null)
             {
                 return;
             }
-            
-            if (findCar != null && !findCar.IsRented)//we can rent only cars that aren't already rented by someone else
+
+            //we can rent only cars that aren't already rented by someone else
+            if (findCar != null && !findCar.IsRented)
             {
                 Rental newRental = new() { CustomerId = rentalRequest.CustomerId, CarId = findCar.Id, RentalDate = rentalRequest.RentalDate };
                 findCar.IsRented = true;
@@ -49,7 +50,8 @@ namespace CarRentalApplication.Services
 
             var findRental = carContext.Rentals.FirstOrDefault(r => r.CarId == findCar.Id && r.ReturnDate == null);
 
-            if (findRental == null && findRental.ReturnDate != null) //we can return only cars that aren't already been returned (if the user needs to modify a return he can use the put request)  
+            //we can return only cars that aren't already been returned (if the user needs to modify a return he can use the put request)
+            if (findRental == null && findRental.ReturnDate != null)
             {
                 return;
             }
@@ -65,36 +67,36 @@ namespace CarRentalApplication.Services
         public void Update(long id, long carId, long customerId, DateTime rentalDate, DateTime? returnDate)
         {
             var findRental = carContext.Rentals.FirstOrDefault(r => r.Id == id);
-            
+
             if (findRental == null)
             {
                 return;
             }
-            
+
             var findCar = carContext.Cars.Where(c => c.Id == carId && (c.IsRented == false || c.Id == findRental.CarId)).FirstOrDefault(c => c.Id == carId);
-            
+
             if (findCar == null)
             {
                 return;
             }
-            
+
             var findCustomer = carContext.Customers.FirstOrDefault(cu => cu.Id == customerId);
-            
+
             if (findCustomer == null)
             {
                 return;
             }
-            
+
             if (findRental == null && findCar == null && findCustomer == null)
             {
                 return;
             }
-            
+
             if (returnDate > rentalDate || returnDate == null)
             {
                 findRental.RentalDate = rentalDate;
                 findRental.ReturnDate = returnDate;
-                findCar.IsRented = (returnDate == null)? true : false;
+                findCar.IsRented = (returnDate == null) ? true : false;
                 findRental.CarId = carId;
                 findRental.CustomerId = customerId;
 
@@ -113,7 +115,7 @@ namespace CarRentalApplication.Services
 
             var findCar = carContext.Cars.FirstOrDefault(c => c.Id == findRent.CarId);
 
-            if(findRent.ReturnDate == null)
+            if (findRent.ReturnDate == null)
             {
                 findCar.IsRented = false;
             }
@@ -121,35 +123,5 @@ namespace CarRentalApplication.Services
             carContext.Rentals.Remove(findRent);
             carContext.SaveChanges();
         }
-
-        /*
-        public void RentCar2(long carId, long customerId)
-        {
-            var findCar = carContext.Cars.Find(carId);
-            var findCustomer = carContext.Customers.Find(customerId);
-
-            if (findCar != null && findCustomer != null)
-            {
-                Rental newRental = new() { CustomerId = customerId, CarId = carId, RentalDate = DateTime.Now };
-                findCar.IsRented = true;
-                carContext.Rentals.Add(newRental);
-                carContext.SaveChanges();
-            }
-        }
-
-        public void RentCar(Car car, Customer customer)
-        {
-            var findCar = carContext.Cars.Find(car);
-            var findCustomer = carContext.Customers.Find(customer);
-
-            if (findCar != null && findCustomer != null)
-            {
-                Rental newRental = new() { CustomerId = customer.Id, CarId = car.Id, RentalDate = DateTime.Now };
-                findCar.IsRented = true;
-                carContext.Rentals.Add(newRental);
-                carContext.SaveChanges();
-            }
-        }
-        */
     }
 }

@@ -29,7 +29,7 @@ namespace CarRentalApplication.Services
         {
             var findCar = carContext.Customers.FirstOrDefault(c => c.Id == id);
 
-            if(findCar != null)
+            if (findCar != null)
             {
                 findCar.Name = name;
                 carContext.SaveChanges();
@@ -40,22 +40,24 @@ namespace CarRentalApplication.Services
         {
             var findCustomer = carContext.Customers.FirstOrDefault(c => c.Id == id);
 
-            if (findCustomer != null)
+            if (findCustomer == null)
             {
-                var findRental = carContext.Rentals.Where(r => r.CustomerId == id).FirstOrDefault(r => r.ReturnDate == null);
-
-                if (findRental != null)
-                {
-                    findRental.ReturnDate = DateTime.Now;
-
-                    var findCar = carContext.Cars.FirstOrDefault(c => c.Id == findRental.CarId);
-
-                    findCar.IsRented = false;
-                }
-
-                carContext.Customers.Remove(findCustomer);
-                carContext.SaveChanges();
+                return;
             }
+
+            var findRental = carContext.Rentals.Where(r => r.CustomerId == id).FirstOrDefault(r => r.ReturnDate == null);
+
+            if (findRental != null)
+            {
+                findRental.ReturnDate = DateTime.Now;
+
+                var findCar = carContext.Cars.FirstOrDefault(c => c.Id == findRental.CarId);
+
+                findCar.IsRented = false;
+            }
+
+            carContext.Customers.Remove(findCustomer);
+            carContext.SaveChanges();
         }
     }
 }
