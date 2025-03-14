@@ -21,6 +21,7 @@ namespace CarRentalApplication.Services
         public void Create(string plateNumber)
         {
             var findPlateNumber = carContext.Cars.FirstOrDefault(c => c.LicensePlate == plateNumber);
+
             if (findPlateNumber == null)
             {
                 Car newCar = new() { IsRented = false, LicensePlate = plateNumber };
@@ -37,6 +38,7 @@ namespace CarRentalApplication.Services
             {
                 return;
             }
+
             var findPlateNumber = carContext.Cars.FirstOrDefault(c => c.LicensePlate == plateNumber);
 
             if (findPlateNumber == null)
@@ -55,7 +57,9 @@ namespace CarRentalApplication.Services
             {
                 return;
             }
+
             findRental.ToList();
+
             foreach (Rental r in findRental)
             {
                 if (r.ReturnDate == null)
@@ -63,6 +67,7 @@ namespace CarRentalApplication.Services
                     r.ReturnDate = DateTime.Now;
                 }
             }
+
             carContext.Cars.Remove(findCar);
             carContext.SaveChanges();
         }
