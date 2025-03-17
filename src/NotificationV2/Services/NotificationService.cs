@@ -6,9 +6,9 @@ namespace NotificationV2.Services
     {
         public string Send(string msg, string typeOfService)
         {
-            var vai = factoryService.TypeOfMessage(typeOfService);
-            var hola = vai.Send(msg);
-            return hola;
+            var typeSend = factoryService.TypeOfMessage(typeOfService);
+            var completeMessage = typeSend.Send(msg);
+            return completeMessage;
         }
     }
 }
