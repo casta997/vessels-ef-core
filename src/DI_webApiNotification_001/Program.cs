@@ -1,4 +1,20 @@
+using DI_webApiNotification_001.Data.Context;
+using DI_webApiNotification_001.Data.Entities;
+using DI_webApiNotification_001.Interfaces.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var conString = builder.Configuration.GetConnectionString("Notification") ??
+     throw new InvalidOperationException("Connection string 'BloggingContext'" +
+    " not found.");
+builder.Services.AddDbContext<NotificationContext>(options =>
+options.UseSqlServer(conString));
+
+builder.Services.AddTransient<IEmail, Email>();
+builder.Services.AddTransient<IPush, Push>();
+builder.Services.AddTransient<ISms, Sms>();
 
 // Add services to the container.
 
