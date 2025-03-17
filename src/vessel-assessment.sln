@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalApplication", "Car
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification", "Notification\Notification.csproj", "{04E70A03-F689-47B9-A577-C81490392649}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationV2", "NotificationV2\NotificationV2.csproj", "{CD3C46A3-95E5-4EF4-8722-4FE47696A15F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{04E70A03-F689-47B9-A577-C81490392649}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04E70A03-F689-47B9-A577-C81490392649}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04E70A03-F689-47B9-A577-C81490392649}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD3C46A3-95E5-4EF4-8722-4FE47696A15F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD3C46A3-95E5-4EF4-8722-4FE47696A15F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD3C46A3-95E5-4EF4-8722-4FE47696A15F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD3C46A3-95E5-4EF4-8722-4FE47696A15F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
