@@ -1,18 +1,19 @@
 ﻿using CarRentalApplication.Context;
 using CarRentalApplication.Entities;
 using CarRentalApplication.Interfaces;
+using CarRentalApplication.Interfaces.RepositoriesInterfaces;
 
 namespace CarRentalApplication.Services
 {
     public class CarService : ServiceBase, ICarService
     {
-        public CarService(CarRentalContext carContext) : base(carContext)
+        public CarService(CarRentalContext carContext, ICarRepository carRepository) : base(carContext, carRepository)
         {
         }
 
         public List<Car> GetAll()
         {
-            List<Car> allCars = carContext.Cars.ToList();
+            var allCars = _carRepository.GetAll();
             return allCars;
         }
 

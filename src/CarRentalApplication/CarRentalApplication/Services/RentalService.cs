@@ -1,13 +1,14 @@
 ﻿using CarRentalApplication.Context;
 using CarRentalApplication.Entities;
 using CarRentalApplication.Interfaces;
+using CarRentalApplication.Interfaces.RepositoriesInterfaces;
 using CarRentalApplication.Request;
 
 namespace CarRentalApplication.Services
 {
     public class RentalService : ServiceBase, IRentalService
     {
-        public RentalService(CarRentalContext carContext) : base(carContext)
+        public RentalService(CarRentalContext carContext, ICarRepository carRepository) : base(carContext, carRepository)
         {
         }
 

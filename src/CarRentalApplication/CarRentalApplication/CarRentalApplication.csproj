@@ -16,4 +16,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\alessandra.pedrotto\Source\Repos\vessels-ef-core\src\CarRentalApplication\CarRentalApplication\Repositories\.editorconfig" />
+  </ItemGroup>
+
 </Project>

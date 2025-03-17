@@ -1,5 +1,7 @@
 using CarRentalApplication.Context;
 using CarRentalApplication.Interfaces;
+using CarRentalApplication.Interfaces.RepositoriesInterfaces;
+using CarRentalApplication.Repositories;
 using CarRentalApplication.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +13,8 @@ var connectionString = builder.Configuration.GetConnectionString("ConnectionDb")
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<ICarRepository, CarRepository>();
 builder.Services.AddTransient<IRentalService, RentalService>();
 builder.Services.AddTransient<ICarService, CarService>();
 builder.Services.AddTransient<ICustomerService, CustomerService>();
