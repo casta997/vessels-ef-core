@@ -1,6 +1,5 @@
 ﻿namespace DI_webApiNotification_001.Interfaces.Entities;
 
-public interface IEmail
+public interface IEmail: ISender
 {
-    string Send(string msg);
 }

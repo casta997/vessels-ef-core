@@ -12,9 +12,11 @@ var conString = builder.Configuration.GetConnectionString("Notification") ??
 builder.Services.AddDbContext<NotificationContext>(options =>
 options.UseSqlServer(conString));
 
-builder.Services.AddTransient<IEmail, Email>();
-builder.Services.AddTransient<IPush, Push>();
-builder.Services.AddTransient<ISms, Sms>();
+//builder.Services.AddTransient<IEmail, Email>();
+//builder.Services.AddTransient<IPush, Push>();
+//builder.Services.AddTransient<ISms, Sms>();
+builder.Services.AddTransient<INotification, Notification>();
+builder.Services.AddTransient<IFactoryNotification, FactoryNotification>();
 
 // Add services to the container.
 

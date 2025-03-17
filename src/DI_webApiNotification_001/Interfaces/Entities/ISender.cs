@@ -1,5 +1,6 @@
 ﻿namespace DI_webApiNotification_001.Interfaces.Entities;
 
-public interface ISms: ISender
+public interface ISender
 {
+    string Send(string msg);
 }
