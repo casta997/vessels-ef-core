@@ -18,8 +18,8 @@ namespace Notification.Controllers
             this.emailService = emailService;
         }
 
-        /*
-        [HttpGet]
+        
+        [HttpGet("messages")]
         public IActionResult GetAll(string input1, string input2, string input3)
         {
             var outputPush = pushService.send(input1);
@@ -27,7 +27,6 @@ namespace Notification.Controllers
             var outputEmail = emailService.send(input3);
             return Ok(outputEmail + "\n" + outputPush + "\n" + outputSms);
         }
-        */
 
         [HttpGet("mail")]
         public IActionResult GetEmail(string inputEmail)
