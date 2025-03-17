@@ -5,14 +5,14 @@ namespace DI_webApiNotification_001.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class NotificationController(IEmail email, IPush push, ISms sms) : ControllerBase
+public class NotificationController(IEmail email) : ControllerBase
 {
     [HttpGet(Name = "GetEmail")]
     public IActionResult NotifyByEmail()
     {
         return Ok(email.Send("new email generated"));
     }
-
+    /*
     [HttpGet(Name = "GetPush")]
     public IActionResult NotifyByPush()
     {
@@ -24,4 +24,5 @@ public class NotificationController(IEmail email, IPush push, ISms sms) : Contro
     {
         return Ok(sms.Send("new sms generated from microsoft"));
     }
+    */
 }
