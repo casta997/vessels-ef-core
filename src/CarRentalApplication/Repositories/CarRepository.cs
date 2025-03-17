@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalApplication.Repositories;
 
-public class CarRepository : ContextBase, ICarRepository
+public class CarRepository : ContextBase, ICarRepository, ICommonRepository<Car>
 {
     private readonly CarRentalContext _context;
     private readonly DbSet<Car> _carDb;

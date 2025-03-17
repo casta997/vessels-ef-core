@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CarRentalApplication.Interfaces.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarRentalApplication.Entities;
 
-public class Customer
+public class Customer : IModel
 {
     public long Id { get; set; }
     [Required]

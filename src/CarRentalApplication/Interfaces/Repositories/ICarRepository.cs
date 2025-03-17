@@ -3,9 +3,9 @@ using CarRentalApplication.Entities;
 
 namespace CarRentalApplication.Interfaces.Repositories;
 
-public interface ICarRepository
+public interface ICarRepository : ICommonRepository
 {
-    IEnumerable<Car> GetAll();
+    //IEnumerable<Car> GetAll();
     Car GetById(long id);
     Car GetByLicensePlate(string LicensePlate);
     Car Add(CarPoco car);
