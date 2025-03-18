@@ -6,13 +6,13 @@ using CarRentalApplication.Interfaces.Services;
 
 namespace CarRentalApplication.Services;
 
-public class CarService(ICarRepository carRepository) : ICarService
+public class CarService(IRepositoryFactory repositoryFactory) : ICarService
 {
-    private readonly ICarRepository _carRepository = carRepository;
+    private readonly ICarRepository _carRepository = repositoryFactory.GetService<ICarRepository>();
 
-    public IEnumerable<IModel> GetAll<T>() where T : IModel
+    public IEnumerable<IModel> GetAll()
     {
-        return _carRepository.GetAll<T>();
+        return _carRepository.GetAll();
     }
 
     public Car? GetById(long id)

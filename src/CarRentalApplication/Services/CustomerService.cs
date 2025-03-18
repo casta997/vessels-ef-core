@@ -7,12 +7,12 @@ using CarRentalApplication.Repositories;
 
 namespace CarRentalApplication.Services;
 
-public class CustomerService(ICustomerRepository customerRepository) : ICustomerService
+public class CustomerService(IRepositoryFactory repositoryFactory) : ICustomerService
 {
-    private readonly ICustomerRepository _customerRepository = customerRepository;
-    public IEnumerable<IModel> GetAll<T>() where T : IModel
+    private readonly ICustomerRepository _customerRepository = repositoryFactory.GetService<ICustomerRepository>();
+    public IEnumerable<IModel> GetAll()
     {
-        return _customerRepository.GetAll<T>();
+        return _customerRepository.GetAll();
     }
 
     public Customer? GetById(long id)

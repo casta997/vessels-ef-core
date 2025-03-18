@@ -20,7 +20,6 @@ builder.Services
     .AddTransient<ICarRepository, CarRepository>()
     .AddTransient<ICustomerRepository, CustomerRepository>()
     .AddTransient<IRentalRepository, RentalRepository>()
-    .AddTransient<ICommonRepository, CarRepository>()
     .AddTransient<IRepositoryFactory, RepositoryFactory>()
     .AddTransient<ICarService, CarService>()
     .AddTransient<ICustomerService, CustomerService>()

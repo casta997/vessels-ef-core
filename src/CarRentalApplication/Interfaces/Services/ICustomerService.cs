@@ -7,7 +7,7 @@ namespace CarRentalApplication.Interfaces.Services;
 public interface ICustomerService
 {
     //IEnumerable<Customer> GetAll();
-    IEnumerable<IModel> GetAll<T>() where T : IModel;
+    IEnumerable<IModel> GetAll();
     Customer GetById(long id);
     Customer Add(CustomerPoco customer);
     Customer DeleteById(long id);

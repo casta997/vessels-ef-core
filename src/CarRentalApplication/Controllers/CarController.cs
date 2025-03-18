@@ -14,7 +14,7 @@ namespace CarRentalApplication.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_carService.GetAll<Car>());
+            return Ok(_carService.GetAll());
         }
 
         [HttpGet("{carId:long}")]

@@ -17,7 +17,7 @@ public class RentalRepository : ContextBase, IRentalRepository
         _rentalDb = _carRentalContext.Rental;
     }
 
-    public IEnumerable<IModel> GetAll<T>() where T : IModel
+    public IEnumerable<IModel> GetAll()
     {
         return _rentalDb.ToList();
     }

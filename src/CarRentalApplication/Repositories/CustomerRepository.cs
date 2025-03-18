@@ -18,7 +18,7 @@ public class CustomerRepository : ContextBase, ICustomerRepository
         _customerDb = _carRentalContext.Customers;
     }
 
-    public IEnumerable<IModel> GetAll<T>() where T : IModel
+    public IEnumerable<IModel> GetAll()
     {
         return _customerDb.ToList();
     }

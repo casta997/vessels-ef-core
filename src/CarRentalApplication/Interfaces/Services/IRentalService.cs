@@ -7,7 +7,7 @@ namespace CarRentalApplication.Interfaces.Services;
 public interface IRentalService
 {
     //IEnumerable<Rental> GetAll();
-    IEnumerable<IModel> GetAll<T>() where T : IModel;
+    IEnumerable<IModel> GetAll();
     Rental GetById(long id);
     void RentCar(RentalRequest request);
     void ReturnCar(ReturnRequest request);

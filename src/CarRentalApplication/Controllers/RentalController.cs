@@ -13,7 +13,7 @@ namespace CarRentalApplication.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_rentalService.GetAll<Rental>());
+            return Ok(_rentalService.GetAll());
         }
 
         [HttpGet("{rentalId:long}")]

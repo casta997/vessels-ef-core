@@ -14,7 +14,7 @@ namespace CarRentalApplication.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_customerService.GetAll<Customer>());
+            return Ok(_customerService.GetAll());
         }
 
         [HttpGet("{customerId:long}")]

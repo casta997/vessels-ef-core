@@ -5,5 +5,5 @@ namespace CarRentalApplication.Interfaces.Repositories;
 
 public interface ICommonRepository
 {
-    IEnumerable<IModel> GetAll<T>() where T : IModel;
+    IEnumerable<IModel> GetAll();
 }

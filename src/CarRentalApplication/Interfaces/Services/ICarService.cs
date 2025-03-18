@@ -6,7 +6,7 @@ namespace CarRentalApplication.Interfaces.Services;
 
 public interface ICarService
 {
-    IEnumerable<IModel> GetAll<T>() where T : IModel;
+    IEnumerable<IModel> GetAll();
 
     Car GetById(long id);
     Car Add(CarPoco car);
