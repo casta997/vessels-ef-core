@@ -3,9 +3,9 @@ using CarRentalApplication.Entities;
 
 namespace CarRentalApplication.Interfaces.Repositories;
 
-public interface ICustomerRepository
+public interface ICustomerRepository : ICommonRepository
 {
-    IEnumerable<Customer> GetAll();
+    //IEnumerable<Customer> GetAll();
     Customer GetById(long id);
     Customer Add(CustomerPoco customer);
     int Delete(Customer customer);

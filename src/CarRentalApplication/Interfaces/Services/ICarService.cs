@@ -1,11 +1,12 @@
 ﻿using CarRentalApplication.Dto;
 using CarRentalApplication.Entities;
+using CarRentalApplication.Interfaces.Entities;
 
 namespace CarRentalApplication.Interfaces.Services;
 
 public interface ICarService
 {
-    IEnumerable<Car> GetAll();
+    IEnumerable<IModel> GetAll<T>() where T : IModel;
 
     Car GetById(long id);
     Car Add(CarPoco car);

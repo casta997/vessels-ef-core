@@ -3,7 +3,7 @@ using CarRentalApplication.Interfaces.Entities;
 
 namespace CarRentalApplication.Interfaces.Repositories;
 
-public interface ICommonRepository<T> where T : ICommonRepository<T>
+public interface ICommonRepository
 {
-    IEnumerable<IModel> GetAll();
+    IEnumerable<IModel> GetAll<T>() where T : IModel;
 }

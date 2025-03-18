@@ -1,16 +1,18 @@
 ﻿using CarRentalApplication.Dto;
 using CarRentalApplication.Entities;
+using CarRentalApplication.Interfaces.Entities;
 using CarRentalApplication.Interfaces.Repositories;
 using CarRentalApplication.Interfaces.Services;
+using CarRentalApplication.Repositories;
 
 namespace CarRentalApplication.Services;
 
 public class CustomerService(ICustomerRepository customerRepository) : ICustomerService
 {
     private readonly ICustomerRepository _customerRepository = customerRepository;
-    public IEnumerable<Customer> GetAll()
+    public IEnumerable<IModel> GetAll<T>() where T : IModel
     {
-        return _customerRepository.GetAll();
+        return _customerRepository.GetAll<T>();
     }
 
     public Customer? GetById(long id)

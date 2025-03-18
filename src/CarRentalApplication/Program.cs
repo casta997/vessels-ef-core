@@ -1,5 +1,6 @@
 using CarRentalApplication.Context;
 using CarRentalApplication.Entities;
+using CarRentalApplication.Interfaces.Entities;
 using CarRentalApplication.Interfaces.Repositories;
 using CarRentalApplication.Interfaces.Services;
 using CarRentalApplication.Repositories;
@@ -19,6 +20,8 @@ builder.Services
     .AddTransient<ICarRepository, CarRepository>()
     .AddTransient<ICustomerRepository, CustomerRepository>()
     .AddTransient<IRentalRepository, RentalRepository>()
+    .AddTransient<ICommonRepository, CarRepository>()
+    .AddTransient<IRepositoryFactory, RepositoryFactory>()
     .AddTransient<ICarService, CarService>()
     .AddTransient<ICustomerService, CustomerService>()
     .AddTransient<IRentalService, RentalService>();

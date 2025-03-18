@@ -1,5 +1,6 @@
 ﻿using CarRentalApplication.Dto;
 using CarRentalApplication.Entities;
+using CarRentalApplication.Interfaces.Entities;
 using CarRentalApplication.Interfaces.Repositories;
 using CarRentalApplication.Interfaces.Services;
 
@@ -10,9 +11,9 @@ public class RentalService(IRentalRepository rentalRepository, ICarRepository ca
     private readonly IRentalRepository _rentalRepository = rentalRepository;
     private readonly ICarRepository _carRepository = carRepository;
     private readonly ICustomerRepository _customerRepository = customerRepository;
-    public IEnumerable<Rental> GetAll()
+    public IEnumerable<IModel> GetAll<T>() where T : IModel
     {
-        return _rentalRepository.GetAll();
+        return _rentalRepository.GetAll<T>();
     }
 
     public Rental GetById(long id)

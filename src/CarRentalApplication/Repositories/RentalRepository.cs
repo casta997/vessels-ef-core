@@ -1,5 +1,6 @@
 ﻿using CarRentalApplication.Context;
 using CarRentalApplication.Entities;
+using CarRentalApplication.Interfaces.Entities;
 using CarRentalApplication.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,7 @@ public class RentalRepository : ContextBase, IRentalRepository
         _rentalDb = _carRentalContext.Rental;
     }
 
-    public IEnumerable<Rental> GetAll()
+    public IEnumerable<IModel> GetAll<T>() where T : IModel
     {
         return _rentalDb.ToList();
     }

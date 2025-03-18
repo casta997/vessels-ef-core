@@ -1,12 +1,13 @@
 ﻿using CarRentalApplication.Context;
 using CarRentalApplication.Dto;
 using CarRentalApplication.Entities;
+using CarRentalApplication.Interfaces.Entities;
 using CarRentalApplication.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalApplication.Repositories;
 
-public class CarRepository : ContextBase, ICarRepository, ICommonRepository<Car>
+public class CarRepository : ContextBase, ICarRepository
 {
     private readonly CarRentalContext _context;
     private readonly DbSet<Car> _carDb;
@@ -17,7 +18,7 @@ public class CarRepository : ContextBase, ICarRepository, ICommonRepository<Car>
         _carDb = _carRentalContext.Cars;
     }
 
-    public IEnumerable<Car> GetAll()
+    public IEnumerable<IModel> GetAll<T>() where T : IModel
     {
         return _carDb.ToList();
     }

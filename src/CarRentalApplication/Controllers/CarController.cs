@@ -1,4 +1,5 @@
 ﻿using CarRentalApplication.Dto;
+using CarRentalApplication.Entities;
 using CarRentalApplication.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +14,7 @@ namespace CarRentalApplication.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_carService.GetAll());
+            return Ok(_carService.GetAll<Car>());
         }
 
         [HttpGet("{carId:long}")]
