@@ -1,12 +1,9 @@
 using CarRentalApplication.Context;
-using CarRentalApplication.Entities;
-using CarRentalApplication.Interfaces.Entities;
 using CarRentalApplication.Interfaces.Repositories;
 using CarRentalApplication.Interfaces.Services;
 using CarRentalApplication.Repositories;
 using CarRentalApplication.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CarRentalApplication.Entities;
 
-public class Car: IModel
+public class Car : IModel
 {
     public long Id { get; set; }
     [Required]

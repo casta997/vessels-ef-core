@@ -1,5 +1,5 @@
 ﻿using CarRentalApplication.Context;
-using CarRentalApplication.Dto;
+using CarRentalApplication.Dto.Request;
 using CarRentalApplication.Entities;
 using CarRentalApplication.Interfaces.Entities;
 using CarRentalApplication.Interfaces.Repositories;
@@ -23,7 +23,7 @@ public class CarRepository : ContextBase, ICarRepository
         return _carDb.ToList();
     }
 
-    public Car GetById(long id)
+    public IModel GetById(long id)
     {
         return _carDb.Find(id);
     }
@@ -33,19 +33,20 @@ public class CarRepository : ContextBase, ICarRepository
         return _carDb.FirstOrDefault(c => c.LicensePlate.Equals(LicensePlate));
     }
 
-    public Car Add(CarPoco carPoco)
+    public int Add(CarModel carModel)
     {
-        Car car = new Car();
-        car.LicensePlate = carPoco.LicensePlate;
-        car.IsRented = false;
+        var car = new Car
+        {
+            LicensePlate = carModel.LicensePlate,
+            IsRented = false
+        };
         _carDb.Add(car);
-        _context.SaveChanges();
-        return car;
+        return _context.SaveChanges();
     }
 
     public int UpdateIsRented(long carId, bool isRented)
     {
-        Car carFound = GetById(carId);
+        var carFound = (Car)GetById(carId);
         carFound.IsRented = isRented;
         return _context.SaveChanges();
     }
@@ -55,10 +56,9 @@ public class CarRepository : ContextBase, ICarRepository
         _carDb.Remove(car);
         return _context.SaveChanges();
     }
-
-    public int Update(Car car, CarPoco carPoco)
+    public int Update(Car car, CarModel carModel)
     {
-        car.LicensePlate = carPoco.LicensePlate;
+        car.LicensePlate = carModel.LicensePlate;
         return _context.SaveChanges();
     }
 }

@@ -1,9 +1,7 @@
 ﻿using CarRentalApplication.Context;
+namespace CarRentalApplication.Repositories;
 
-namespace CarRentalApplication.Repositories
+public class ContextBase(CarRentalContext carRentalContext)
 {
-    public class ContextBase(CarRentalContext carRentalContext)
-    {
-        protected readonly CarRentalContext _carRentalContext = carRentalContext;
-    }
+    protected readonly CarRentalContext _carRentalContext = carRentalContext;
 }

@@ -22,17 +22,19 @@ public class RentalRepository : ContextBase, IRentalRepository
         return _rentalDb.ToList();
     }
 
-    public Rental GetById(long id)
+    public IModel GetById(long id)
     {
         return _rentalDb.Find(id);
     }
 
     public int RentCar(long carId, long customerId, DateTime rentalDate)
     {
-        var rental = new Rental();
-        rental.CarId = carId;
-        rental.CustomerId = customerId;
-        rental.RentalDate = rentalDate;
+        var rental = new Rental
+        {
+            CarId = carId,
+            CustomerId = customerId,
+            RentalDate = rentalDate
+        };
         _rentalDb.Add(rental);
         return _context.SaveChanges();
     }

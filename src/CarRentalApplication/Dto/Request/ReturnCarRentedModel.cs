@@ -2,12 +2,10 @@
 
 namespace CarRentalApplication.Dto;
 
-public class RentalRequest
+public class ReturnCarRentedModel
 {
     [Required]
     public string LicensePlate { get; set; } = "";
     [Required]
-    public long CustomerId { get; set; }
-    [Required]
-    public DateTime RentalDate { get; set; } = DateTime.Now;
+    public DateTime ReturnDate { get; set; } = DateTime.Now;
 }

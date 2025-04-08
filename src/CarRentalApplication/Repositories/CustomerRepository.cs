@@ -1,5 +1,5 @@
 ﻿using CarRentalApplication.Context;
-using CarRentalApplication.Dto;
+using CarRentalApplication.Dto.Request;
 using CarRentalApplication.Entities;
 using CarRentalApplication.Interfaces.Entities;
 using CarRentalApplication.Interfaces.Repositories;
@@ -23,18 +23,19 @@ public class CustomerRepository : ContextBase, ICustomerRepository
         return _customerDb.ToList();
     }
 
-    public Customer GetById(long id)
+    public IModel GetById(long id)
     {
         return _customerDb.Find(id);
     }
 
-    public Customer Add(CustomerPoco customerPoco)
+    public int Add(CustomerModel customerModel)
     {
-        var customer = new Customer();
-        customer.Name = customerPoco.Name;
+        var customer = new Customer
+        {
+            Name = customerModel.Name
+        };
         _customerDb.Add(customer);
-        _context.SaveChanges();
-        return customer;
+        return _context.SaveChanges();
     }
 
     public int Delete(Customer customer)
@@ -43,9 +44,15 @@ public class CustomerRepository : ContextBase, ICustomerRepository
         return _context.SaveChanges();
     }
 
-    public int Update(Customer customer, CustomerPoco customerPoco)
+    public int Update(Customer customer, CustomerModel customerModel)
     {
-        customer.Name = customerPoco.Name;
+        customer.Name = customerModel.Name;
         return _context.SaveChanges();
+    }
+
+    public IModel GetByName(string name)
+    {
+        //
+        return _customerDb.FirstOrDefault();
     }
 }

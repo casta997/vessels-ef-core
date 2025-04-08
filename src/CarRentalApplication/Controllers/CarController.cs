@@ -1,5 +1,4 @@
-﻿using CarRentalApplication.Dto;
-using CarRentalApplication.Entities;
+﻿using CarRentalApplication.Dto.Request;
 using CarRentalApplication.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +23,7 @@ namespace CarRentalApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add([FromBody] CarPoco car)
+        public IActionResult Add([FromBody] CarModel car)
         {
             return Ok(_carService.Add(car));
         }
@@ -36,7 +35,7 @@ namespace CarRentalApplication.Controllers
         }
 
         [HttpPut("{carId:long}")]
-        public IActionResult Update(long carId, [FromBody] CarPoco car)
+        public IActionResult Update(long carId, [FromBody] CarModel car)
         {
             return Ok(_carService.Update(carId, car));
         }

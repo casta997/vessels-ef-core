@@ -1,9 +1,9 @@
 ﻿using CarRentalApplication.Dto;
+using CarRentalApplication.Dto.Request;
 using CarRentalApplication.Entities;
 using CarRentalApplication.Interfaces.Entities;
 using CarRentalApplication.Interfaces.Repositories;
 using CarRentalApplication.Interfaces.Services;
-using CarRentalApplication.Repositories;
 
 namespace CarRentalApplication.Services;
 
@@ -19,10 +19,10 @@ public class RentalService(IRepositoryFactory repositoryFactory) : IRentalServic
 
     public Rental GetById(long id)
     {
-        return _rentalRepository.GetById(id);
+        return (Rental)_rentalRepository.GetById(id);
     }
 
-    public void RentCar(RentalRequest request) {
+    public void RentCar(RentalCarModel request) {
         var car = GetCarByLicensePlate(request.LicensePlate);
         var customer = GetCustomerById(request.CustomerId);
 
@@ -34,7 +34,7 @@ public class RentalService(IRepositoryFactory repositoryFactory) : IRentalServic
             }
         }
     }
-    public void ReturnCar(ReturnRequest request) {
+    public void ReturnCar(ReturnCarRentedModel request) {
         var car = GetCarByLicensePlate(request.LicensePlate);
 
         if (car is not null && car.IsRented)
@@ -72,6 +72,6 @@ public class RentalService(IRepositoryFactory repositoryFactory) : IRentalServic
     }
     
     public Customer? GetCustomerById(long customerId) {
-        return _customerRepository.GetById(customerId);
+        return (Customer)_customerRepository.GetById(customerId);
     }
 }

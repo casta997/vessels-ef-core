@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CarRentalApplication.Dto;
+namespace CarRentalApplication.Dto.Request;
 
-public class CustomerPoco
+public class CustomerModel
 {
     [Required]
     public string Name { get; set; }

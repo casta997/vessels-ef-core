@@ -1,4 +1,4 @@
-﻿using CarRentalApplication.Dto;
+﻿using CarRentalApplication.Dto.Request;
 using CarRentalApplication.Entities;
 using CarRentalApplication.Interfaces.Entities;
 
@@ -9,8 +9,8 @@ public interface ICarService
     IEnumerable<IModel> GetAll();
 
     Car GetById(long id);
-    Car Add(CarPoco car);
+    Car Add(CarModel car);
     Car DeleteById(long carId);
-    Car Update(long carId, CarPoco car);
+    Car Update(long carId, CarModel car);
     Car GetByLicensePlate(string licensePlate);
 }

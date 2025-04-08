@@ -1,4 +1,4 @@
-﻿using CarRentalApplication.Dto;
+﻿using CarRentalApplication.Dto.Request;
 using CarRentalApplication.Entities;
 using CarRentalApplication.Interfaces.Entities;
 
@@ -6,10 +6,10 @@ namespace CarRentalApplication.Interfaces.Services;
 
 public interface ICustomerService
 {
-    //IEnumerable<Customer> GetAll();
     IEnumerable<IModel> GetAll();
     Customer GetById(long id);
-    Customer Add(CustomerPoco customer);
+    Customer Add(CustomerModel customer);
     Customer DeleteById(long id);
-    Customer Update(long customerId, CustomerPoco customerPoco);
+    Customer Update(long customerId, CustomerModel customerPoco);
+    Customer GetByName(string name);
 }

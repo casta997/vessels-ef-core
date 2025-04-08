@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CarRentalApplication.Dto;
+namespace CarRentalApplication.Dto.Request;
 
-public class CarPoco
+public class CarModel
 {
     [Required]
     public string LicensePlate { get; set; }
-    public bool IsRented { get; set; } = false;
+    public bool IsRented { get; set; }
 }

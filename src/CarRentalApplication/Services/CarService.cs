@@ -1,4 +1,4 @@
-﻿using CarRentalApplication.Dto;
+﻿using CarRentalApplication.Dto.Request;
 using CarRentalApplication.Entities;
 using CarRentalApplication.Interfaces.Entities;
 using CarRentalApplication.Interfaces.Repositories;
@@ -17,24 +17,30 @@ public class CarService(IRepositoryFactory repositoryFactory) : ICarService
 
     public Car? GetById(long id)
     {
-        return _carRepository.GetById(id);
+        return (Car)_carRepository.GetById(id);
     }
 
-    public Car? Add(CarPoco carPoco)
+    public Car?  Add(CarModel carRequest)
     {
         try
         {
-            if (String.IsNullOrEmpty(carPoco.LicensePlate.Trim()))
+            if (String.IsNullOrEmpty(carRequest.LicensePlate.Trim()))
             {
                 return null;
             }
 
-            Car car = GetByLicensePlate(carPoco.LicensePlate);
+            Car car = GetByLicensePlate(carRequest.LicensePlate);
 
-            if (car is null)
+            if (car is not null)
             {
-                carPoco.LicensePlate = carPoco.LicensePlate.Trim();
-                return _carRepository.Add(carPoco);
+                return null;
+            }
+
+            carRequest.LicensePlate = carRequest.LicensePlate.Trim();
+
+            if (_carRepository.Add(carRequest) > 0)
+            {
+                return GetByLicensePlate(carRequest.LicensePlate);
             }
 
             return null;
@@ -51,16 +57,15 @@ public class CarService(IRepositoryFactory repositoryFactory) : ICarService
         }
         return car;
     }
-
-    public Car? Update(long carId, CarPoco carPoco)
+    public Car? Update(long carId, CarModel carModel)
     {
         Car car = GetById(carId);
         if (car is not null)
         {
-            var licensePlatePoco = carPoco.LicensePlate.Trim();
+            var licensePlatePoco = carModel.LicensePlate.Trim();
             if (licensePlatePoco.Length > 0 && licensePlatePoco != car.LicensePlate)
             {
-                _carRepository.Update(car, carPoco);
+                _carRepository.Update(car, carModel);
             }
         }
         return car;

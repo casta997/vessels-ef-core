@@ -1,13 +1,13 @@
-﻿using CarRentalApplication.Dto;
+﻿using CarRentalApplication.Dto.Request;
 using CarRentalApplication.Entities;
+using CarRentalApplication.Interfaces.Entities;
 
 namespace CarRentalApplication.Interfaces.Repositories;
 
 public interface ICustomerRepository : ICommonRepository
 {
-    //IEnumerable<Customer> GetAll();
-    Customer GetById(long id);
-    Customer Add(CustomerPoco customer);
+    int Add(CustomerModel customer);
     int Delete(Customer customer);
-    int Update(Customer customer, CustomerPoco customerPoco);
+    int Update(Customer customer, CustomerModel customerModel);
+    IModel GetByName(string name);
 }

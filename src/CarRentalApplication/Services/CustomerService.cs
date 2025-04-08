@@ -1,9 +1,11 @@
 ﻿using CarRentalApplication.Dto;
+using CarRentalApplication.Dto.Request;
 using CarRentalApplication.Entities;
 using CarRentalApplication.Interfaces.Entities;
 using CarRentalApplication.Interfaces.Repositories;
 using CarRentalApplication.Interfaces.Services;
 using CarRentalApplication.Repositories;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace CarRentalApplication.Services;
 
@@ -17,10 +19,10 @@ public class CustomerService(IRepositoryFactory repositoryFactory) : ICustomerSe
 
     public Customer? GetById(long id)
     {
-        return _customerRepository.GetById(id);
+        return (Customer)_customerRepository.GetById(id);
     }
 
-    public Customer? Add(CustomerPoco customer)
+    public Customer? Add(CustomerModel customer)
     {
         try
         {
@@ -28,10 +30,14 @@ public class CustomerService(IRepositoryFactory repositoryFactory) : ICustomerSe
             {
                 return null;
             }
-
             customer.Name = customer.Name.Trim();
 
-            return _customerRepository.Add(customer);
+            if (_customerRepository.Add(customer) > 0)
+            {
+                return GetByName(customer.Name);
+            }
+
+            return null;
         }
         catch { return null; }
     }
@@ -46,7 +52,7 @@ public class CustomerService(IRepositoryFactory repositoryFactory) : ICustomerSe
         return car;
     }
 
-    public Customer? Update(long customerId, CustomerPoco customerPoco)
+    public Customer? Update(long customerId, CustomerModel customerPoco)
     {
         Customer customer = GetById(customerId);
         if (customer is not null)
@@ -58,5 +64,11 @@ public class CustomerService(IRepositoryFactory repositoryFactory) : ICustomerSe
             }
         }
         return customer;
+    }
+
+    public Customer? GetByName(string name)
+    {
+
+        return (Customer)_customerRepository.GetByName(name);
     }
 }
