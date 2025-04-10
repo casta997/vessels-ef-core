@@ -6,8 +6,7 @@ namespace CarRentalApplication.Interfaces.Repositories;
 
 public interface ICustomerRepository : ICommonRepository
 {
-    int Add(CustomerModel customer);
-    int Delete(Customer customer);
-    int Update(Customer customer, CustomerModel customerModel);
-    IModel GetByName(string name);
+    IModel Add(CustomerModel customer);
+    IModel Delete(Customer customer);
+    IModel Update(Customer customer, CustomerModel customerModel);
 }

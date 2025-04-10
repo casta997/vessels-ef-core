@@ -11,5 +11,4 @@ public interface ICustomerService
     Customer Add(CustomerModel customer);
     Customer DeleteById(long id);
     Customer Update(long customerId, CustomerModel customerPoco);
-    Customer GetByName(string name);
 }

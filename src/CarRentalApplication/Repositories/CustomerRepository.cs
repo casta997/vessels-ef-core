@@ -23,36 +23,31 @@ public class CustomerRepository : ContextBase, ICustomerRepository
         return _customerDb.ToList();
     }
 
-    public IModel GetById(long id)
+    public IModel? GetById(long id)
     {
         return _customerDb.Find(id);
     }
 
-    public int Add(CustomerModel customerModel)
+    public IModel? Add(CustomerModel customerModel)
     {
         var customer = new Customer
         {
             Name = customerModel.Name
         };
         _customerDb.Add(customer);
-        return _context.SaveChanges();
+
+        return _context.SaveChanges() <= 0 ? null : customer;
     }
 
-    public int Delete(Customer customer)
+    public IModel? Delete(Customer customer)
     {
         _customerDb.Remove(customer);
-        return _context.SaveChanges();
+        return _context.SaveChanges() <= 0 ? null : customer;
     }
 
-    public int Update(Customer customer, CustomerModel customerModel)
+    public IModel? Update(Customer customer, CustomerModel customerModel)
     {
         customer.Name = customerModel.Name;
-        return _context.SaveChanges();
-    }
-
-    public IModel GetByName(string name)
-    {
-        //
-        return _customerDb.FirstOrDefault();
+        return _context.SaveChanges() <= 0 ? null : customer;
     }
 }

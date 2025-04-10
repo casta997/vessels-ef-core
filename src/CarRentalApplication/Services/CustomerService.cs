@@ -32,24 +32,15 @@ public class CustomerService(IRepositoryFactory repositoryFactory) : ICustomerSe
             }
             customer.Name = customer.Name.Trim();
 
-            if (_customerRepository.Add(customer) > 0)
-            {
-                return GetByName(customer.Name);
-            }
-
-            return null;
+            return (Customer)_customerRepository.Add(customer);
         }
-        catch { return null; }
+        catch (ArgumentException e) { throw e; }
     }
 
     public Customer? DeleteById(long id)
     {
         Customer car = GetById(id);
-        if (car is not null)
-        {
-            _customerRepository.Delete(car);
-        }
-        return car;
+        return (car is not null) ? (Customer)_customerRepository.Delete(car) : null;
     }
 
     public Customer? Update(long customerId, CustomerModel customerPoco)
@@ -64,11 +55,5 @@ public class CustomerService(IRepositoryFactory repositoryFactory) : ICustomerSe
             }
         }
         return customer;
-    }
-
-    public Customer? GetByName(string name)
-    {
-
-        return (Customer)_customerRepository.GetByName(name);
     }
 }

@@ -1,5 +1,4 @@
-﻿using CarRentalApplication.Interfaces.Entities;
-using CarRentalApplication.Interfaces.Repositories;
+﻿using CarRentalApplication.Interfaces.Repositories;
 
 namespace CarRentalApplication.Repositories;
 
